@@ -13,6 +13,7 @@ import Photos
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let dateFormatter = NSDateFormatter()
+    let imagePicker = UIImagePickerController()
     
     var isUploading = false {
         didSet {
@@ -34,12 +35,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Format used to generate file name, which should not contain / chars
         dateFormatter.dateFormat = "dd-MM-yyyy, hh mm ss"
         
+        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.delegate = self
+        
+        isUploading = false
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        isUploading = false
         
         if Dropbox.authorizedClient == nil {
             Dropbox.authorizeFromController(self)
@@ -47,18 +51,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
-    func uploadNameForImageAtReferenceURL(referenceURL: NSURL) -> String {
-        let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
-        let asset = result.firstObject as! PHAsset
-        return "/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
-    }
-    
     // MARK: Actions
     
     @IBAction func uploadTapped(sender: AnyObject) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .PhotoLibrary
-        imagePicker.delegate = self
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
@@ -69,52 +64,62 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        picker.dismissViewControllerAnimated(true) {
-            
-            guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-                print("Failed to get picked image")
-                return
-            }
-            
-            guard let data = UIImagePNGRepresentation(image) else {
-                print("Cannot make data")
-                return
-            }
-            
-            let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-            let filename = self.uploadNameForImageAtReferenceURL(imageURL)
-            
-            self.isUploading = true
-            
-            let client = Dropbox.authorizedClient!
-            client.files.upload(path: filename, input: data).response({ (uploadResponse, uploadError) in
-                if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
-                    print("*** Upload file ****")
-                    print("Uploaded file name: \(uploadName)")
-                    print("Uploaded file revision: \(uploadRevision)")
-                    
-                    self.isUploading = false
-                    
-                    client.files.getMetadata(path: filename).response({ (response, metaDataError) in
-                        if let metaData = response {
-                            if let file = metaData as? Files.FileMetadata {
-                                print("This is a file with path: \(file.pathLower)")
-                                print("File size: \(file.size)")
-                            } else if let folder = metaData as? Files.FolderMetadata {
-                                print("This is a folder with path: \(folder.pathLower)")
-                            }
-                        }
-                        else {
-                            print(metaDataError!)
-                        }
-                    })
-                }
-                else {
-                    print(uploadError!)
-                }
-            })
-            
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            print("Failed to get picked image")
+            return
         }
+        
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            print("Cannot make data")
+            return
+        }
+        
+        let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
+        let filename = self.uploadNameForImageAtReferenceURL(imageURL)
+        
+        uploadImageData(imageData, named: filename)
+    }
+    
+    // MARK: Dropbox
+    
+    func uploadImageData(imageData: NSData, named filename: String) {
+        self.isUploading = true
+        
+        let client = Dropbox.authorizedClient!
+        client.files.upload(path: filename, input: imageData).response({ (uploadResponse, uploadError) in
+            if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
+                print("*** Upload file ****")
+                print("Uploaded file name: \(uploadName)")
+                print("Uploaded file revision: \(uploadRevision)")
+                
+                self.isUploading = false
+                
+                client.files.getMetadata(path: filename).response({ (response, metaDataError) in
+                    if let metaData = response {
+                        if let file = metaData as? Files.FileMetadata {
+                            print("This is a file with path: \(file.pathLower)")
+                            print("File size: \(file.size)")
+                        } else if let folder = metaData as? Files.FolderMetadata {
+                            print("This is a folder with path: \(folder.pathLower)")
+                        }
+                    }
+                    else {
+                        print(metaDataError!)
+                    }
+                })
+            }
+            else {
+                print(uploadError!)
+            }
+        })
+    }
+    
+    func uploadNameForImageAtReferenceURL(referenceURL: NSURL) -> String {
+        let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
+        let asset = result.firstObject as! PHAsset
+        return "/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
     }
 }
 
