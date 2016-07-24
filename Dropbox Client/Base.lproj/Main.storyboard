@@ -16,11 +16,43 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WO6-uq-Gwk">
+                                <rect key="frame" x="253" y="285" width="95" height="30"/>
+                                <state key="normal" title="Upload Image"/>
+                                <connections>
+                                    <action selector="uploadTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rp5-f3-lEp"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mF5-68-zne">
+                                <rect key="frame" x="291" y="352" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-KC-nzd">
+                                <rect key="frame" x="254" y="323" width="93" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mF5-68-zne" firstAttribute="top" secondItem="MfT-KC-nzd" secondAttribute="bottom" constant="8" id="AdM-WC-mAI"/>
+                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HhU-Fk-0VK"/>
+                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QSg-Oq-xnA"/>
+                            <constraint firstItem="MfT-KC-nzd" firstAttribute="centerX" secondItem="WO6-uq-Gwk" secondAttribute="centerX" id="a0y-yT-72g"/>
+                            <constraint firstItem="mF5-68-zne" firstAttribute="centerX" secondItem="MfT-KC-nzd" secondAttribute="centerX" id="lmI-Rt-lgl"/>
+                            <constraint firstItem="MfT-KC-nzd" firstAttribute="top" secondItem="WO6-uq-Gwk" secondAttribute="bottom" constant="8" id="r9h-aa-ibT"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="uploadButton" destination="WO6-uq-Gwk" id="QdW-Ha-PAQ"/>
+                        <outletCollection property="loadginOutlets" destination="MfT-KC-nzd" collectionClass="NSMutableArray" id="noA-Gt-4Ib"/>
+                        <outletCollection property="loadginOutlets" destination="mF5-68-zne" collectionClass="NSMutableArray" id="d2S-Ef-UOW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="224" y="375"/>
         </scene>
     </scenes>
 </document>

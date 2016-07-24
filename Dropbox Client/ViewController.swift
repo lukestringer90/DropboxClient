@@ -14,25 +14,36 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     let dateFormatter = NSDateFormatter()
     
+    var isUploading = false {
+        didSet {
+            for view in loadginOutlets { view.hidden = !isUploading }
+            uploadButton.hidden = isUploading
+        }
+    }
+    
+    // MARK: Outlets
+    
+    @IBOutlet var loadginOutlets: [UIView]!
+    @IBOutlet weak var uploadButton: UIButton!
+    
+    // MARK: UIViewController
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Format used to generate file name, which should not contain / chars
         dateFormatter.dateFormat = "dd-MM-yyyy, hh mm ss"
+        
     }
-
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard Dropbox.authorizedClient != nil else {
-            Dropbox.authorizeFromController(self)
-            return
-        }
+        isUploading = false
         
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .PhotoLibrary
-        imagePicker.delegate = self
-        presentViewController(imagePicker, animated: true, completion: nil)
+        if Dropbox.authorizedClient == nil {
+            Dropbox.authorizeFromController(self)
+        }
         
     }
     
@@ -41,7 +52,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let asset = result.firstObject as! PHAsset
         return "/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
     }
-
+    
+    // MARK: Actions
+    
+    @IBAction func uploadTapped(sender: AnyObject) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.delegate = self
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
     // MARK: UIImagePickerControllerDelegate
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -50,7 +70,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true) {
-            print(info)
             
             guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
                 print("Failed to get picked image")
@@ -62,9 +81,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 return
             }
             
-            
             let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
             let filename = self.uploadNameForImageAtReferenceURL(imageURL)
+            
+            self.isUploading = true
             
             let client = Dropbox.authorizedClient!
             client.files.upload(path: filename, input: data).response({ (uploadResponse, uploadError) in
@@ -72,6 +92,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     print("*** Upload file ****")
                     print("Uploaded file name: \(uploadName)")
                     print("Uploaded file revision: \(uploadRevision)")
+                    
+                    self.isUploading = false
                     
                     client.files.getMetadata(path: filename).response({ (response, metaDataError) in
                         if let metaData = response {
