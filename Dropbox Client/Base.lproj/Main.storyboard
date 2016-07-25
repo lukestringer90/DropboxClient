@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Upload Image View Controller-->
@@ -17,48 +19,88 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WO6-uq-Gwk">
-                                <rect key="frame" x="253" y="285" width="95" height="30"/>
-                                <state key="normal" title="Upload Image"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kxk-gU-Idq">
+                                <rect key="frame" x="150" y="72" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="kxk-gU-Idq" secondAttribute="height" id="iYp-oW-Uxy"/>
+                                    <constraint firstAttribute="width" constant="300" id="pmd-RX-flV"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHi-xp-dQM">
+                                <rect key="frame" x="150" y="380" width="99" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="99" id="3gF-5B-ZWb"/>
+                                </constraints>
+                                <state key="normal" title="Choose Image"/>
                                 <connections>
-                                    <action selector="uploadTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rp5-f3-lEp"/>
+                                    <action selector="chooseImageTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="l0D-jO-cf1"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mF5-68-zne">
-                                <rect key="frame" x="291" y="352" width="20" height="20"/>
-                            </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfT-KC-nzd">
-                                <rect key="frame" x="254" y="323" width="93" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3v-vZ-oz0">
+                                <rect key="frame" x="258" y="424" width="322" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BM2-Ht-7St">
-                                <rect key="frame" x="250" y="247" width="100" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nOS-jH-bGp">
+                                <rect key="frame" x="150" y="418" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="GcL-4Q-YwN"/>
+                                </constraints>
                                 <state key="normal" title="Choose Folder"/>
                                 <connections>
-                                    <segue destination="3uU-05-Hjs" kind="presentation" id="voJ-UD-1Ik"/>
+                                    <segue destination="3uU-05-Hjs" kind="presentation" id="ehH-YH-pck"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2e-e0-2Op">
+                                <rect key="frame" x="258" y="386" width="322" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Gb-FO-Kwn">
+                                <rect key="frame" x="150" y="456" width="130" height="30"/>
+                                <state key="normal" title="Upload to Dropbox"/>
+                                <connections>
+                                    <action selector="uploadTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gga-hR-L5d"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guR-ha-FXP">
+                                <rect key="frame" x="150" y="494" width="83" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mF5-68-zne" firstAttribute="top" secondItem="MfT-KC-nzd" secondAttribute="bottom" constant="8" id="AdM-WC-mAI"/>
-                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HhU-Fk-0VK"/>
-                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QSg-Oq-xnA"/>
-                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="top" secondItem="BM2-Ht-7St" secondAttribute="bottom" constant="8" id="WC2-dC-NY2"/>
-                            <constraint firstItem="MfT-KC-nzd" firstAttribute="centerX" secondItem="WO6-uq-Gwk" secondAttribute="centerX" id="a0y-yT-72g"/>
-                            <constraint firstItem="mF5-68-zne" firstAttribute="centerX" secondItem="MfT-KC-nzd" secondAttribute="centerX" id="lmI-Rt-lgl"/>
-                            <constraint firstItem="MfT-KC-nzd" firstAttribute="top" secondItem="WO6-uq-Gwk" secondAttribute="bottom" constant="8" id="r9h-aa-ibT"/>
-                            <constraint firstItem="BM2-Ht-7St" firstAttribute="centerX" secondItem="WO6-uq-Gwk" secondAttribute="centerX" id="xn3-yg-id2"/>
+                            <constraint firstItem="guR-ha-FXP" firstAttribute="top" secondItem="5Gb-FO-Kwn" secondAttribute="bottom" constant="8" id="1oK-oi-PsL"/>
+                            <constraint firstItem="5Gb-FO-Kwn" firstAttribute="leading" secondItem="nOS-jH-bGp" secondAttribute="leading" id="6UL-Uf-qSv"/>
+                            <constraint firstItem="kxk-gU-Idq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Mu-qa-s2K"/>
+                            <constraint firstItem="u2e-e0-2Op" firstAttribute="centerY" secondItem="LHi-xp-dQM" secondAttribute="centerY" id="8ts-2O-Zid"/>
+                            <constraint firstItem="guR-ha-FXP" firstAttribute="leading" secondItem="5Gb-FO-Kwn" secondAttribute="leading" id="GFf-jj-Y4q"/>
+                            <constraint firstItem="w3v-vZ-oz0" firstAttribute="centerY" secondItem="nOS-jH-bGp" secondAttribute="centerY" id="KX1-lH-d8u"/>
+                            <constraint firstItem="kxk-gU-Idq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="MmF-JW-18N"/>
+                            <constraint firstItem="LHi-xp-dQM" firstAttribute="leading" secondItem="kxk-gU-Idq" secondAttribute="leading" id="Sae-NH-iE7"/>
+                            <constraint firstItem="nOS-jH-bGp" firstAttribute="top" secondItem="LHi-xp-dQM" secondAttribute="bottom" constant="8" id="W07-MD-Xkz"/>
+                            <constraint firstItem="LHi-xp-dQM" firstAttribute="top" secondItem="kxk-gU-Idq" secondAttribute="bottom" constant="8" id="WRi-WS-GxX"/>
+                            <constraint firstItem="5Gb-FO-Kwn" firstAttribute="top" secondItem="nOS-jH-bGp" secondAttribute="bottom" constant="8" id="YOM-od-ZsU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="w3v-vZ-oz0" secondAttribute="trailing" id="ZfV-Kz-hMF"/>
+                            <constraint firstItem="nOS-jH-bGp" firstAttribute="leading" secondItem="LHi-xp-dQM" secondAttribute="leading" id="acz-eb-Bjd"/>
+                            <constraint firstItem="u2e-e0-2Op" firstAttribute="leading" secondItem="LHi-xp-dQM" secondAttribute="trailing" constant="9" id="dDt-HF-aef"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="u2e-e0-2Op" secondAttribute="trailing" id="fVq-2h-xgJ"/>
+                            <constraint firstItem="w3v-vZ-oz0" firstAttribute="leading" secondItem="nOS-jH-bGp" secondAttribute="trailing" constant="8" id="tG6-c0-3f0"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="i6X-6D-I1F"/>
                     <connections>
-                        <outlet property="chooseFolderButton" destination="BM2-Ht-7St" id="Chd-rT-DZB"/>
-                        <outlet property="uploadButton" destination="WO6-uq-Gwk" id="QdW-Ha-PAQ"/>
-                        <outletCollection property="loadginOutlets" destination="MfT-KC-nzd" collectionClass="NSMutableArray" id="noA-Gt-4Ib"/>
-                        <outletCollection property="loadginOutlets" destination="mF5-68-zne" collectionClass="NSMutableArray" id="d2S-Ef-UOW"/>
+                        <outlet property="folderLabel" destination="w3v-vZ-oz0" id="htd-pT-kxX"/>
+                        <outlet property="imageLabel" destination="u2e-e0-2Op" id="0eG-av-yp5"/>
+                        <outlet property="imageView" destination="kxk-gU-Idq" id="HLP-Z6-oRX"/>
+                        <outlet property="uploadingLabel" destination="guR-ha-FXP" id="5sh-75-BoW"/>
+                        <outletCollection property="buttons" destination="LHi-xp-dQM" collectionClass="NSMutableArray" id="9EU-gW-OTh"/>
+                        <outletCollection property="buttons" destination="nOS-jH-bGp" collectionClass="NSMutableArray" id="4dD-Sg-5nd"/>
+                        <outletCollection property="buttons" destination="5Gb-FO-Kwn" collectionClass="NSMutableArray" id="I02-gp-BTA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -74,12 +116,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FolderCellID" id="w6q-yY-Iux">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FolderCellID" textLabel="Mkk-5X-9gr" style="IBUITableViewCellStyleDefault" id="w6q-yY-Iux">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w6q-yY-Iux" id="cjH-mK-1re">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mkk-5X-9gr">
+                                            <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -92,12 +143,18 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="RKR-hj-c8Q"/>
                         <barButtonItem title="Set Location" style="done" id="XlW-Nn-Thd">
                             <connections>
-                                <segue destination="Mmi-xK-Eh0" kind="unwind" identifier="DismissToUpload" unwindAction="dismissToUpload:" id="8fh-7m-WcW"/>
+                                <segue destination="Mmi-xK-Eh0" kind="unwind" unwindAction="dismissToUploadWithFolder:" id="Squ-k5-730"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="vU9-of-rfe"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="root" id="bl3-Sf-5Mu"/>
+                    <navigationItem key="navigationItem" title="root" id="0t4-t1-nD7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="Hhe-d0-AT3">
+                            <connections>
+                                <segue destination="Mmi-xK-Eh0" kind="unwind" unwindAction="dismissToUpload:" id="2Rs-8Z-m48"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vor-Wf-Wwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Mmi-xK-Eh0" userLabel="Exit" sceneMemberID="exit"/>

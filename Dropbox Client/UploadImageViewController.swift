@@ -17,18 +17,31 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     
     var isUploading = false {
         didSet {
-            for view in loadginOutlets { view.hidden = !isUploading }
-            uploadButton.hidden = isUploading
+            for view in buttons { view.enabled = !isUploading }
+            uploadingLabel.hidden = !isUploading
         }
     }
     
-    var basePath: String?
+    var basePath: String? {
+        didSet {
+            folderLabel.text = basePath?.characters.count > 0 ? basePath : "/"
+        }
+    }
+    
+    var imageName: String? {
+        didSet {
+            imageLabel.text = imageName
+        }
+    }
     
     // MARK: Outlets
     
-    @IBOutlet var loadginOutlets: [UIView]!
-    @IBOutlet weak var uploadButton: UIButton!
-    @IBOutlet weak var chooseFolderButton: UIButton!
+    @IBOutlet weak var uploadingLabel: UILabel!
+    @IBOutlet var buttons: [UIButton]!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var folderLabel: UILabel!
+    @IBOutlet weak var imageLabel: UILabel!
+    
     
     // MARK: UIViewController
     
@@ -54,16 +67,45 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         
     }
     
+    func showAlertText(text: String) {
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
     // MARK: Actions
     
-    @IBAction func uploadTapped(sender: AnyObject) {
+    @IBAction func chooseImageTapped(sender: AnyObject) {
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    @IBAction func dismissToUpload(segue: UIStoryboardSegue) {
+    @IBAction func dismissToUploadWithFolder(segue: UIStoryboardSegue) {
         let folderVC = segue.sourceViewController as! FolderViewController
         basePath = folderVC.folder.path
     }
+    
+    @IBAction func dismissToUpload(segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func uploadTapped(sender: AnyObject) {
+        guard let image = imageView.image else {
+            showAlertText("No image")
+            return
+        }
+        
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            showAlertText("Cannot make image data")
+            return
+        }
+        
+        guard let basePath = basePath else {
+            showAlertText("No folder set")
+            return
+        }
+        
+        uploadImageData(imageData, path: "\(basePath)/\(imageName)")
+    }
+    
     
     // MARK: UIImagePickerControllerDelegate
     
@@ -75,19 +117,14 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         picker.dismissViewControllerAnimated(true, completion: nil)
         
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            print("Failed to get picked image")
+            showAlertText("Failed to get picked image")
             return
         }
         
-        guard let imageData = UIImagePNGRepresentation(image) else {
-            print("Cannot make data")
-            return
-        }
+        imageView.image = image
         
         let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let filename = self.uploadPathForImageAtReferenceURL(imageURL)
-        
-        uploadImageData(imageData, path: filename)
+        imageName = self.nameForImageAtReferenceURL(imageURL)
     }
     
     // MARK: Dropbox
@@ -124,14 +161,10 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         })
     }
     
-    func uploadPathForImageAtReferenceURL(referenceURL: NSURL) -> String {
-        guard let path = basePath else {
-            fatalError("Must have a base path for image")
-        }
-        
+    func nameForImageAtReferenceURL(referenceURL: NSURL) -> String {
         let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
         let asset = result.firstObject as! PHAsset
-        return "\(path)/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
+        return "Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
     }
 }
 
