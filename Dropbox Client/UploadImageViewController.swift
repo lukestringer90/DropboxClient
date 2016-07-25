@@ -10,7 +10,7 @@ import UIKit
 import SwiftyDropbox
 import Photos
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UploadImageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let dateFormatter = NSDateFormatter()
     let imagePicker = UIImagePickerController()
@@ -22,10 +22,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    var basePath: String?
+    
     // MARK: Outlets
     
     @IBOutlet var loadginOutlets: [UIView]!
     @IBOutlet weak var uploadButton: UIButton!
+    @IBOutlet weak var chooseFolderButton: UIButton!
     
     // MARK: UIViewController
     
@@ -57,6 +60,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
+    @IBAction func dismissToUpload(segue: UIStoryboardSegue) {
+        let folderVC = segue.sourceViewController as! FolderViewController
+        basePath = folderVC.folder.path
+    }
+    
     // MARK: UIImagePickerControllerDelegate
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -77,18 +85,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let filename = self.uploadNameForImageAtReferenceURL(imageURL)
+        let filename = self.uploadPathForImageAtReferenceURL(imageURL)
         
-        uploadImageData(imageData, named: filename)
+        uploadImageData(imageData, path: filename)
     }
     
     // MARK: Dropbox
     
-    func uploadImageData(imageData: NSData, named filename: String) {
+    func uploadImageData(imageData: NSData, path: String) {
         self.isUploading = true
         
         let client = Dropbox.authorizedClient!
-        client.files.upload(path: filename, input: imageData).response({ (uploadResponse, uploadError) in
+        client.files.upload(path: path, input: imageData).response({ (uploadResponse, uploadError) in
             if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
                 print("*** Upload file ****")
                 print("Uploaded file name: \(uploadName)")
@@ -96,7 +104,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 self.isUploading = false
                 
-                client.files.getMetadata(path: filename).response({ (response, metaDataError) in
+                client.files.getMetadata(path: path).response({ (response, metaDataError) in
                     if let metaData = response {
                         if let file = metaData as? Files.FileMetadata {
                             print("This is a file with path: \(file.pathLower)")
@@ -116,10 +124,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         })
     }
     
-    func uploadNameForImageAtReferenceURL(referenceURL: NSURL) -> String {
+    func uploadPathForImageAtReferenceURL(referenceURL: NSURL) -> String {
+        guard let path = basePath else {
+            fatalError("Must have a base path for image")
+        }
+        
         let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
         let asset = result.firstObject as! PHAsset
-        return "/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
+        return "\(path)/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
     }
 }
 

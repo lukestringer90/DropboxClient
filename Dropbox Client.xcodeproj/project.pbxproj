@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		7EA7ECE3185F021F41D0F240 /* Pods_Dropbox_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */; };
 		F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */; };
-		F55CB0AA1D44CDB700F169F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A91D44CDB700F169F4 /* ViewController.swift */; };
+		F55CB0AA1D44CDB700F169F4 /* UploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */; };
 		F55CB0AD1D44CDB700F169F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AB1D44CDB700F169F4 /* Main.storyboard */; };
 		F55CB0AF1D44CDB700F169F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */; };
 		F55CB0B21D44CDB700F169F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */; };
+		F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,11 +22,12 @@
 		F4A47DDFC8E87F23276F222C /* Pods-Dropbox Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.release.xcconfig"; sourceTree = "<group>"; };
 		F55CB0A41D44CDB700F169F4 /* Dropbox Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F55CB0A91D44CDB700F169F4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageViewController.swift; sourceTree = "<group>"; };
 		F55CB0AC1D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F55CB0B11D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F55CB0B31D44CDB700F169F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
-				F55CB0A91D44CDB700F169F4 /* ViewController.swift */,
+				F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */,
+				F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */,
 				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
 				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
 				F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */,
@@ -210,8 +213,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F55CB0AA1D44CDB700F169F4 /* ViewController.swift in Sources */,
+				F55CB0AA1D44CDB700F169F4 /* UploadImageViewController.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
+				F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

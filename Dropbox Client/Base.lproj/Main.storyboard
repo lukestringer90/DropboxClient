@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6fD-b6-BXe">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Upload Image View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="UploadImageViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -33,18 +33,29 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BM2-Ht-7St">
+                                <rect key="frame" x="250" y="247" width="100" height="30"/>
+                                <state key="normal" title="Choose Folder"/>
+                                <connections>
+                                    <segue destination="3uU-05-Hjs" kind="presentation" id="voJ-UD-1Ik"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="mF5-68-zne" firstAttribute="top" secondItem="MfT-KC-nzd" secondAttribute="bottom" constant="8" id="AdM-WC-mAI"/>
                             <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HhU-Fk-0VK"/>
                             <constraint firstItem="WO6-uq-Gwk" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QSg-Oq-xnA"/>
+                            <constraint firstItem="WO6-uq-Gwk" firstAttribute="top" secondItem="BM2-Ht-7St" secondAttribute="bottom" constant="8" id="WC2-dC-NY2"/>
                             <constraint firstItem="MfT-KC-nzd" firstAttribute="centerX" secondItem="WO6-uq-Gwk" secondAttribute="centerX" id="a0y-yT-72g"/>
                             <constraint firstItem="mF5-68-zne" firstAttribute="centerX" secondItem="MfT-KC-nzd" secondAttribute="centerX" id="lmI-Rt-lgl"/>
                             <constraint firstItem="MfT-KC-nzd" firstAttribute="top" secondItem="WO6-uq-Gwk" secondAttribute="bottom" constant="8" id="r9h-aa-ibT"/>
+                            <constraint firstItem="BM2-Ht-7St" firstAttribute="centerX" secondItem="WO6-uq-Gwk" secondAttribute="centerX" id="xn3-yg-id2"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="i6X-6D-I1F"/>
                     <connections>
+                        <outlet property="chooseFolderButton" destination="BM2-Ht-7St" id="Chd-rT-DZB"/>
                         <outlet property="uploadButton" destination="WO6-uq-Gwk" id="QdW-Ha-PAQ"/>
                         <outletCollection property="loadginOutlets" destination="MfT-KC-nzd" collectionClass="NSMutableArray" id="noA-Gt-4Ib"/>
                         <outletCollection property="loadginOutlets" destination="mF5-68-zne" collectionClass="NSMutableArray" id="d2S-Ef-UOW"/>
@@ -52,7 +63,89 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="224" y="375"/>
+            <point key="canvasLocation" x="1848" y="375"/>
+        </scene>
+        <!--root-->
+        <scene sceneID="KhM-s8-KX8">
+            <objects>
+                <tableViewController storyboardIdentifier="FolderViewControllerID" id="0iQ-sV-t6H" customClass="FolderViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Kyg-X4-e33">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FolderCellID" id="w6q-yY-Iux">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w6q-yY-Iux" id="cjH-mK-1re">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="0iQ-sV-t6H" id="3Tj-82-TBo"/>
+                            <outlet property="delegate" destination="0iQ-sV-t6H" id="gze-sE-K6F"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="RKR-hj-c8Q"/>
+                        <barButtonItem title="Set Location" style="done" id="XlW-Nn-Thd">
+                            <connections>
+                                <segue destination="Mmi-xK-Eh0" kind="unwind" identifier="DismissToUpload" unwindAction="dismissToUpload:" id="8fh-7m-WcW"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="vU9-of-rfe"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="root" id="bl3-Sf-5Mu"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vor-Wf-Wwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Mmi-xK-Eh0" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2702" y="1154"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="YeM-07-W3n">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="3uU-05-Hjs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="bnr-Gd-gmM"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UX4-7D-Yee">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="92O-z4-qNn">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="0iQ-sV-t6H" kind="relationship" relationship="rootViewController" id="ODw-0U-tbR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W2Z-SK-JWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1848" y="1154"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="817-ZZ-mhu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6fD-b6-BXe" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="YuC-aD-kLy"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGQ-tG-KMI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="UAy-ma-vnW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LxP-eF-fkd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1036" y="375"/>
         </scene>
     </scenes>
 </document>
