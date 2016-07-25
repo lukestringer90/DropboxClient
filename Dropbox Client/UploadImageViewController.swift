@@ -137,31 +137,14 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         let client = Dropbox.authorizedClient!
         let request = client.files.upload(path: path, input: imageData)
         
-        request.response({ (uploadResponse, uploadError) in
-            if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
-                print("*** Upload file ****")
-                print("Uploaded file name: \(uploadName)")
-                print("Uploaded file revision: \(uploadRevision)")
-                
-                self.isUploading = false
-                
-                client.files.getMetadata(path: path).response({ (response, metaDataError) in
-                    if let metaData = response {
-                        if let file = metaData as? Files.FileMetadata {
-                            print("This is a file with path: \(file.pathLower)")
-                            print("File size: \(file.size)")
-                        } else if let folder = metaData as? Files.FolderMetadata {
-                            print("This is a folder with path: \(folder.pathLower)")
-                        }
-                    }
-                    else {
-                        print(metaDataError!)
-                    }
+        request.response({ (_, uploadError) in
+            if let error = uploadError {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlertText(error.description)
                 })
             }
-            else {
-                print(uploadError!)
-            }
+            
+            self.isUploading = false
         })
         
         request.progress { (_, current, total) in
