@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Upload Image View Controller-->
+        <!--Upload Image-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="UploadImageViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
@@ -52,6 +52,12 @@
                                     <segue destination="3uU-05-Hjs" kind="presentation" id="ehH-YH-pck"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guR-ha-FXP">
+                                <rect key="frame" x="150" y="494" width="83" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2e-e0-2Op">
                                 <rect key="frame" x="258" y="386" width="322" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -65,12 +71,9 @@
                                     <action selector="uploadTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gga-hR-L5d"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guR-ha-FXP">
-                                <rect key="frame" x="150" y="494" width="83" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gVk-4j-PTE">
+                                <rect key="frame" x="150" y="520" width="300" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -78,6 +81,7 @@
                             <constraint firstItem="5Gb-FO-Kwn" firstAttribute="leading" secondItem="nOS-jH-bGp" secondAttribute="leading" id="6UL-Uf-qSv"/>
                             <constraint firstItem="kxk-gU-Idq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7Mu-qa-s2K"/>
                             <constraint firstItem="u2e-e0-2Op" firstAttribute="centerY" secondItem="LHi-xp-dQM" secondAttribute="centerY" id="8ts-2O-Zid"/>
+                            <constraint firstItem="gVk-4j-PTE" firstAttribute="top" secondItem="guR-ha-FXP" secondAttribute="bottom" constant="8" id="BXI-AD-CrO"/>
                             <constraint firstItem="guR-ha-FXP" firstAttribute="leading" secondItem="5Gb-FO-Kwn" secondAttribute="leading" id="GFf-jj-Y4q"/>
                             <constraint firstItem="w3v-vZ-oz0" firstAttribute="centerY" secondItem="nOS-jH-bGp" secondAttribute="centerY" id="KX1-lH-d8u"/>
                             <constraint firstItem="kxk-gU-Idq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="MmF-JW-18N"/>
@@ -90,13 +94,16 @@
                             <constraint firstItem="u2e-e0-2Op" firstAttribute="leading" secondItem="LHi-xp-dQM" secondAttribute="trailing" constant="9" id="dDt-HF-aef"/>
                             <constraint firstAttribute="trailingMargin" secondItem="u2e-e0-2Op" secondAttribute="trailing" id="fVq-2h-xgJ"/>
                             <constraint firstItem="w3v-vZ-oz0" firstAttribute="leading" secondItem="nOS-jH-bGp" secondAttribute="trailing" constant="8" id="tG6-c0-3f0"/>
+                            <constraint firstItem="gVk-4j-PTE" firstAttribute="leading" secondItem="guR-ha-FXP" secondAttribute="leading" id="uT6-PB-Tkn"/>
+                            <constraint firstItem="gVk-4j-PTE" firstAttribute="trailing" secondItem="kxk-gU-Idq" secondAttribute="trailing" id="wxf-cW-C9y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="i6X-6D-I1F"/>
+                    <navigationItem key="navigationItem" title="Upload Image" id="i6X-6D-I1F"/>
                     <connections>
                         <outlet property="folderLabel" destination="w3v-vZ-oz0" id="htd-pT-kxX"/>
                         <outlet property="imageLabel" destination="u2e-e0-2Op" id="0eG-av-yp5"/>
                         <outlet property="imageView" destination="kxk-gU-Idq" id="HLP-Z6-oRX"/>
+                        <outlet property="progressView" destination="gVk-4j-PTE" id="XcK-jp-1G6"/>
                         <outlet property="uploadingLabel" destination="guR-ha-FXP" id="5sh-75-BoW"/>
                         <outletCollection property="buttons" destination="LHi-xp-dQM" collectionClass="NSMutableArray" id="9EU-gW-OTh"/>
                         <outletCollection property="buttons" destination="nOS-jH-bGp" collectionClass="NSMutableArray" id="4dD-Sg-5nd"/>

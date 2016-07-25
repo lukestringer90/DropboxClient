@@ -19,6 +19,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         didSet {
             for view in buttons { view.enabled = !isUploading }
             uploadingLabel.hidden = !isUploading
+            progressView.hidden = !isUploading
         }
     }
     
@@ -41,6 +42,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var folderLabel: UILabel!
     @IBOutlet weak var imageLabel: UILabel!
+    @IBOutlet weak var progressView: UIProgressView!
     
     
     // MARK: UIViewController
@@ -133,7 +135,9 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
         self.isUploading = true
         
         let client = Dropbox.authorizedClient!
-        client.files.upload(path: path, input: imageData).response({ (uploadResponse, uploadError) in
+        let request = client.files.upload(path: path, input: imageData)
+        
+        request.response({ (uploadResponse, uploadError) in
             if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
                 print("*** Upload file ****")
                 print("Uploaded file name: \(uploadName)")
@@ -159,6 +163,14 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
                 print(uploadError!)
             }
         })
+        
+        request.progress { (_, current, total) in
+            let progress: Float = Float(current) / Float(total)
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.progressView.progress = progress
+            })
+        }
     }
     
     func nameForImageAtReferenceURL(referenceURL: NSURL) -> String {
