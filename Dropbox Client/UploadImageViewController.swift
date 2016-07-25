@@ -10,22 +10,40 @@ import UIKit
 import SwiftyDropbox
 import Photos
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UploadImageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let dateFormatter = NSDateFormatter()
     let imagePicker = UIImagePickerController()
     
     var isUploading = false {
         didSet {
-            for view in loadginOutlets { view.hidden = !isUploading }
-            uploadButton.hidden = isUploading
+            for view in buttons { view.enabled = !isUploading }
+            uploadingLabel.hidden = !isUploading
+            progressView.hidden = !isUploading
+        }
+    }
+    
+    var basePath: String? {
+        didSet {
+            folderLabel.text = basePath?.characters.count > 0 ? basePath : "/"
+        }
+    }
+    
+    var imageName: String? {
+        didSet {
+            imageLabel.text = imageName
         }
     }
     
     // MARK: Outlets
     
-    @IBOutlet var loadginOutlets: [UIView]!
-    @IBOutlet weak var uploadButton: UIButton!
+    @IBOutlet weak var uploadingLabel: UILabel!
+    @IBOutlet var buttons: [UIButton]!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var folderLabel: UILabel!
+    @IBOutlet weak var imageLabel: UILabel!
+    @IBOutlet weak var progressView: UIProgressView!
+    
     
     // MARK: UIViewController
     
@@ -51,11 +69,45 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    func showAlertText(text: String) {
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
     // MARK: Actions
     
-    @IBAction func uploadTapped(sender: AnyObject) {
+    @IBAction func chooseImageTapped(sender: AnyObject) {
         presentViewController(imagePicker, animated: true, completion: nil)
     }
+    
+    @IBAction func dismissToUploadWithFolder(segue: UIStoryboardSegue) {
+        let folderVC = segue.sourceViewController as! FolderViewController
+        basePath = folderVC.folder.path
+    }
+    
+    @IBAction func dismissToUpload(segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func uploadTapped(sender: AnyObject) {
+        guard let image = imageView.image else {
+            showAlertText("No image")
+            return
+        }
+        
+        guard let imageData = UIImagePNGRepresentation(image) else {
+            showAlertText("Cannot make image data")
+            return
+        }
+        
+        guard let basePath = basePath else {
+            showAlertText("No folder set")
+            return
+        }
+        
+        uploadImageData(imageData, path: "\(basePath)/\(imageName)")
+    }
+    
     
     // MARK: UIImagePickerControllerDelegate
     
@@ -67,28 +119,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         picker.dismissViewControllerAnimated(true, completion: nil)
         
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
-            print("Failed to get picked image")
+            showAlertText("Failed to get picked image")
             return
         }
         
-        guard let imageData = UIImagePNGRepresentation(image) else {
-            print("Cannot make data")
-            return
-        }
+        imageView.image = image
         
         let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let filename = self.uploadNameForImageAtReferenceURL(imageURL)
-        
-        uploadImageData(imageData, named: filename)
+        imageName = self.nameForImageAtReferenceURL(imageURL)
     }
     
     // MARK: Dropbox
     
-    func uploadImageData(imageData: NSData, named filename: String) {
+    func uploadImageData(imageData: NSData, path: String) {
         self.isUploading = true
         
         let client = Dropbox.authorizedClient!
-        client.files.upload(path: filename, input: imageData).response({ (uploadResponse, uploadError) in
+        let request = client.files.upload(path: path, input: imageData)
+        
+        request.response({ (uploadResponse, uploadError) in
             if let uploadName = uploadResponse?.name, uploadRevision = uploadResponse?.rev {
                 print("*** Upload file ****")
                 print("Uploaded file name: \(uploadName)")
@@ -96,7 +145,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 self.isUploading = false
                 
-                client.files.getMetadata(path: filename).response({ (response, metaDataError) in
+                client.files.getMetadata(path: path).response({ (response, metaDataError) in
                     if let metaData = response {
                         if let file = metaData as? Files.FileMetadata {
                             print("This is a file with path: \(file.pathLower)")
@@ -114,12 +163,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 print(uploadError!)
             }
         })
+        
+        request.progress { (_, current, total) in
+            let progress: Float = Float(current) / Float(total)
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.progressView.progress = progress
+            })
+        }
     }
     
-    func uploadNameForImageAtReferenceURL(referenceURL: NSURL) -> String {
+    func nameForImageAtReferenceURL(referenceURL: NSURL) -> String {
         let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
         let asset = result.firstObject as! PHAsset
-        return "/Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
+        return "Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
     }
 }
 
