@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6fD-b6-BXe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wJI-pq-niU">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -112,7 +112,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1848" y="375"/>
+            <point key="canvasLocation" x="2660" y="375"/>
+        </scene>
+        <!--Albums-->
+        <scene sceneID="ePT-8w-tFp">
+            <objects>
+                <tableViewController id="YsA-A4-EMZ" customClass="AlbumsViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z9q-p9-dI4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlbumCellID" id="M8f-Ua-kqI">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8f-Ua-kqI" id="wqK-5Z-dGJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="YsA-A4-EMZ" id="4PP-kY-zaW"/>
+                            <outlet property="delegate" destination="YsA-A4-EMZ" id="VNR-ce-KOP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Albums" id="2nL-vg-us1"/>
+                    <connections>
+                        <segue destination="SOp-Yr-4JL" kind="show" identifier="ShowPhotos" id="c4P-pq-yZy"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fX2-XG-ufo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2668" y="1402"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="04S-P3-Tv8">
+            <objects>
+                <navigationController id="wJI-pq-niU" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="t2k-DU-VLj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YsA-A4-EMZ" kind="relationship" relationship="rootViewController" id="LVb-oV-xS0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0fG-Mp-cYF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1848" y="1401"/>
         </scene>
         <!--root-->
         <scene sceneID="KhM-s8-KX8">
@@ -166,7 +214,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vor-Wf-Wwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Mmi-xK-Eh0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2702" y="1154"/>
+            <point key="canvasLocation" x="4378" y="375"/>
         </scene>
         <!--Item-->
         <scene sceneID="YeM-07-W3n">
@@ -190,13 +238,44 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W2Z-SK-JWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1848" y="1154"/>
+            <point key="canvasLocation" x="3524" y="375"/>
         </scene>
-        <!--Item-->
+        <!--Album Name-->
+        <scene sceneID="jPa-bL-wf7">
+            <objects>
+                <tableViewController id="SOp-Yr-4JL" customClass="PhotosViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="NPw-qT-NW4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoCellID" id="DNd-Ri-nAg">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNd-Ri-nAg" id="3U7-gN-Rge">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="SOp-Yr-4JL" id="JLl-Lj-Um5"/>
+                            <outlet property="delegate" destination="SOp-Yr-4JL" id="DRY-YS-6xK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Album Name" id="vkN-s2-Ubc">
+                        <barButtonItem key="rightBarButtonItem" title="Upload All" id="NEu-lU-q1x"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q1i-Cr-MuK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3522" y="1401"/>
+        </scene>
+        <!--Single-->
         <scene sceneID="817-ZZ-mhu">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6fD-b6-BXe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="YuC-aD-kLy"/>
+                    <tabBarItem key="tabBarItem" title="Single" id="YuC-aD-kLy"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JGQ-tG-KMI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -209,7 +288,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LxP-eF-fkd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1036" y="375"/>
+            <point key="canvasLocation" x="1848" y="375"/>
         </scene>
     </scenes>
 </document>
