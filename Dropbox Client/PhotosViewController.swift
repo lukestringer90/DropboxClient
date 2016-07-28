@@ -63,11 +63,11 @@ class PhotosViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PhotoCellID", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("WaitingCellID", forIndexPath: indexPath) as! PhotoUploadCell
         
         let asset = assetsResult![indexPath.row] as! PHAsset
-        cell.textLabel?.text = asset.title
-        cell.imageView?.image = images[indexPath.row]
+        cell.photoTitleLabel?.text = asset.title
+        cell.photoImageView?.image = images[indexPath.row]
         
         return cell
     }

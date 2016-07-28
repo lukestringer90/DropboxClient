@@ -17,6 +17,7 @@
 		F55DBECA1D46976B0052C348 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */; };
 		F55DBECC1D4699D50052C348 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECB1D4699D50052C348 /* PhotosViewController.swift */; };
 		F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */; };
+		F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
 		F55DBECB1D4699D50052C348 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
+		F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUploadCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */,
 				F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */,
 				F55DBECB1D4699D50052C348 /* PhotosViewController.swift */,
+				F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */,
 				F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */,
 				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
 				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */,
+				F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */,
 				F55CB0AA1D44CDB700F169F4 /* UploadImageViewController.swift in Sources */,
 				F55DBECA1D46976B0052C348 /* AlbumsViewController.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
