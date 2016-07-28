@@ -28,6 +28,16 @@ class UploadPhotosViewController: UITableViewController {
     
     var uploadRequests = [UploadRequest]()
     
+    @IBOutlet weak var uploadLocationButton: UIBarButtonItem!
+    
+    var folder: Folder? {
+        didSet {
+            if let name = folder?.name {
+                uploadLocationButton.title = "Folder: \(name)"
+            }
+        }
+    }
+    
     // MARK: - UIViewController
     
     override func viewDidLoad() {
@@ -35,10 +45,36 @@ class UploadPhotosViewController: UITableViewController {
         title = collection.localizedTitle
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(false, animated: true);
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setToolbarHidden(true, animated: true);
+    }
+    
     // MARK: - Actions
     
     @IBAction func uploadAllTapped(sender: AnyObject) {
+        guard folder != nil else {
+            let alert = UIAlertController(title: nil, message: "No Upload Folder selected", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        uploadLocationButton.enabled = false
         startNextUpload()
+    }
+    
+    @IBAction func dismissToUploadPhotosWithFolder(segue: UIStoryboardSegue) {
+        if let folderVC = segue.sourceViewController as? FolderViewController {
+            folder = folderVC.folder
+        }
+    }
+    
+    @IBAction func dismissToUploadPhotos(segue: UIStoryboardSegue) {
     }
     
     // MARK: - PhotosViewController
@@ -83,6 +119,9 @@ class UploadPhotosViewController: UITableViewController {
             nextRequest.start()
             // Once started reload tableview so we deque correct cell for the new state
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+        else {
+            uploadLocationButton.enabled = true
         }
     }
     

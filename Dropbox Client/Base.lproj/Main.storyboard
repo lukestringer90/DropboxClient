@@ -199,7 +199,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="RKR-hj-c8Q"/>
                         <barButtonItem title="Set Location" style="done" id="XlW-Nn-Thd">
                             <connections>
-                                <segue destination="Mmi-xK-Eh0" kind="unwind" unwindAction="dismissToUploadWithFolder:" id="Squ-k5-730"/>
+                                <segue destination="Mmi-xK-Eh0" kind="unwind" identifier="DismissToUploadPhotosWithFolder" unwindAction="dismissToUploadPhotosWithFolder:" id="9OU-gV-vm1"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="vU9-of-rfe"/>
@@ -207,7 +207,7 @@
                     <navigationItem key="navigationItem" title="root" id="0t4-t1-nD7">
                         <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="Hhe-d0-AT3">
                             <connections>
-                                <segue destination="Mmi-xK-Eh0" kind="unwind" unwindAction="dismissToUpload:" id="2Rs-8Z-m48"/>
+                                <segue destination="Mmi-xK-Eh0" kind="unwind" identifier="DismissToUploadPhotos" unwindAction="dismissToUploadPhotos:" id="04a-cE-ptW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -215,7 +215,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vor-Wf-Wwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Mmi-xK-Eh0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4378" y="375"/>
+            <point key="canvasLocation" x="5196" y="1402"/>
         </scene>
         <!--Item-->
         <scene sceneID="YeM-07-W3n">
@@ -239,7 +239,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W2Z-SK-JWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3524" y="375"/>
+            <point key="canvasLocation" x="4342.5" y="1402"/>
         </scene>
         <!--Album Name-->
         <scene sceneID="jPa-bL-wf7">
@@ -571,6 +571,15 @@
                             <outlet property="delegate" destination="SOp-Yr-4JL" id="DRY-YS-6xK"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ams-t4-XPZ"/>
+                        <barButtonItem title="Select Upload Location" id="bsr-U2-fEy">
+                            <connections>
+                                <segue destination="3uU-05-Hjs" kind="presentation" id="z1h-8Y-eqx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="byh-QD-qtK"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Album Name" id="U3b-Ay-0Zo">
                         <barButtonItem key="rightBarButtonItem" title="Upload All" id="Ret-aO-Ykj">
                             <connections>
@@ -578,6 +587,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="uploadLocationButton" destination="bsr-U2-fEy" id="dW6-Yn-sNR"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q1i-Cr-MuK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -603,4 +616,7 @@
             <point key="canvasLocation" x="1848" y="375"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="z1h-8Y-eqx"/>
+    </inferredMetricsTieBreakers>
 </document>
