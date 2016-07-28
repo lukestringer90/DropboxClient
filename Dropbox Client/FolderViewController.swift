@@ -22,7 +22,7 @@ class FolderViewController: UITableViewController {
         }
     }
     
-    var folder = Folder(path: "", name: "root") {
+    var folder = Folder(path: "", name: "Dropbox") {
         didSet {
             title = folder.name
         }
@@ -32,16 +32,35 @@ class FolderViewController: UITableViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         title = folder.name
         loadFoldersAtPath(folder.path)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if let identifier = segue.identifier {
+            
+            switch identifier {
+            case "DismissToUploadPhotosWithFolder", "DismissToUploadPhotos":
+                hideActivityIndicator()
+            default:
+                break
+            }
+        }
     }
 
     // MARK: FolderViewController
     
     func loadFoldersAtPath(path: String) {
+        
+        showActivityIndicator()
+        
         let client = Dropbox.authorizedClient!
         let result = client.files.listFolder(path: path)
         result.response { (folderResult, error) in
+            
+            self.hideActivityIndicator()
             if let result = folderResult {
                 self.foldersMetaData = result.entries.filter { $0 is SwiftyDropbox.Files.FolderMetadata }
             }
@@ -49,6 +68,14 @@ class FolderViewController: UITableViewController {
                 print(error!)
             }
         }
+    }
+    
+    func showActivityIndicator() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    }
+    
+    func hideActivityIndicator() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 
     // MARK: - Table view data source
