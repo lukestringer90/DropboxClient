@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import SwiftyTimer
 
 class PhotosViewController: UITableViewController {
     
@@ -22,23 +23,14 @@ class PhotosViewController: UITableViewController {
     var assetsResult: PHFetchResult? {
         didSet {
             if let result = assetsResult {
-                result.enumerateObjectsUsingBlock({ (obj, index, _) in
-                    guard let asset = obj as? PHAsset else {
-                        return
-                    }
-                    
-                    self.images.insert(nil, atIndex: index)
-                    
-                    self.imageManager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, info) in
-                        self.images[index] = image
-                        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }
-                })
+                fetchImagesForAssetResult(result)
             }
         }
     }
-    var images = [UIImage?]()
+    
+    var uploadRequests = [UploadRequest?]()
+    
+    // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,76 +38,85 @@ class PhotosViewController: UITableViewController {
         title = collection.localizedTitle
     }
     
+    // MARK: - PhotosViewController
+    
+    func fetchImagesForAssetResult(result: PHFetchResult) {
+        result.enumerateObjectsUsingBlock({ (obj, index, _) in
+            guard let asset = obj as? PHAsset else {
+                return
+            }
+            
+            self.imageManager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, info) in
+                let uploadableImage = UploadableImage(title: asset.title, image: image)
+                let request = UploadRequest(image: uploadableImage)
+                self.uploadRequests.append(request)
+                self.tableView.reloadData()
+            }
+        })
+    }
+    
+    @IBAction func uploadAllTapped(sender: AnyObject) {
+        startNextUpload()
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        if let result = assetsResult {
-            return result.count
-        }
-        return 0
+        return uploadRequests.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("WaitingCellID", forIndexPath: indexPath) as! PhotoUploadCell
-        
-        let asset = assetsResult![indexPath.row] as! PHAsset
-        cell.photoTitleLabel?.text = asset.title
-        cell.photoImageView?.image = images[indexPath.row]
-        
-        return cell
+        if let request = uploadRequests[indexPath.row] {
+            let cellID = request.state.cellID() ?? UploadState.Waiting.cellID()
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellID, forIndexPath: indexPath) as! PhotoUploadCell
+            
+            cell.photoTitleLabel?.text = request.image.title
+            cell.photoImageView?.image = request.image.image
+            
+            if request.state == .Uploading {
+                cell.progressView?.progress = request.progress
+            }
+            
+            return cell
+        }
+        return tableView.dequeueReusableCellWithIdentifier(PhotoUploadCell.loadingCellID, forIndexPath: indexPath)
     }
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-     if editingStyle == .Delete {
-     // Delete the row from the data source
-     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-     } else if editingStyle == .Insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+}
+
+extension PhotosViewController {
+    func startNextUpload() {
+        
+        let waiting = self.uploadRequests.filter {$0?.state == .Waiting}
+        if let first = waiting.first, nextRequest = first {
+            
+            let index = self.uploadRequests.indexOf({ (uploadRequest) -> Bool in
+                guard let request = uploadRequest else {
+                    return false
+                }
+                return request === nextRequest
+            })
+            
+            let indexPath = NSIndexPath(forItem: index!, inSection: 0)
+            
+            nextRequest.progressHandler = { progress in
+                if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? PhotoUploadCell {
+                    cell.progressView?.setProgress(progress, animated: true)
+                }
+            }
+            
+            nextRequest.completionHandler = { _ in
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.startNextUpload()
+            }
+            
+            nextRequest.start()
+            // Once started reload tableview so we deque correct cell for the new state
+            self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        }
+    }
 }

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -249,11 +250,55 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoadingCellID" rowHeight="50" id="ThU-uB-unQ" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ThU-uB-unQ" id="pqU-Um-gY1">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWt-aD-dzm">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="bWt-aD-dzm" secondAttribute="trailing" id="Fn6-pe-92M"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="bWt-aD-dzm" secondAttribute="leading" id="cdM-MJ-qE4"/>
+                                        <constraint firstItem="bWt-aD-dzm" firstAttribute="centerY" secondItem="pqU-Um-gY1" secondAttribute="centerY" id="jGD-zR-b8g"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="bWt-aD-dzm"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="Fn6-pe-92M"/>
+                                            <exclude reference="cdM-MJ-qE4"/>
+                                            <exclude reference="jGD-zR-b8g"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="bWt-aD-dzm"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="Fn6-pe-92M"/>
+                                            <include reference="cdM-MJ-qE4"/>
+                                            <include reference="jGD-zR-b8g"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="photoTitleLabel" destination="bWt-aD-dzm" id="Adr-lH-vvs"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UploadedCellID" rowHeight="50" id="DNd-Ri-nAg" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNd-Ri-nAg" id="3U7-gN-Rge">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q5M-xp-7mr">
@@ -309,14 +354,14 @@
                                             <exclude reference="MFz-hO-epL"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="2r8-e3-xfU"/>
-                                            <exclude reference="3LP-Dp-lr8"/>
-                                            <exclude reference="Q2X-Rq-srV"/>
-                                            <exclude reference="f8V-fm-biY"/>
-                                            <exclude reference="gID-zV-H7L"/>
                                             <exclude reference="eKi-Ki-pRz"/>
                                             <exclude reference="f8M-An-RLU"/>
                                             <exclude reference="iPr-9t-jYx"/>
+                                            <exclude reference="Q2X-Rq-srV"/>
+                                            <exclude reference="f8V-fm-biY"/>
+                                            <exclude reference="gID-zV-H7L"/>
+                                            <exclude reference="2r8-e3-xfU"/>
+                                            <exclude reference="3LP-Dp-lr8"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
@@ -326,14 +371,14 @@
                                             <include reference="MFz-hO-epL"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="2r8-e3-xfU"/>
-                                            <include reference="3LP-Dp-lr8"/>
-                                            <include reference="Q2X-Rq-srV"/>
-                                            <include reference="f8V-fm-biY"/>
-                                            <include reference="gID-zV-H7L"/>
                                             <include reference="eKi-Ki-pRz"/>
                                             <include reference="f8M-An-RLU"/>
                                             <include reference="iPr-9t-jYx"/>
+                                            <include reference="Q2X-Rq-srV"/>
+                                            <include reference="f8V-fm-biY"/>
+                                            <include reference="gID-zV-H7L"/>
+                                            <include reference="2r8-e3-xfU"/>
+                                            <include reference="3LP-Dp-lr8"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -344,10 +389,10 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WaitingCellID" rowHeight="50" id="YdS-wu-HF9" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="142" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YdS-wu-HF9" id="oRG-oo-pKA">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PNU-jn-dvC">
@@ -412,18 +457,18 @@
                                             <exclude reference="2EA-z6-ff8"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="U2J-yO-TDn"/>
-                                            <exclude reference="duD-EH-xSj"/>
-                                            <exclude reference="iOF-dd-4Wf"/>
-                                            <exclude reference="oGE-ea-dgE"/>
-                                            <exclude reference="pPd-y1-WRm"/>
                                             <exclude reference="NaA-Lv-WIb"/>
                                             <exclude reference="sLo-Xv-5Uo"/>
                                             <exclude reference="zYA-qY-d5z"/>
+                                            <exclude reference="iOF-dd-4Wf"/>
+                                            <exclude reference="oGE-ea-dgE"/>
+                                            <exclude reference="pPd-y1-WRm"/>
                                             <exclude reference="3lm-c9-IN3"/>
                                             <exclude reference="QUe-sO-gf4"/>
                                             <exclude reference="fH8-bL-3Aq"/>
                                             <exclude reference="hjj-vz-Gba"/>
+                                            <exclude reference="U2J-yO-TDn"/>
+                                            <exclude reference="duD-EH-xSj"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
@@ -434,18 +479,18 @@
                                             <include reference="2EA-z6-ff8"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="U2J-yO-TDn"/>
-                                            <include reference="duD-EH-xSj"/>
-                                            <include reference="iOF-dd-4Wf"/>
-                                            <include reference="oGE-ea-dgE"/>
-                                            <include reference="pPd-y1-WRm"/>
                                             <include reference="NaA-Lv-WIb"/>
                                             <include reference="sLo-Xv-5Uo"/>
                                             <include reference="zYA-qY-d5z"/>
+                                            <include reference="iOF-dd-4Wf"/>
+                                            <include reference="oGE-ea-dgE"/>
+                                            <include reference="pPd-y1-WRm"/>
                                             <include reference="3lm-c9-IN3"/>
                                             <include reference="QUe-sO-gf4"/>
                                             <include reference="fH8-bL-3Aq"/>
                                             <include reference="hjj-vz-Gba"/>
+                                            <include reference="U2J-yO-TDn"/>
+                                            <include reference="duD-EH-xSj"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -456,10 +501,10 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UploadingCellID" rowHeight="50" id="jJP-c8-Onw" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="192" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jJP-c8-Onw" id="FTP-ly-AHU">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="O1E-Th-JUW">
@@ -472,14 +517,14 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="nTc-jL-m64"/>
                                                     <exclude reference="GSX-P1-RPD"/>
+                                                    <exclude reference="nTc-jL-m64"/>
                                                 </mask>
                                             </variation>
                                             <variation key="widthClass=compact">
                                                 <mask key="constraints">
-                                                    <include reference="nTc-jL-m64"/>
                                                     <include reference="GSX-P1-RPD"/>
+                                                    <include reference="nTc-jL-m64"/>
                                                 </mask>
                                             </variation>
                                         </imageView>
@@ -521,18 +566,18 @@
                                             <exclude reference="rKy-NS-BOn"/>
                                         </mask>
                                         <mask key="constraints">
+                                            <exclude reference="Pt8-fs-ImR"/>
+                                            <exclude reference="aaZ-8L-Op9"/>
+                                            <exclude reference="lHF-M3-gkv"/>
+                                            <exclude reference="4c8-3f-TJV"/>
+                                            <exclude reference="IEy-M9-oKH"/>
+                                            <exclude reference="bJ8-7K-xwU"/>
                                             <exclude reference="AXl-Zo-xFA"/>
                                             <exclude reference="ISb-ls-OJq"/>
                                             <exclude reference="Uwu-6S-5qf"/>
                                             <exclude reference="wYv-EI-Slw"/>
                                             <exclude reference="eWL-59-o08"/>
                                             <exclude reference="rZt-cO-ua5"/>
-                                            <exclude reference="4c8-3f-TJV"/>
-                                            <exclude reference="IEy-M9-oKH"/>
-                                            <exclude reference="bJ8-7K-xwU"/>
-                                            <exclude reference="Pt8-fs-ImR"/>
-                                            <exclude reference="aaZ-8L-Op9"/>
-                                            <exclude reference="lHF-M3-gkv"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
@@ -543,18 +588,18 @@
                                             <include reference="rKy-NS-BOn"/>
                                         </mask>
                                         <mask key="constraints">
+                                            <include reference="Pt8-fs-ImR"/>
+                                            <include reference="aaZ-8L-Op9"/>
+                                            <include reference="lHF-M3-gkv"/>
+                                            <include reference="4c8-3f-TJV"/>
+                                            <include reference="IEy-M9-oKH"/>
+                                            <include reference="bJ8-7K-xwU"/>
                                             <include reference="AXl-Zo-xFA"/>
                                             <include reference="ISb-ls-OJq"/>
                                             <include reference="Uwu-6S-5qf"/>
                                             <include reference="wYv-EI-Slw"/>
                                             <include reference="eWL-59-o08"/>
                                             <include reference="rZt-cO-ua5"/>
-                                            <include reference="4c8-3f-TJV"/>
-                                            <include reference="IEy-M9-oKH"/>
-                                            <include reference="bJ8-7K-xwU"/>
-                                            <include reference="Pt8-fs-ImR"/>
-                                            <include reference="aaZ-8L-Op9"/>
-                                            <include reference="lHF-M3-gkv"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -570,8 +615,12 @@
                             <outlet property="delegate" destination="SOp-Yr-4JL" id="DRY-YS-6xK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Album Name" id="vkN-s2-Ubc">
-                        <barButtonItem key="rightBarButtonItem" title="Upload All" id="NEu-lU-q1x"/>
+                    <navigationItem key="navigationItem" title="Album Name" id="U3b-Ay-0Zo">
+                        <barButtonItem key="rightBarButtonItem" title="Upload All" id="Ret-aO-Ykj">
+                            <connections>
+                                <action selector="uploadAllTapped:" destination="SOp-Yr-4JL" id="gsk-sT-10v"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q1i-Cr-MuK" userLabel="First Responder" sceneMemberID="firstResponder"/>
