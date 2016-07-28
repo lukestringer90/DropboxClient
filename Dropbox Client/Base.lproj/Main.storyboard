@@ -244,56 +244,12 @@
         <!--Album Name-->
         <scene sceneID="jPa-bL-wf7">
             <objects>
-                <tableViewController id="SOp-Yr-4JL" customClass="PhotosViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="SOp-Yr-4JL" customClass="UploadPhotosViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="NPw-qT-NW4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoadingCellID" rowHeight="50" id="ThU-uB-unQ" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="50"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ThU-uB-unQ" id="pqU-Um-gY1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWt-aD-dzm">
-                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="bWt-aD-dzm" secondAttribute="trailing" id="Fn6-pe-92M"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="bWt-aD-dzm" secondAttribute="leading" id="cdM-MJ-qE4"/>
-                                        <constraint firstItem="bWt-aD-dzm" firstAttribute="centerY" secondItem="pqU-Um-gY1" secondAttribute="centerY" id="jGD-zR-b8g"/>
-                                    </constraints>
-                                    <variation key="default">
-                                        <mask key="subviews">
-                                            <exclude reference="bWt-aD-dzm"/>
-                                        </mask>
-                                        <mask key="constraints">
-                                            <exclude reference="Fn6-pe-92M"/>
-                                            <exclude reference="cdM-MJ-qE4"/>
-                                            <exclude reference="jGD-zR-b8g"/>
-                                        </mask>
-                                    </variation>
-                                    <variation key="widthClass=compact">
-                                        <mask key="subviews">
-                                            <include reference="bWt-aD-dzm"/>
-                                        </mask>
-                                        <mask key="constraints">
-                                            <include reference="Fn6-pe-92M"/>
-                                            <include reference="cdM-MJ-qE4"/>
-                                            <include reference="jGD-zR-b8g"/>
-                                        </mask>
-                                    </variation>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="photoTitleLabel" destination="bWt-aD-dzm" id="Adr-lH-vvs"/>
-                                </connections>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UploadedCellID" rowHeight="50" id="DNd-Ri-nAg" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -301,6 +257,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo 28-07-2016, 12 37 20.png" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP0-nb-AFj">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.2 MB, modified 20 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFz-hO-epL">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q5M-xp-7mr">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                             <constraints>
@@ -322,18 +290,6 @@
                                                 </mask>
                                             </variation>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo 28-07-2016, 12 37 20.png" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WP0-nb-AFj">
-                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2.2 MB, modified 20 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFz-hO-epL">
-                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="q5M-xp-7mr" firstAttribute="centerY" secondItem="3U7-gN-Rge" secondAttribute="centerY" id="2r8-e3-xfU"/>
@@ -349,9 +305,9 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="subviews">
-                                            <exclude reference="q5M-xp-7mr"/>
                                             <exclude reference="WP0-nb-AFj"/>
                                             <exclude reference="MFz-hO-epL"/>
+                                            <exclude reference="q5M-xp-7mr"/>
                                         </mask>
                                         <mask key="constraints">
                                             <exclude reference="eKi-Ki-pRz"/>
@@ -366,9 +322,9 @@
                                     </variation>
                                     <variation key="widthClass=compact">
                                         <mask key="subviews">
-                                            <include reference="q5M-xp-7mr"/>
                                             <include reference="WP0-nb-AFj"/>
                                             <include reference="MFz-hO-epL"/>
+                                            <include reference="q5M-xp-7mr"/>
                                         </mask>
                                         <mask key="constraints">
                                             <include reference="eKi-Ki-pRz"/>

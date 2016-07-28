@@ -10,9 +10,7 @@ import UIKit
 import Photos
 import SwiftyTimer
 
-class PhotosViewController: UITableViewController {
-    
-    let imageManager = PHImageManager.defaultManager()
+class UploadPhotosViewController: UITableViewController {
     
     var collection: PHAssetCollection! {
         didSet {
@@ -23,30 +21,35 @@ class PhotosViewController: UITableViewController {
     var assetsResult: PHFetchResult? {
         didSet {
             if let result = assetsResult {
-                fetchImagesForAssetResult(result)
+                createUploadRequestsForAssetResult(result)
             }
         }
     }
     
-    var uploadRequests = [UploadRequest?]()
+    var uploadRequests = [UploadRequest]()
     
     // MARK: - UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = collection.localizedTitle
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func uploadAllTapped(sender: AnyObject) {
+        startNextUpload()
     }
     
     // MARK: - PhotosViewController
     
-    func fetchImagesForAssetResult(result: PHFetchResult) {
-        result.enumerateObjectsUsingBlock({ (obj, index, _) in
+    func createUploadRequestsForAssetResult(result: PHFetchResult) {
+        result.enumerateObjectsUsingBlock({ (obj, _, _) in
             guard let asset = obj as? PHAsset else {
                 return
             }
             
-            self.imageManager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, info) in
+            PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, _) in
                 let uploadableImage = UploadableImage(title: asset.title, image: image)
                 let request = UploadRequest(image: uploadableImage)
                 self.uploadRequests.append(request)
@@ -55,49 +58,12 @@ class PhotosViewController: UITableViewController {
         })
     }
     
-    @IBAction func uploadAllTapped(sender: AnyObject) {
-        startNextUpload()
-    }
-    
-    // MARK: - Table view data source
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uploadRequests.count
-    }
-    
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if let request = uploadRequests[indexPath.row] {
-            let cellID = request.state.cellID() ?? UploadState.Waiting.cellID()
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellID, forIndexPath: indexPath) as! PhotoUploadCell
-            
-            cell.photoTitleLabel?.text = request.image.title
-            cell.photoImageView?.image = request.image.image
-            
-            if request.state == .Uploading {
-                cell.progressView?.progress = request.progress
-            }
-            
-            return cell
-        }
-        return tableView.dequeueReusableCellWithIdentifier(PhotoUploadCell.loadingCellID, forIndexPath: indexPath)
-    }
-}
-
-extension PhotosViewController {
     func startNextUpload() {
         
-        let waiting = self.uploadRequests.filter {$0?.state == .Waiting}
-        if let first = waiting.first, nextRequest = first {
+        let waiting = self.uploadRequests.filter {$0.state == .waiting}
+        if let nextRequest = waiting.first {
             
-            let index = self.uploadRequests.indexOf({ (uploadRequest) -> Bool in
-                guard let request = uploadRequest else {
-                    return false
-                }
+            let index = self.uploadRequests.indexOf({ (request) -> Bool in
                 return request === nextRequest
             })
             
@@ -118,5 +84,37 @@ extension PhotosViewController {
             // Once started reload tableview so we deque correct cell for the new state
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
+    }
+    
+    // MARK: - Table view data source
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return uploadRequests.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let request = uploadRequests[indexPath.row]
+        let cellID = PhotoUploadCell.cellIDForState(request.state)
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellID, forIndexPath: indexPath) as! PhotoUploadCell
+        
+        cell.photoTitleLabel?.text = request.image.title
+        cell.photoImageView?.image = request.image.image
+        
+        switch request.state {
+        case .uploading:
+            cell.progressView?.progress = request.progress
+        case .uploaded:
+            if let response = request.response {
+                cell.photoDetailLabel?.text = response.cellDescription()
+            }
+        default:
+            break
+        }
+        
+        return cell
     }
 }

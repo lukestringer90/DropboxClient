@@ -15,7 +15,7 @@
 		F55CB0B21D44CDB700F169F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */; };
 		F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */; };
 		F55DBECA1D46976B0052C348 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */; };
-		F55DBECC1D4699D50052C348 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECB1D4699D50052C348 /* PhotosViewController.swift */; };
+		F55DBECC1D4699D50052C348 /* UploadPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */; };
 		F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */; };
 		F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */; };
 		F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2C9771D4A562500BE9753 /* UploadRequest.swift */; };
@@ -34,7 +34,7 @@
 		F55CB0B31D44CDB700F169F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
-		F55DBECB1D4699D50052C348 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPhotosViewController.swift; sourceTree = "<group>"; };
 		F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
 		F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUploadCell.swift; sourceTree = "<group>"; };
 		F5F2C9771D4A562500BE9753 /* UploadRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadRequest.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
 				F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */,
 				F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */,
-				F55DBECB1D4699D50052C348 /* PhotosViewController.swift */,
+				F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */,
 				F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */,
 				F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */,
 				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
@@ -235,7 +235,7 @@
 				F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
 				F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */,
-				F55DBECC1D4699D50052C348 /* PhotosViewController.swift in Sources */,
+				F55DBECC1D4699D50052C348 /* UploadPhotosViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

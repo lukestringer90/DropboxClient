@@ -43,7 +43,7 @@ class AlbumsViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowPhotos" {
-            let photosVC = segue.destinationViewController as! PhotosViewController
+            let photosVC = segue.destinationViewController as! UploadPhotosViewController
             photosVC.collection = selectedCollection
         }
     }

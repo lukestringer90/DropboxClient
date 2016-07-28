@@ -7,20 +7,11 @@
 //
 
 import UIKit
-
-enum UploadState: String {
-    case Waiting
-    case Uploading
-    case Uploaded
-    
-    func cellID() -> String {
-        return "\(rawValue)CellID"
-    }
-}
-
 class PhotoUploadCell: UITableViewCell {
     
-    static let loadingCellID = "LoadingCellID"
+    static func cellIDForState(state: UploadState) -> String {
+        return "\(state.rawValue.capitalizedString)CellID"
+    }
 
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var photoTitleLabel: UILabel!
