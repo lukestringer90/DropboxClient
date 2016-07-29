@@ -87,8 +87,8 @@ class UploadPhotosViewController: UITableViewController {
             
             let manager = PHImageManager.defaultManager()
             manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (fetchedImage, _) in
-                if let image = fetchedImage {
-                    let imageManifest = UploadManifest(image: image, title: asset.title)
+                
+                if let image = fetchedImage, imageManifest = UploadManifest(image: image, title: asset.title) {
                     let request = UploadRequest(manifest: imageManifest)
                     self.uploadRequests.append(request)
                     self.tableView.reloadData()
@@ -162,5 +162,13 @@ class UploadPhotosViewController: UITableViewController {
         }
         
         return cell
+    }
+}
+
+extension UploadResponse {
+    func cellDescription() -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd/MM HH:mm"
+        return "\(self.fileSize)MB, uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
     }
 }

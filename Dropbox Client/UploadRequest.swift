@@ -41,13 +41,9 @@ class UploadRequest {
         state = .uploading
         progress = 0
         
-        guard let (imageData, prefix) = dataFromImage(manifest.image) else {
-            return
-        }
-        
         let client = Dropbox.authorizedClient!
-        let imagePath = "\(folderPath)/\(manifest.title).\(prefix)"
-        let request = client.files.upload(path: imagePath, input: imageData)
+        let imagePath = "\(folderPath)/\(manifest.fileName)"
+        let request = client.files.upload(path: imagePath, input: manifest.imageData)
         
         request.response({ (_, uploadError) in
             if let error = uploadError {
@@ -56,7 +52,7 @@ class UploadRequest {
             }
             else {
                 self.state = .uploaded
-                self.response = UploadResponse(manifest: self.manifest, fileSize: 100, uplodDate: NSDate())
+                self.response = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: 100, uplodDate: NSDate())
                 self.completionHandler?(response: self.response, error: nil)
             }
         })
@@ -69,30 +65,12 @@ class UploadRequest {
             })
         }
     }
-    
-    func dataFromImage(image: UIImage) -> (imageData: NSData, prefix: String)? {
-        if let pngData = UIImagePNGRepresentation(image) {
-            return (pngData, "png")
-        }
-        else if let jpegData = UIImageJPEGRepresentation(image, 1) {
-            return (jpegData, "jpg")
-        }
-
-        return nil
-    }
 }
 
 struct UploadResponse {
     let manifest: UploadManifest
+    let folderPath: String
     let fileSize: Float
     let uplodDate: NSDate
-}
-
-extension UploadResponse {
-    func cellDescription() -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd/MM HH:mm"
-        return "\(self.fileSize)MB, uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
-    }
 }
 

@@ -159,7 +159,7 @@ class UploadImageViewController: UIViewController, UIImagePickerControllerDelega
     func nameForImageAtReferenceURL(referenceURL: NSURL) -> String {
         let result = PHAsset.fetchAssetsWithALAssetURLs([referenceURL], options: nil)
         let asset = result.firstObject as! PHAsset
-        return "Photo \(dateFormatter.stringFromDate(asset.creationDate!)).png"
+        return "Photo \(dateFormatter.stringFromDate(asset.creationDate!))"
     }
 }
 
