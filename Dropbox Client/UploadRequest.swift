@@ -13,12 +13,17 @@ enum UploadState: String {
     case waiting
     case uploading
     case uploaded
+    case failed
+}
+
+enum UploadError: ErrorType {
+    case failure
 }
     
 class UploadRequest {
     let manifest: UploadManifest
     
-    typealias CompletionHandler = (response: UploadResponse?, error: ErrorType?) -> Void
+    typealias CompletionHandler = (response: UploadResponse?) -> Void
     var completionHandler: CompletionHandler? = nil
     
     typealias ProgressHandler = (progress: Float) -> Void
@@ -45,16 +50,17 @@ class UploadRequest {
         let imagePath = "\(folderPath)/\(manifest.fileName)"
         let request = client.files.upload(path: imagePath, input: manifest.imageData)
         
-        request.response({ (_, uploadError) in
-            if let error = uploadError {
-                // Pass error here
-                self.completionHandler?(response: nil, error: nil)
+        request.response({ (response, error) in
+            if error != nil {
+                self.state = .failed
+                self.response = nil
             }
             else {
                 self.state = .uploaded
                 self.response = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: 100, uplodDate: NSDate())
-                self.completionHandler?(response: self.response, error: nil)
             }
+            
+            self.completionHandler?(response: nil)
         })
         
         request.progress { (_, current, total) in

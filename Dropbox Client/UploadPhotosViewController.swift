@@ -29,6 +29,7 @@ class UploadPhotosViewController: UITableViewController {
     var uploadRequests = [UploadRequest]()
     
     @IBOutlet weak var uploadLocationButton: UIBarButtonItem!
+    @IBOutlet weak var uploadAllButton: UIBarButtonItem!
     
     var folder: Folder? {
         didSet {
@@ -65,6 +66,18 @@ class UploadPhotosViewController: UITableViewController {
             return
         }
         uploadLocationButton.enabled = false
+        uploadAllButton.enabled = false
+        
+        // Restart previosuly failed requests
+        var indexPaths = [NSIndexPath]()
+        for (index, request) in uploadRequests.enumerate() {
+            if request.state == .failed {
+                request.state = .waiting
+                indexPaths.append(NSIndexPath(forRow: index, inSection: 0))
+            }
+        }
+        tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        
         startNextUpload()
     }
     
@@ -129,6 +142,7 @@ class UploadPhotosViewController: UITableViewController {
         }
         else {
             uploadLocationButton.enabled = true
+            uploadAllButton.enabled = true
         }
     }
     

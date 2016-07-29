@@ -456,6 +456,118 @@
                                     <outlet property="photoTitleLabel" destination="Nx2-nr-vy7" id="Ufh-QH-2JZ"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FailedCellID" rowHeight="50" id="0vp-xT-iw0" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="142" width="600" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0vp-xT-iw0" id="3Zs-2d-5fy">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Pd-Kk-fIf">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="240" id="5UJ-xK-GA5">
+                                                    <variation key="widthClass=compact" constant="40"/>
+                                                </constraint>
+                                                <constraint firstAttribute="width" secondItem="9Pd-Kk-fIf" secondAttribute="height" id="T65-qF-RnU"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="T65-qF-RnU"/>
+                                                    <exclude reference="5UJ-xK-GA5"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="widthClass=compact">
+                                                <mask key="constraints">
+                                                    <include reference="T65-qF-RnU"/>
+                                                    <include reference="5UJ-xK-GA5"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo 28-07-2016, 12 37 20.png" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh2-h0-YOm">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SX1-nG-kGT">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SsL-ur-9G1">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="SX1-nG-kGT" firstAttribute="leading" secondItem="9Pd-Kk-fIf" secondAttribute="trailing" constant="8" id="1Z4-wr-mLr"/>
+                                        <constraint firstItem="SsL-ur-9G1" firstAttribute="width" secondItem="9Pd-Kk-fIf" secondAttribute="width" id="8fm-VV-Xsh"/>
+                                        <constraint firstItem="SsL-ur-9G1" firstAttribute="centerX" secondItem="9Pd-Kk-fIf" secondAttribute="centerX" id="9ja-my-rZQ"/>
+                                        <constraint firstItem="yh2-h0-YOm" firstAttribute="leading" secondItem="9Pd-Kk-fIf" secondAttribute="trailing" constant="8" id="Aec-os-zDL"/>
+                                        <constraint firstItem="SsL-ur-9G1" firstAttribute="centerY" secondItem="9Pd-Kk-fIf" secondAttribute="centerY" id="Fev-C2-Xk5"/>
+                                        <constraint firstItem="SX1-nG-kGT" firstAttribute="bottom" secondItem="9Pd-Kk-fIf" secondAttribute="bottom" id="Gpp-ac-hGF"/>
+                                        <constraint firstItem="9Pd-Kk-fIf" firstAttribute="leading" secondItem="3Zs-2d-5fy" secondAttribute="leadingMargin" constant="37" id="Nfj-p9-stq">
+                                            <variation key="widthClass=compact" constant="0.0"/>
+                                        </constraint>
+                                        <constraint firstAttribute="trailingMargin" secondItem="yh2-h0-YOm" secondAttribute="trailing" id="SRA-45-uKa"/>
+                                        <constraint firstItem="9Pd-Kk-fIf" firstAttribute="centerY" secondItem="3Zs-2d-5fy" secondAttribute="centerY" id="XFl-x1-j3u"/>
+                                        <constraint firstItem="yh2-h0-YOm" firstAttribute="top" secondItem="9Pd-Kk-fIf" secondAttribute="top" id="c3F-UW-XfU"/>
+                                        <constraint firstItem="SsL-ur-9G1" firstAttribute="height" secondItem="9Pd-Kk-fIf" secondAttribute="height" id="d8L-KV-bAT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="SX1-nG-kGT" secondAttribute="trailing" id="wOe-0T-oU3"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="9Pd-Kk-fIf"/>
+                                            <exclude reference="yh2-h0-YOm"/>
+                                            <exclude reference="SX1-nG-kGT"/>
+                                            <exclude reference="SsL-ur-9G1"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="Gpp-ac-hGF"/>
+                                            <exclude reference="1Z4-wr-mLr"/>
+                                            <exclude reference="wOe-0T-oU3"/>
+                                            <exclude reference="SRA-45-uKa"/>
+                                            <exclude reference="Aec-os-zDL"/>
+                                            <exclude reference="c3F-UW-XfU"/>
+                                            <exclude reference="9ja-my-rZQ"/>
+                                            <exclude reference="d8L-KV-bAT"/>
+                                            <exclude reference="8fm-VV-Xsh"/>
+                                            <exclude reference="Fev-C2-Xk5"/>
+                                            <exclude reference="Nfj-p9-stq"/>
+                                            <exclude reference="XFl-x1-j3u"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="9Pd-Kk-fIf"/>
+                                            <include reference="yh2-h0-YOm"/>
+                                            <include reference="SX1-nG-kGT"/>
+                                            <include reference="SsL-ur-9G1"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="Gpp-ac-hGF"/>
+                                            <include reference="1Z4-wr-mLr"/>
+                                            <include reference="wOe-0T-oU3"/>
+                                            <include reference="SRA-45-uKa"/>
+                                            <include reference="Aec-os-zDL"/>
+                                            <include reference="c3F-UW-XfU"/>
+                                            <include reference="9ja-my-rZQ"/>
+                                            <include reference="d8L-KV-bAT"/>
+                                            <include reference="8fm-VV-Xsh"/>
+                                            <include reference="Fev-C2-Xk5"/>
+                                            <include reference="Nfj-p9-stq"/>
+                                            <include reference="XFl-x1-j3u"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="photoDetailLabel" destination="SX1-nG-kGT" id="b8w-Zm-8sK"/>
+                                    <outlet property="photoImageView" destination="9Pd-Kk-fIf" id="azg-hM-JLP"/>
+                                    <outlet property="photoTitleLabel" destination="yh2-h0-YOm" id="pot-bT-xC0"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UploadingCellID" rowHeight="50" id="jJP-c8-Onw" customClass="PhotoUploadCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="192" width="600" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -589,6 +701,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="uploadAllButton" destination="Ret-aO-Ykj" id="zqr-Ql-UIS"/>
                         <outlet property="uploadLocationButton" destination="bsr-U2-fEy" id="dW6-Yn-sNR"/>
                     </connections>
                 </tableViewController>
@@ -617,6 +730,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ehH-YH-pck"/>
+        <segue reference="z1h-8Y-eqx"/>
     </inferredMetricsTieBreakers>
 </document>
