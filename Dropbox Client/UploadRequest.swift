@@ -1,4 +1,4 @@
-//
+    //
 //  UploadRequest.swift
 //  Dropbox Client
 //
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 enum UploadState: String {
     case waiting
@@ -29,11 +30,6 @@ class UploadRequest {
     var progress: Float = 0 {
         didSet {
             progressHandler?(progress: progress)
-            if progress >= 1 {
-                state = .uploaded
-                response = UploadResponse(image: image, fileSize: 100, uplodDate: NSDate())
-                completionHandler?(response: response, error: nil)
-            }
         }
     }
     var state: UploadState = .waiting
@@ -42,18 +38,48 @@ class UploadRequest {
         self.image = image
     }
     
-    func start() {
+    func start(uploadFolderPath folderPath: String) {
         state = .uploading
         progress = 0
         
-        NSTimer.every(0.5.seconds) { (timer: NSTimer) in
-            if self.progress >= 1 {
-                timer.invalidate()
+        guard let (imageData, prefix) = dataFromImage(image.image!) else {
+            return
+        }
+        
+        let client = Dropbox.authorizedClient!
+        let imagePath = "\(folderPath)/\(image.title).\(prefix)"
+        let request = client.files.upload(path: imagePath, input: imageData)
+        
+        request.response({ (_, uploadError) in
+            if let error = uploadError {
+                // Pass error here
+                self.completionHandler?(response: nil, error: nil)
             }
             else {
-                self.progress += 0.2
+                self.state = .uploaded
+                self.response = UploadResponse(image: self.image, fileSize: 100, uplodDate: NSDate())
+                self.completionHandler?(response: self.response, error: nil)
             }
+        })
+        
+        request.progress { (_, current, total) in
+            let progress: Float = Float(current) / Float(total)
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.progress = progress
+            })
         }
+    }
+    
+    func dataFromImage(image: UIImage) -> (imageData: NSData, prefix: String)? {
+        if let pngData = UIImagePNGRepresentation(image) {
+            return (pngData, "png")
+        }
+        else if let jpegData = UIImageJPEGRepresentation(image, 1) {
+            return (jpegData, "jpg")
+        }
+
+        return nil
     }
 }
 

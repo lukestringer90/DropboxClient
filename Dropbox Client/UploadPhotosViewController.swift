@@ -85,7 +85,8 @@ class UploadPhotosViewController: UITableViewController {
                 return
             }
             
-            PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, _) in
+            let manager = PHImageManager.defaultManager()
+            manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, _) in
                 let uploadableImage = UploadableImage(title: asset.title, image: image)
                 let request = UploadRequest(image: uploadableImage)
                 self.uploadRequests.append(request)
@@ -97,7 +98,7 @@ class UploadPhotosViewController: UITableViewController {
     func startNextUpload() {
         
         let waiting = self.uploadRequests.filter {$0.state == .waiting}
-        if let nextRequest = waiting.first {
+        if let nextRequest = waiting.first, uploadPath = folder?.path {
             
             let index = self.uploadRequests.indexOf({ (request) -> Bool in
                 return request === nextRequest
@@ -106,17 +107,21 @@ class UploadPhotosViewController: UITableViewController {
             let indexPath = NSIndexPath(forItem: index!, inSection: 0)
             
             nextRequest.progressHandler = { progress in
-                if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? PhotoUploadCell {
-                    cell.progressView?.setProgress(progress, animated: true)
-                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? PhotoUploadCell {
+                        cell.progressView?.setProgress(progress, animated: true)
+                    }
+                })
             }
             
             nextRequest.completionHandler = { _ in
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                self.startNextUpload()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    self.startNextUpload()
+                })
             }
             
-            nextRequest.start()
+            nextRequest.start(uploadFolderPath: uploadPath)
             // Once started reload tableview so we deque correct cell for the new state
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }

@@ -163,7 +163,7 @@
             </objects>
             <point key="canvasLocation" x="1848" y="1401"/>
         </scene>
-        <!--root-->
+        <!--Dropbox-->
         <scene sceneID="KhM-s8-KX8">
             <objects>
                 <tableViewController storyboardIdentifier="FolderViewControllerID" id="0iQ-sV-t6H" customClass="FolderViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
@@ -204,7 +204,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="vU9-of-rfe"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="root" id="0t4-t1-nD7">
+                    <navigationItem key="navigationItem" title="Dropbox" id="0t4-t1-nD7">
                         <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="Hhe-d0-AT3">
                             <connections>
                                 <segue destination="Mmi-xK-Eh0" kind="unwind" identifier="DismissToUploadPhotos" unwindAction="dismissToUploadPhotos:" id="04a-cE-ptW"/>
