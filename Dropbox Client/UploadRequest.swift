@@ -29,8 +29,6 @@ class UploadRequest {
     typealias ProgressHandler = (progress: Float) -> Void
     var progressHandler: ProgressHandler? = nil
     
-    var response: UploadResponse? = nil
-    
     var progress: Float = 0 {
         didSet {
             progressHandler?(progress: progress)
@@ -42,7 +40,7 @@ class UploadRequest {
         self.manifest = manifest
     }
     
-    func start(uploadFolderPath folderPath: String) {
+    func startUploadToPath(folderPath: String) {
         state = .uploading
         progress = 0
         
@@ -50,17 +48,18 @@ class UploadRequest {
         let imagePath = "\(folderPath)/\(manifest.fileName)"
         let request = client.files.upload(path: imagePath, input: manifest.imageData)
         
-        request.response({ (response, error) in
+        request.response({ (_, error) in
+            let uploadResponse: UploadResponse?
             if error != nil {
                 self.state = .failed
-                self.response = nil
+                uploadResponse = nil
             }
             else {
                 self.state = .uploaded
-                self.response = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: 100, uplodDate: NSDate())
+                uploadResponse = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: 100, uplodDate: NSDate())
             }
             
-            self.completionHandler?(response: nil)
+            self.completionHandler?(response: uploadResponse)
         })
         
         request.progress { (_, current, total) in

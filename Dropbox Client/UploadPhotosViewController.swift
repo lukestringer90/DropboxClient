@@ -28,6 +28,8 @@ class UploadPhotosViewController: UITableViewController {
     
     var uploadRequests = [UploadRequest]()
     
+    var requestReponsePairs = [RequestResponsePair]()
+    
     @IBOutlet weak var uploadLocationButton: UIBarButtonItem!
     @IBOutlet weak var uploadAllButton: UIBarButtonItem!
     
@@ -129,14 +131,15 @@ class UploadPhotosViewController: UITableViewController {
                 })
             }
             
-            nextRequest.completionHandler = { _ in
+            nextRequest.completionHandler = { response in
+                self.requestReponsePairs.append(RequestResponsePair(request: nextRequest, response: response))
                 dispatch_async(dispatch_get_main_queue(), {
                     self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     self.startNextUpload()
                 })
             }
             
-            nextRequest.start(uploadFolderPath: uploadPath)
+            nextRequest.startUploadToPath(uploadPath)
             // Once started reload tableview so we deque correct cell for the new state
             self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         }
@@ -168,7 +171,7 @@ class UploadPhotosViewController: UITableViewController {
         case .uploading:
             cell.progressView?.progress = request.progress
         case .uploaded:
-            if let response = request.response {
+            if let response =  self.requestReponsePairs.firstResponseForRequest(request: request) {
                 cell.photoDetailLabel?.text = response.cellDescription()
             }
         default:
@@ -176,6 +179,15 @@ class UploadPhotosViewController: UITableViewController {
         }
         
         return cell
+    }
+}
+
+typealias RequestResponsePair = (request: UploadRequest, response: UploadResponse?)
+extension SequenceType where Generator.Element == RequestResponsePair {
+    func firstResponseForRequest(request toFind: UploadRequest) -> UploadResponse? {
+        return self.filter { (request, response) -> Bool in
+            return request === toFind
+            }.first?.response
     }
 }
 
