@@ -86,11 +86,13 @@ class UploadPhotosViewController: UITableViewController {
             }
             
             let manager = PHImageManager.defaultManager()
-            manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (image, _) in
-                let uploadableImage = UploadableImage(title: asset.title, image: image)
-                let request = UploadRequest(image: uploadableImage)
-                self.uploadRequests.append(request)
-                self.tableView.reloadData()
+            manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (fetchedImage, _) in
+                if let image = fetchedImage {
+                    let imageManifest = UploadManifest(image: image, title: asset.title)
+                    let request = UploadRequest(manifest: imageManifest)
+                    self.uploadRequests.append(request)
+                    self.tableView.reloadData()
+                }
             }
         })
     }
@@ -145,8 +147,8 @@ class UploadPhotosViewController: UITableViewController {
         let cellID = PhotoUploadCell.cellIDForState(request.state)
         let cell = tableView.dequeueReusableCellWithIdentifier(cellID, forIndexPath: indexPath) as! PhotoUploadCell
         
-        cell.photoTitleLabel?.text = request.image.title
-        cell.photoImageView?.image = request.image.image
+        cell.photoTitleLabel?.text = request.manifest.title
+        cell.photoImageView?.image = request.manifest.image
         
         switch request.state {
         case .uploading:

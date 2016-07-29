@@ -14,10 +14,9 @@ enum UploadState: String {
     case uploading
     case uploaded
 }
-
-
+    
 class UploadRequest {
-    let image: UploadableImage
+    let manifest: UploadManifest
     
     typealias CompletionHandler = (response: UploadResponse?, error: ErrorType?) -> Void
     var completionHandler: CompletionHandler? = nil
@@ -34,20 +33,20 @@ class UploadRequest {
     }
     var state: UploadState = .waiting
     
-    init(image: UploadableImage, state: UploadState = .waiting) {
-        self.image = image
+    init(manifest: UploadManifest, state: UploadState = .waiting) {
+        self.manifest = manifest
     }
     
     func start(uploadFolderPath folderPath: String) {
         state = .uploading
         progress = 0
         
-        guard let (imageData, prefix) = dataFromImage(image.image!) else {
+        guard let (imageData, prefix) = dataFromImage(manifest.image) else {
             return
         }
         
         let client = Dropbox.authorizedClient!
-        let imagePath = "\(folderPath)/\(image.title).\(prefix)"
+        let imagePath = "\(folderPath)/\(manifest.title).\(prefix)"
         let request = client.files.upload(path: imagePath, input: imageData)
         
         request.response({ (_, uploadError) in
@@ -57,7 +56,7 @@ class UploadRequest {
             }
             else {
                 self.state = .uploaded
-                self.response = UploadResponse(image: self.image, fileSize: 100, uplodDate: NSDate())
+                self.response = UploadResponse(manifest: self.manifest, fileSize: 100, uplodDate: NSDate())
                 self.completionHandler?(response: self.response, error: nil)
             }
         })
@@ -84,7 +83,7 @@ class UploadRequest {
 }
 
 struct UploadResponse {
-    let image: UploadableImage
+    let manifest: UploadManifest
     let fileSize: Float
     let uplodDate: NSDate
 }
@@ -97,7 +96,3 @@ extension UploadResponse {
     }
 }
 
-struct UploadableImage {
-    let title: String
-    let image: UIImage?
-}
