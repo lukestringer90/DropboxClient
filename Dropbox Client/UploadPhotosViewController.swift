@@ -194,6 +194,11 @@ extension SequenceType where Generator.Element == RequestResponsePair {
 extension UploadResponse {
     func cellDescription() -> String {
         let dateFormatter = NSDateFormatter.uploadedDateFormatter()
-        return "\(self.fileSize)MB, uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
+        let uploadText = "uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
+        if let fileSize = self.fileSize {
+            let megaBytes = Float(fileSize) / 1000.0
+            return String(format: "%.2fMB, \(uploadText)", megaBytes)
+        }
+        return uploadText.capitalizedString
     }
 }

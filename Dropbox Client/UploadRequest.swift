@@ -48,7 +48,7 @@ class UploadRequest {
         let imagePath = "\(folderPath)/\(manifest.fileName)"
         let request = client.files.upload(path: imagePath, input: manifest.imageData)
         
-        request.response({ (_, error) in
+        request.response({ (metaData, error) in
             let uploadResponse: UploadResponse?
             if error != nil {
                 self.state = .failed
@@ -56,7 +56,7 @@ class UploadRequest {
             }
             else {
                 self.state = .uploaded
-                uploadResponse = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: 100, uplodDate: NSDate())
+                uploadResponse = UploadResponse(manifest: self.manifest, folderPath: folderPath, fileSize: metaData?.size, uplodDate: NSDate())
             }
             
             self.completionHandler?(response: uploadResponse)
@@ -75,7 +75,7 @@ class UploadRequest {
 struct UploadResponse {
     let manifest: UploadManifest
     let folderPath: String
-    let fileSize: Float
+    let fileSize: UInt64?
     let uplodDate: NSDate
 }
 

@@ -15,7 +15,23 @@ struct UploadManifest {
     let imageData: NSData
     let fileName: String
     
+    init?(image: UIImage, title: String) {
+        if let (computedImageData, computedPrefix) = computeImageDataAndPrefix(image: image) {
+            self.image = image
+            self.title = title
+            self.imageData = computedImageData
+            
+            self.fileName = "\(self.title).\(computedPrefix)"
+        }
+        else {
+            return nil
+        }
+    }
+    
+    // MARK: - Private helper
+    
     private typealias ImageDataAndPrefixComputer = (image: UIImage) -> (imageData: NSData, filename: String)?
+    
     private let computeImageDataAndPrefix: ImageDataAndPrefixComputer  =  { image in
         var imageData: NSData?
         var prefix: String?
@@ -33,18 +49,4 @@ struct UploadManifest {
         
         return (imageData!, prefix!)
     }
-    
-    init?(image: UIImage, title: String) {
-        if let (computedImageData, computedPrefix) = computeImageDataAndPrefix(image: image) {
-            self.image = image
-            self.title = title
-            self.imageData = computedImageData
-            
-            self.fileName = "\(self.title).\(computedPrefix)"
-        }
-        else {
-            return nil
-        }
-    }
-
 }
