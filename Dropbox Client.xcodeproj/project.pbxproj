@@ -19,6 +19,7 @@
 		F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */; };
 		F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */; };
 		F5D762051D4B60CF00552198 /* UploadManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D762041D4B60CF00552198 /* UploadManifest.swift */; };
+		F5D762071D4B80A000552198 /* NSDateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */; };
 		F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2C9771D4A562500BE9753 /* UploadRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
 		F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUploadCell.swift; sourceTree = "<group>"; };
 		F5D762041D4B60CF00552198 /* UploadManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManifest.swift; sourceTree = "<group>"; };
+		F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		F5F2C9771D4A562500BE9753 /* UploadRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +107,7 @@
 				F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */,
 				F5F2C9771D4A562500BE9753 /* UploadRequest.swift */,
 				F5D762041D4B60CF00552198 /* UploadManifest.swift */,
+				F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */,
 			);
 			path = "Dropbox Client";
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
 				F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */,
+				F5D762071D4B80A000552198 /* NSDateFormatter+Extension.swift in Sources */,
 				F55DBECC1D4699D50052C348 /* UploadPhotosViewController.swift in Sources */,
 				F5D762051D4B60CF00552198 /* UploadManifest.swift in Sources */,
 			);

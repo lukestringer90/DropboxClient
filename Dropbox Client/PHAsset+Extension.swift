@@ -11,8 +11,7 @@ import Photos
 
 extension PHAsset {
     var title: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy, hh mm ss"
+        let dateFormatter = NSDateFormatter.imageTitleDateFormatter()
         return "Photo \(dateFormatter.stringFromDate(self.creationDate!))"
     }
 }

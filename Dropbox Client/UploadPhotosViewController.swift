@@ -167,8 +167,7 @@ class UploadPhotosViewController: UITableViewController {
 
 extension UploadResponse {
     func cellDescription() -> String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd/MM HH:mm"
+        let dateFormatter = NSDateFormatter.uploadedDateFormatter()
         return "\(self.fileSize)MB, uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
     }
 }
