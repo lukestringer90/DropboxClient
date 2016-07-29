@@ -54,9 +54,13 @@ class FolderViewController: UITableViewController {
     
     func loadFoldersAtPath(path: String) {
         
+        guard let client = Dropbox.authorizedClient else {
+            Dropbox.authorizeFromController(self)
+            return
+        }
+        
         showActivityIndicator()
         
-        let client = Dropbox.authorizedClient!
         let result = client.files.listFolder(path: path)
         result.response { (folderResult, error) in
             
@@ -93,13 +97,10 @@ class FolderViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FolderCellID", forIndexPath: indexPath)
-
         cell.textLabel?.text = foldersMetaData[indexPath.row].name
-
         return cell
     }
  
-
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let folderMetaData = foldersMetaData[indexPath.row]
         let folder = Folder(path: folderMetaData.pathLower!, name: folderMetaData.name)
