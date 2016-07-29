@@ -109,6 +109,7 @@ class UploadPhotosViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             }
+            
         })
     }
     
@@ -196,7 +197,7 @@ extension UploadResponse {
         let dateFormatter = NSDateFormatter.uploadedDateFormatter()
         let uploadText = "uploaded \(dateFormatter.stringFromDate(self.uplodDate))"
         if let fileSize = self.fileSize {
-            let megaBytes = Float(fileSize) / 1000.0
+            let megaBytes = Float(fileSize) / 1000000.0
             return String(format: "%.2fMB, \(uploadText)", megaBytes)
         }
         return uploadText.capitalizedString
