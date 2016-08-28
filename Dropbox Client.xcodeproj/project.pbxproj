@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7EA7ECE3185F021F41D0F240 /* Pods_Dropbox_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */; };
+		F51D7CE01D73434400505F10 /* DirectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CDF1D73434400505F10 /* DirectoryViewController.swift */; };
+		F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE21D73441300505F10 /* SegueHandlerType.swift */; };
+		F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */; };
 		F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */; };
 		F55CB0AD1D44CDB700F169F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AB1D44CDB700F169F4 /* Main.storyboard */; };
 		F55CB0AF1D44CDB700F169F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */; };
@@ -18,6 +21,9 @@
 		691FC58686E1649ABBEE968B /* Pods-Dropbox Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.debug.xcconfig"; sourceTree = "<group>"; };
 		E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dropbox_Client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A47DDFC8E87F23276F222C /* Pods-Dropbox Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.release.xcconfig"; sourceTree = "<group>"; };
+		F51D7CDF1D73434400505F10 /* DirectoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryViewController.swift; sourceTree = "<group>"; };
+		F51D7CE21D73441300505F10 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
+		F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifierType.swift; sourceTree = "<group>"; };
 		F55CB0A41D44CDB700F169F4 /* Dropbox Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F55CB0AC1D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -55,6 +61,41 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F51D7CDC1D73430400505F10 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		F51D7CDD1D73431000505F10 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */,
+				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
+				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		F51D7CDE1D73431600505F10 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
+				F51D7CDF1D73434400505F10 /* DirectoryViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		F51D7CE11D73440100505F10 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				F51D7CE21D73441300505F10 /* SegueHandlerType.swift */,
+				F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		F55CB09B1D44CDB600F169F4 = {
 			isa = PBXGroup;
 			children = (
@@ -76,10 +117,10 @@
 		F55CB0A61D44CDB700F169F4 /* Dropbox Client */ = {
 			isa = PBXGroup;
 			children = (
-				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
-				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
-				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
-				F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */,
+				F51D7CE11D73440100505F10 /* Protocol */,
+				F51D7CDE1D73431600505F10 /* Controller */,
+				F51D7CDD1D73431000505F10 /* View */,
+				F51D7CDC1D73430400505F10 /* Model */,
 				F55CB0B31D44CDB700F169F4 /* Info.plist */,
 			);
 			path = "Dropbox Client";
@@ -207,6 +248,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */,
+				F51D7CE01D73434400505F10 /* DirectoryViewController.swift in Sources */,
+				F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
