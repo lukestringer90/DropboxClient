@@ -101,15 +101,21 @@ class UploadPhotosViewController: UITableViewController {
             }
             
             let manager = PHImageManager.defaultManager()
-            manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: nil) { (fetchedImage, _) in
+            let options = PHImageRequestOptions()
+            options.synchronous = true
+            manager.requestImageForAsset(asset, targetSize: CGSizeMake(40, 40), contentMode: .AspectFit, options: options) { (fetchedImage, _) in
                 
                 if let image = fetchedImage, imageManifest = UploadManifest(image: image, title: asset.title) {
                     let request = UploadRequest(manifest: imageManifest)
                     self.uploadRequests.append(request)
-                    self.tableView.reloadData()
                 }
             }
+            self.tableView.reloadData()
             
+            // Use this method to get the correct size and image suffix
+            manager.requestImageDataForAsset(asset, options: options, resultHandler: { (data, dataUTI, imageOrientation, info) in
+                
+            })
         })
     }
     
