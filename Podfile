@@ -3,7 +3,6 @@
 
 target 'Dropbox Client' do
   use_frameworks!
-  plugin 'cocoapods-keys'
 
   # Pods for Dropbox Client
   pod 'SwiftyDropbox'

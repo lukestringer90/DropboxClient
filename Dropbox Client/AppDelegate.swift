@@ -8,18 +8,17 @@
 
 import UIKit
 import SwiftyDropbox
-import Keys
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    let DropboxAPIKey = "49gn7vdkgajzjgs"
     var window: UIWindow?
-
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        let keys = DropboxclientKeys()
-        Dropbox.setupWithAppKey(keys.dropboxAppKey())
+    
+        Dropbox.setupWithAppKey(DropboxAPIKey)
                 
         return true
     }
