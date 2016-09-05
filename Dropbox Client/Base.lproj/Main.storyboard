@@ -7,16 +7,16 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Albums-->
+        <!--Dropbox-->
         <scene sceneID="ePT-8w-tFp">
             <objects>
-                <tableViewController id="YsA-A4-EMZ" customClass="DirectoryViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YsA-A4-EMZ" customClass="FoldersViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z9q-p9-dI4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Default" textLabel="rN6-7i-vGu" imageView="Wfs-c9-dst" style="IBUITableViewCellStyleDefault" id="M8f-Ua-kqI">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Folder" textLabel="rN6-7i-vGu" imageView="Wfs-c9-dst" style="IBUITableViewCellStyleDefault" id="M8f-Ua-kqI">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8f-Ua-kqI" id="wqK-5Z-dGJ">
@@ -43,7 +43,7 @@
                             <outlet property="delegate" destination="YsA-A4-EMZ" id="VNR-ce-KOP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Albums" id="2nL-vg-us1"/>
+                    <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fX2-XG-ufo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
