@@ -63,7 +63,13 @@
                             <outlet property="delegate" destination="YsA-A4-EMZ" id="VNR-ce-KOP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1"/>
+                    <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1">
+                        <barButtonItem key="rightBarButtonItem" title="Download..." id="ZzY-87-lHU">
+                            <connections>
+                                <action selector="downloadTapped:" destination="YsA-A4-EMZ" id="fpB-1t-xHD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fX2-XG-ufo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

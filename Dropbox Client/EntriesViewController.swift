@@ -28,6 +28,12 @@ class EntriesViewController: UITableViewController {
         return selectedFolder
     }
     
+    // MARK: IBActions
+    
+    @IBAction func downloadTapped(sender: AnyObject) {
+    }
+    
+    
     // MARK: UIViewController
     
     override func viewWillAppear(animated: Bool) {
