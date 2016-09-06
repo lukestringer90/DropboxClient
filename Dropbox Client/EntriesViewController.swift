@@ -17,22 +17,40 @@ class EntriesViewController: UITableViewController {
     
     // MARK: Private Properites
     
-    private var entries: [Files.Metadata]?
+    private var folders: [Files.FolderMetadata]?
+    private var images: [Files.FileMetadata]?
+    private var isLoading = true {
+        didSet {
+            if isLoading {
+                self.showActivityIndicator()
+                downloadAllButton.enabled = false
+            }
+            else {
+                self.hideActivityIndicator()
+                downloadAllButton.enabled = true
+            }
+        }
+    }
+    
+    enum TableSection: Int {
+        case folders
+        case images
+        case count
+    }
+    
     private var selectedFolder: Files.FolderMetadata? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         
-        guard let entries = self.entries, selectedFolder = entries[indexPath.row] as? Files.FolderMetadata else {
+        guard let folders = self.folders else {
             fatalError("Could not get selected folder")
         }
         
-        return selectedFolder
+        return folders[indexPath.row]
     }
     
-    // MARK: IBActions
+    // MARK: Outlets
     
-    @IBAction func downloadTapped(sender: AnyObject) {
-    }
-    
+    @IBOutlet weak var downloadAllButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
@@ -44,42 +62,73 @@ class EntriesViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        if isLoading { return 0 }
+        return TableSection.count.rawValue
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let entries = self.entries {
-            return entries.count
+        switch section {
+        case TableSection.folders.rawValue:
+            if let folders = self.folders {
+                return folders.count
+            }
+        case TableSection.images.rawValue:
+            if let images = self.images {
+                return images.count
+            }
+        default:
+            return 0
         }
+        
         return 0
     }
     
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
+        let entry: Files.Metadata
         
-        let entry = entries![indexPath.row]
-        
-        let cellID: TableViewCellIdentifier = {
-            switch entry {
-            case is Files.FileMetadata:
-                return .File
-            case is Files.FolderMetadata:
-                return .Folder
-            default:
-                fatalError("Unknown File Type")
-            }
-        }()
-        
-        let cell = dequeCell(cellID)
+        switch indexPath.section {
+        case TableSection.folders.rawValue:
+            cell = dequeCell(.Folder)
+            entry = self.folders![indexPath.row]
+        case TableSection.images.rawValue:
+            cell = dequeCell(.File)
+            entry = self.images![indexPath.row]
+        default:
+            fatalError("Unknown section")
+        }
+
         cell.textLabel?.text = entry.name
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case TableSection.folders.rawValue:
+            return "Folders"
+        case TableSection.images.rawValue:
+            return "Files"
+        default:
+            fatalError("Unknown section")
+        }
+
+    }
+}
+
+
+// MARK: IBActions
+extension EntriesViewController {
+    
+    @IBAction func downloadTapped(sender: AnyObject) {
+        // TODO
     }
 }
 
 // MARK: Dropbox
 
 extension EntriesViewController {
+    
     func loadFoldersAtPath(path: String) {
         
         guard let client = Dropbox.authorizedClient else {
@@ -87,14 +136,15 @@ extension EntriesViewController {
             return
         }
         
-        showActivityIndicator()
+        isLoading = true
         
         let result = client.files.listFolder(path: path)
         result.response { (folderResult, error) in
             
-            self.hideActivityIndicator()
             if let result = folderResult {
-                self.entries = result.entries
+                self.folders = result.entries.filter { $0 is Files.FolderMetadata } as? [Files.FolderMetadata]
+                self.images = result.entries.filter { $0 is Files.FileMetadata } as? [Files.FileMetadata]
+                self.isLoading = false
                 self.tableView.reloadData()
             }
             else {
@@ -102,7 +152,7 @@ extension EntriesViewController {
             }
         }
     }
-
+    
     func showActivityIndicator() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     }
