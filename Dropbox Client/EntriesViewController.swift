@@ -106,9 +106,9 @@ class EntriesViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case TableSection.folders.rawValue:
-            return "Folders"
+            return "Folders (\(folders!.count))"
         case TableSection.images.rawValue:
-            return "Files"
+            return "Files (\(images!.count))"
         default:
             fatalError("Unknown section")
         }
