@@ -10,7 +10,7 @@
         <!--Dropbox-->
         <scene sceneID="ePT-8w-tFp">
             <objects>
-                <tableViewController id="YsA-A4-EMZ" customClass="EntriesViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YsA-A4-EMZ" customClass="FolderViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z9q-p9-dI4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,14 +64,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1">
-                        <barButtonItem key="rightBarButtonItem" title="Download..." id="ZzY-87-lHU">
+                        <barButtonItem key="rightBarButtonItem" title="Select..." id="ZzY-87-lHU">
                             <connections>
-                                <action selector="downloadTapped:" destination="YsA-A4-EMZ" id="fpB-1t-xHD"/>
+                                <action selector="selectTapped:" destination="YsA-A4-EMZ" id="QFk-nu-3It"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="downloadAllButton" destination="ZzY-87-lHU" id="Vlu-Oe-JlT"/>
+                        <outlet property="selectButton" destination="ZzY-87-lHU" id="W7E-BV-PVI"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fX2-XG-ufo" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -9,25 +9,27 @@
 import UIKit
 import SwiftyDropbox
 
-class EntriesViewController: UITableViewController {
+class FolderViewController: UITableViewController {
     
     // MARK: Public Properties
     
-    var path: String = ""
+    var folder: Folder? {
+        didSet {
+            title = folder?.name
+        }
+    }
     
     // MARK: Private Properites
-    
-    private var folders: [Files.FolderMetadata]?
-    private var images: [Files.FileMetadata]?
+   
     private var isLoading = true {
         didSet {
             if isLoading {
                 self.showActivityIndicator()
-                downloadAllButton.enabled = false
+                selectButton.enabled = false
             }
             else {
                 self.hideActivityIndicator()
-                downloadAllButton.enabled = true
+                selectButton.enabled = true
             }
         }
     }
@@ -38,10 +40,10 @@ class EntriesViewController: UITableViewController {
         case count
     }
     
-    private var selectedFolder: Files.FolderMetadata? {
+    private var selectedFolder: Folder? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         
-        guard let folders = self.folders else {
+        guard let folder = self.folder, let folders = folder.folders else {
             fatalError("Could not get selected folder")
         }
         
@@ -50,13 +52,21 @@ class EntriesViewController: UITableViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var downloadAllButton: UIBarButtonItem!
+    @IBOutlet weak var selectButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loadFoldersAtPath(path)
+        if folder == nil {
+            let file1 = File(name: "File 1", path: "/File 1")
+            let file2 = File(name: "File 2", path: "/File 2")
+            let file3 = File(name: "File 3", path: "/File 3")
+            let folderA = Folder(name: "Folder A", path: "/Folder A", folders: nil, files: [file3])
+            let folderB = Folder(name: "Folder B", path: "/Folder B", folders: nil, files: nil)
+            folder = Folder(name: "Dropbox", path: "/", folders: [folderA, folderB], files: [file1, file2])
+        }
+        loadFoldersAtPath(folder!.path)
     }
     
     // MARK: - Table view data source
@@ -67,17 +77,18 @@ class EntriesViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case TableSection.folders.rawValue:
-            if let folders = self.folders {
+        
+        switch TableSection(rawValue: section)! {
+        case .folders:
+            if let folders = folder?.folders {
                 return folders.count
             }
-        case TableSection.images.rawValue:
-            if let images = self.images {
+        case .images:
+            if let images = folder?.files {
                 return images.count
             }
         default:
-            return 0
+            fatalError("Unknown section")
         }
         
         return 0
@@ -85,20 +96,20 @@ class EntriesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let entry: Files.Metadata
+        let entity: Entity
         
         switch indexPath.section {
         case TableSection.folders.rawValue:
             cell = dequeCell(.Folder)
-            entry = self.folders![indexPath.row]
+            entity = folder!.folders![indexPath.row]
         case TableSection.images.rawValue:
             cell = dequeCell(.File)
-            entry = self.images![indexPath.row]
+            entity = folder!.files![indexPath.row]
         default:
             fatalError("Unknown section")
         }
 
-        cell.textLabel?.text = entry.name
+        cell.textLabel?.text = entity.name
         
         return cell
     }
@@ -106,9 +117,9 @@ class EntriesViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case TableSection.folders.rawValue:
-            return "Folders (\(folders!.count))"
+            return "Folders (\(folder!.foldersCount))"
         case TableSection.images.rawValue:
-            return "Files (\(images!.count))"
+            return "Files (\(folder!.filesCount))"
         default:
             fatalError("Unknown section")
         }
@@ -118,18 +129,22 @@ class EntriesViewController: UITableViewController {
 
 
 // MARK: IBActions
-extension EntriesViewController {
+extension FolderViewController {
     
-    @IBAction func downloadTapped(sender: AnyObject) {
-        // TODO
+    @IBAction func selectTapped(sender: AnyObject) {
+        
     }
 }
 
 // MARK: Dropbox
 
-extension EntriesViewController {
+extension FolderViewController {
     
     func loadFoldersAtPath(path: String) {
+        self.isLoading = false
+        self.tableView.reloadData()
+        return
+        
         
         guard let client = Dropbox.authorizedClient else {
             Dropbox.authorizeFromController(self)
@@ -138,19 +153,19 @@ extension EntriesViewController {
         
         isLoading = true
         
-        let result = client.files.listFolder(path: path)
-        result.response { (folderResult, error) in
-            
-            if let result = folderResult {
-                self.folders = result.entries.filter { $0 is Files.FolderMetadata } as? [Files.FolderMetadata]
-                self.images = result.entries.filter { $0 is Files.FileMetadata } as? [Files.FileMetadata]
-                self.isLoading = false
-                self.tableView.reloadData()
-            }
-            else {
-                print(error!)
-            }
-        }
+//        let result = client.files.listFolder(path: path)
+//        result.response { (folderResult, error) in
+//            
+//            if let result = folderResult {
+//                self.folders = result.entries.filter { $0 is Files.FolderMetadata } as? [Files.FolderMetadata]
+//                self.images = result.entries.filter { $0 is Files.FileMetadata } as? [Files.FileMetadata]
+//                self.isLoading = false
+//                self.tableView.reloadData()
+//            }
+//            else {
+//                print(error!)
+//            }
+//        }
     }
     
     func showActivityIndicator() {
@@ -162,14 +177,14 @@ extension EntriesViewController {
     }
 }
 
-extension EntriesViewController: TableViewCellIdentifierType {
+extension FolderViewController: TableViewCellIdentifierType {
     enum TableViewCellIdentifier: String {
         case Folder
         case File
     }
 }
 
-extension EntriesViewController: SegueHandlerType {
+extension FolderViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case ShowFolder
     }
@@ -178,10 +193,10 @@ extension EntriesViewController: SegueHandlerType {
         switch segueIdentifierForSegue(segue) {
         case .ShowFolder:
             
-            guard let folder = self.selectedFolder, path = folder.pathLower else { fatalError("Should have a path to segue to") }
+            guard let folder = self.selectedFolder else { fatalError("Should have a path to segue to") }
             
-            let foldersViewController = segue.destinationViewController as! EntriesViewController
-            foldersViewController.path = path
+            let foldersViewController = segue.destinationViewController as! FolderViewController
+            foldersViewController.folder = folder
             foldersViewController.title = folder.name
         }
     }
