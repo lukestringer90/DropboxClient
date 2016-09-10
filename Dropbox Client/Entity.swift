@@ -34,7 +34,18 @@ struct Folder: FileType {
     }
 }
 
+extension Folder: Equatable {}
+func ==(lhs: Folder, rhs: Folder) -> Bool {
+    return lhs.name == rhs.name && lhs.path == rhs.path
+}
+
+
 struct File: FileType {
     let name: String
     let path: String
+}
+
+extension File: Equatable {}
+func ==(lhs: File, rhs: File) -> Bool {
+    return lhs.name == rhs.name && lhs.path == rhs.path
 }

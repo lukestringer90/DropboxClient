@@ -34,7 +34,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     
     // MARK: Private Properites
     
-    private let foldersIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
+    private let foldersIndexSetWhenViewing = NSIndexSet(index: TableSection.folders.rawValue)
     private var state = State.loading {
         didSet {
             switch state {
@@ -51,7 +51,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
                 hideActivityIndicator()
                 
                 if oldValue == .selecting {
-                    tableView.insertSections(foldersIndexSet, withRowAnimation: .Top)
+                    tableView.insertSections(foldersIndexSetWhenViewing, withRowAnimation: .Top)
                 }
                 
             case .selecting:
@@ -68,7 +68,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
                     self.hideActivityIndicator()
                 }
                 else if oldValue == .viewing {
-                    tableView.deleteSections(foldersIndexSet, withRowAnimation: .Top)
+                    tableView.deleteSections(foldersIndexSetWhenViewing, withRowAnimation: .Top)
                 }
                 
             case .downloading:
@@ -91,6 +91,8 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         return folders[indexPath.row]
     }
     
+    private var selectedFiles = [File]()
+    
     // MARK: Outlets
     
     @IBOutlet weak var selectButton: UIBarButtonItem!
@@ -106,7 +108,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         state = .loading
         loadContentsOf(folder) { result in
             
-            dispatch_async(dispatch_get_main_queue(),{
+            dispatch_async(dispatch_get_main_queue(), {
                 self.state = .viewing
                 
                 switch result {
@@ -156,23 +158,25 @@ extension FilesViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let file: FileType
+        let fileType: FileType
         
         if state == .selecting {
-            (cell, file) = cellAndFile(forIndexPath: indexPath)
+            (cell, fileType) = cellAndFile(forIndexPath: indexPath)
+            let file = fileType as! File
+            cell.accessoryType = selectedFiles.contains(file) ? .Checkmark : .None
         }
         else {
             switch indexPath.section {
             case TableSection.folders.rawValue:
-                (cell, file) = cellAndFolder(forIndexPath: indexPath)
+                (cell, fileType) = cellAndFolder(forIndexPath: indexPath)
             case TableSection.files.rawValue:
-                (cell, file) = cellAndFile(forIndexPath: indexPath)
+                (cell, fileType) = cellAndFile(forIndexPath: indexPath)
             default:
                 fatalError("Unknown section")
             }
         }
         
-        cell.textLabel?.text = file.name
+        cell.textLabel?.text = fileType.name
         
         return cell
     }
@@ -208,10 +212,19 @@ extension FilesViewController {
     @IBAction func selectTapped(sender: AnyObject) {
         state = state == .selecting ? .viewing : .selecting
     }
+    
     @IBAction func deselectAllTapped(sender: AnyObject) {
+        selectedFiles = []
+        tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
     }
+    
     @IBAction func selectAllTapped(sender: AnyObject) {
+        if let allfiles = folder.files {
+            selectedFiles = allfiles
+        }
+        tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
     }
+    
     @IBAction func downloadTapped(sender: AnyObject) {
         state = state == .downloading ? .selecting : .downloading
     }
