@@ -20,7 +20,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     }
     
     // MARK: Private Properites
-   
+    
     private var isLoading = true {
         didSet {
             if isLoading {
@@ -36,6 +36,12 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     
     private var isSelectingFiles = false {
         didSet {
+            selectButton.title = isSelectingFiles ? "Cancel" : "Select"
+            navigationItem.setHidesBackButton(isSelectingFiles, animated: true)
+            
+            // While loading we don't have any sections, so we cannot delete or insert
+            guard !isLoading else { return }
+            
             let foldersIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
             if isSelectingFiles {
                 tableView.deleteSections(foldersIndexSet, withRowAnimation: .Top)
@@ -72,6 +78,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         super.viewWillAppear(animated)
         
         isLoading = true
+        isSelectingFiles = false
         loadContentsOf(folder) { result in
             
             dispatch_async(dispatch_get_main_queue(),{
@@ -142,7 +149,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         }
         
         
-
+        
         cell.textLabel?.text = file.name
         
         return cell
@@ -159,7 +166,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         default:
             fatalError("Unknown section")
         }
-
+        
     }
 }
 
