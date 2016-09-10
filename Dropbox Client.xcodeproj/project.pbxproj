@@ -8,40 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		7EA7ECE3185F021F41D0F240 /* Pods_Dropbox_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */; };
+		F51D7CE01D73434400505F10 /* FilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CDF1D73434400505F10 /* FilesViewController.swift */; };
+		F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE21D73441300505F10 /* SegueHandlerType.swift */; };
+		F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */; };
 		F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */; };
-		F55CB0AA1D44CDB700F169F4 /* UploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */; };
 		F55CB0AD1D44CDB700F169F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AB1D44CDB700F169F4 /* Main.storyboard */; };
 		F55CB0AF1D44CDB700F169F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */; };
 		F55CB0B21D44CDB700F169F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */; };
-		F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */; };
-		F55DBECA1D46976B0052C348 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */; };
-		F55DBECC1D4699D50052C348 /* UploadPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */; };
-		F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */; };
-		F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */; };
-		F5D762051D4B60CF00552198 /* UploadManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D762041D4B60CF00552198 /* UploadManifest.swift */; };
-		F5D762071D4B80A000552198 /* NSDateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */; };
-		F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F2C9771D4A562500BE9753 /* UploadRequest.swift */; };
+		F5B2E0231D819140008472ED /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B2E0221D819140008472ED /* Entity.swift */; };
+		F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A46F1D8435180034A73A /* NetworkActivity.swift */; };
+		F5C3A4721D84359F0034A73A /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A4711D84359F0034A73A /* DropboxController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		691FC58686E1649ABBEE968B /* Pods-Dropbox Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.debug.xcconfig"; sourceTree = "<group>"; };
 		E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dropbox_Client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A47DDFC8E87F23276F222C /* Pods-Dropbox Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.release.xcconfig"; sourceTree = "<group>"; };
+		F51D7CDF1D73434400505F10 /* FilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesViewController.swift; sourceTree = "<group>"; };
+		F51D7CE21D73441300505F10 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
+		F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifierType.swift; sourceTree = "<group>"; };
 		F55CB0A41D44CDB700F169F4 /* Dropbox Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageViewController.swift; sourceTree = "<group>"; };
 		F55CB0AC1D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F55CB0B11D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F55CB0B31D44CDB700F169F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
-		F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
-		F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPhotosViewController.swift; sourceTree = "<group>"; };
-		F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHAsset+Extension.swift"; sourceTree = "<group>"; };
-		F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUploadCell.swift; sourceTree = "<group>"; };
-		F5D762041D4B60CF00552198 /* UploadManifest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManifest.swift; sourceTree = "<group>"; };
-		F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDateFormatter+Extension.swift"; sourceTree = "<group>"; };
-		F5F2C9771D4A562500BE9753 /* UploadRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadRequest.swift; sourceTree = "<group>"; };
+		F5B2E0221D819140008472ED /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		F5C3A46F1D8435180034A73A /* NetworkActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivity.swift; sourceTree = "<group>"; };
+		F5C3A4711D84359F0034A73A /* DropboxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +67,44 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F51D7CDC1D73430400505F10 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F5B2E0221D819140008472ED /* Entity.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		F51D7CDD1D73431000505F10 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */,
+				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
+				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		F51D7CDE1D73431600505F10 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
+				F51D7CDF1D73434400505F10 /* FilesViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		F51D7CE11D73440100505F10 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				F51D7CE21D73441300505F10 /* SegueHandlerType.swift */,
+				F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */,
+				F5C3A46F1D8435180034A73A /* NetworkActivity.swift */,
+				F5C3A4711D84359F0034A73A /* DropboxController.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		F55CB09B1D44CDB600F169F4 = {
 			isa = PBXGroup;
 			children = (
@@ -94,20 +126,11 @@
 		F55CB0A61D44CDB700F169F4 /* Dropbox Client */ = {
 			isa = PBXGroup;
 			children = (
-				F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */,
-				F55CB0A91D44CDB700F169F4 /* UploadImageViewController.swift */,
-				F55DBEC91D46976B0052C348 /* AlbumsViewController.swift */,
-				F55DBECB1D4699D50052C348 /* UploadPhotosViewController.swift */,
-				F55DBECF1D4A284B0052C348 /* PhotoUploadCell.swift */,
-				F55CB0B91D452CBF00F169F4 /* FolderViewController.swift */,
-				F55CB0AB1D44CDB700F169F4 /* Main.storyboard */,
-				F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */,
-				F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */,
+				F51D7CE11D73440100505F10 /* Protocol */,
+				F51D7CDE1D73431600505F10 /* Controller */,
+				F51D7CDD1D73431000505F10 /* View */,
+				F51D7CDC1D73430400505F10 /* Model */,
 				F55CB0B31D44CDB700F169F4 /* Info.plist */,
-				F55DBECD1D469E4C0052C348 /* PHAsset+Extension.swift */,
-				F5F2C9771D4A562500BE9753 /* UploadRequest.swift */,
-				F5D762041D4B60CF00552198 /* UploadManifest.swift */,
-				F5D762061D4B80A000552198 /* NSDateFormatter+Extension.swift */,
 			);
 			path = "Dropbox Client";
 			sourceTree = "<group>";
@@ -234,16 +257,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F55DBECE1D469E4C0052C348 /* PHAsset+Extension.swift in Sources */,
-				F55DBED01D4A284B0052C348 /* PhotoUploadCell.swift in Sources */,
-				F55CB0AA1D44CDB700F169F4 /* UploadImageViewController.swift in Sources */,
-				F55DBECA1D46976B0052C348 /* AlbumsViewController.swift in Sources */,
-				F5F2C9781D4A562500BE9753 /* UploadRequest.swift in Sources */,
+				F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */,
+				F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */,
+				F5B2E0231D819140008472ED /* Entity.swift in Sources */,
+				F51D7CE01D73434400505F10 /* FilesViewController.swift in Sources */,
+				F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
-				F55CB0BA1D452CBF00F169F4 /* FolderViewController.swift in Sources */,
-				F5D762071D4B80A000552198 /* NSDateFormatter+Extension.swift in Sources */,
-				F55DBECC1D4699D50052C348 /* UploadPhotosViewController.swift in Sources */,
-				F5D762051D4B60CF00552198 /* UploadManifest.swift in Sources */,
+				F5C3A4721D84359F0034A73A /* DropboxController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

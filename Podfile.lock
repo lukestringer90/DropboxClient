@@ -1,25 +1,21 @@
 PODS:
   - Alamofire (3.3.1)
-  - Keys (1.0.0)
+  - Result (2.1.3)
   - SwiftyDropbox (3.1.0):
     - Alamofire (~> 3.3.1)
   - SwiftyTimer (1.4.0)
 
 DEPENDENCIES:
-  - Keys (from `Pods/CocoaPodsKeys`)
+  - Result
   - SwiftyDropbox
   - SwiftyTimer
 
-EXTERNAL SOURCES:
-  Keys:
-    :path: Pods/CocoaPodsKeys
-
 SPEC CHECKSUMS:
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
-  Keys: 9c35bf00f612ee1d48556f4a4b9b4551e224e90f
+  Result: 18e1a7597fbcca5923c565b40a25a98afafdee02
   SwiftyDropbox: 30ef3a666c9c9aabd23e6c421b9c3d5b9b335a62
   SwiftyTimer: db4458cfaf67fc71e16ad6e4637c60b86f76a649
 
-PODFILE CHECKSUM: 696f65eb339f84cf1041d194ab82f89de051a30c
+PODFILE CHECKSUM: c51bea8b835bb7b52032c6cdbc1b42b088c82f28
 
 COCOAPODS: 1.0.1
