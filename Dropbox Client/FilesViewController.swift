@@ -136,7 +136,6 @@ extension FilesViewController {
         default:
             return TableSection.count.rawValue
         }
-        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -194,6 +193,23 @@ extension FilesViewController {
         default:
             fatalError("Unknown section")
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard state == .selecting else { return }
+     
+        let (_, fileType) = cellAndFile(forIndexPath: indexPath)
+        let file = fileType as! File
+        
+        if selectedFiles.contains(file) {
+            let fileIndex = selectedFiles.indexOf(file)!
+            selectedFiles.removeAtIndex(fileIndex)
+        }
+        else {
+            selectedFiles.append(file)
+        }
+        
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     func cellAndFile(forIndexPath indexPath: NSIndexPath) -> (cell: UITableViewCell, file: FileType) {
