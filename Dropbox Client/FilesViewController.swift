@@ -34,9 +34,21 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         }
     }
     
+    private var isSelectingFiles = false {
+        didSet {
+            let foldersIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
+            if isSelectingFiles {
+                tableView.deleteSections(foldersIndexSet, withRowAnimation: .Top)
+            }
+            else {
+                tableView.insertSections(foldersIndexSet, withRowAnimation: .Top)
+            }
+        }
+    }
+    
     enum TableSection: Int {
         case folders
-        case images
+        case files
         case count
     }
     
@@ -80,17 +92,24 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if isLoading { return 0 }
+        if isSelectingFiles { return 1 }
         return TableSection.count.rawValue
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSelectingFiles {
+            if let images = folder.files {
+                return images.count
+            }
+        }
+        
         
         switch TableSection(rawValue: section)! {
         case .folders:
             if let folders = folder.folders {
                 return folders.count
             }
-        case .images:
+        case .files:
             if let images = folder.files {
                 return images.count
             }
@@ -105,16 +124,24 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         let cell: UITableViewCell
         let file: FileType
         
-        switch indexPath.section {
-        case TableSection.folders.rawValue:
-            cell = dequeCell(.Folder)
-            file = folder.folders![indexPath.row]
-        case TableSection.images.rawValue:
+        if isSelectingFiles {
             cell = dequeCell(.File)
             file = folder.files![indexPath.row]
-        default:
-            fatalError("Unknown section")
         }
+        else {
+            switch indexPath.section {
+            case TableSection.folders.rawValue:
+                cell = dequeCell(.Folder)
+                file = folder.folders![indexPath.row]
+            case TableSection.files.rawValue:
+                cell = dequeCell(.File)
+                file = folder.files![indexPath.row]
+            default:
+                fatalError("Unknown section")
+            }
+        }
+        
+        
 
         cell.textLabel?.text = file.name
         
@@ -122,10 +149,12 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if isSelectingFiles { return "Files (\(folder.filesCount))" }
+        
         switch section {
         case TableSection.folders.rawValue:
             return "Folders (\(folder.foldersCount))"
-        case TableSection.images.rawValue:
+        case TableSection.files.rawValue:
             return "Files (\(folder.filesCount))"
         default:
             fatalError("Unknown section")
@@ -139,7 +168,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
 extension FilesViewController {
     
     @IBAction func selectTapped(sender: AnyObject) {
-        
+        isSelectingFiles = !isSelectingFiles
     }
 }
 
