@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol Entity {
+protocol FileType {
     var name: String { get }
     var path: String { get }
 }
 
-struct Folder: Entity {
+struct Folder: FileType {
     let name: String
     let path: String
     let folders: [Folder]?
@@ -34,7 +34,7 @@ struct Folder: Entity {
     }
 }
 
-struct File: Entity {
+struct File: FileType {
     let name: String
     let path: String
 }

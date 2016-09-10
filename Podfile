@@ -7,5 +7,6 @@ target 'Dropbox Client' do
   # Pods for Dropbox Client
   pod 'SwiftyDropbox'
   pod 'SwiftyTimer'
+  pod 'Result'
 
 end

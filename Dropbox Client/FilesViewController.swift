@@ -7,15 +7,15 @@
 //
 
 import UIKit
-import SwiftyDropbox
 
-class FolderViewController: UITableViewController {
+class FilesViewController: UITableViewController, NetworkActivity, DropboxController {
     
     // MARK: Public Properties
     
-    var folder: Folder? {
+    // Uses the root Dropbox folder by default
+    var folder = Folder(name: "Dropbox", path: "", folders: nil, files: nil) {
         didSet {
-            title = folder?.name
+            title = folder.name
         }
     }
     
@@ -43,7 +43,7 @@ class FolderViewController: UITableViewController {
     private var selectedFolder: Folder? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         
-        guard let folder = self.folder, let folders = folder.folders else {
+        guard let folders = folder.folders else {
             fatalError("Could not get selected folder")
         }
         
@@ -58,15 +58,22 @@ class FolderViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if folder == nil {
-            let file1 = File(name: "File 1", path: "/File 1")
-            let file2 = File(name: "File 2", path: "/File 2")
-            let file3 = File(name: "File 3", path: "/File 3")
-            let folderA = Folder(name: "Folder A", path: "/Folder A", folders: nil, files: [file3])
-            let folderB = Folder(name: "Folder B", path: "/Folder B", folders: nil, files: nil)
-            folder = Folder(name: "Dropbox", path: "/", folders: [folderA, folderB], files: [file1, file2])
+        
+        isLoading = true
+        loadContentsOf(folder) { result in
+            
+            dispatch_async(dispatch_get_main_queue(),{
+                self.isLoading = false
+                
+                switch result {
+                case .Success(let newFolder):
+                    self.folder = newFolder
+                    self.tableView!.reloadData()
+                case .Failure(let error):
+                    print(error)
+                }
+            })
         }
-        loadFoldersAtPath(folder!.path)
     }
     
     // MARK: - Table view data source
@@ -80,11 +87,11 @@ class FolderViewController: UITableViewController {
         
         switch TableSection(rawValue: section)! {
         case .folders:
-            if let folders = folder?.folders {
+            if let folders = folder.folders {
                 return folders.count
             }
         case .images:
-            if let images = folder?.files {
+            if let images = folder.files {
                 return images.count
             }
         default:
@@ -96,20 +103,20 @@ class FolderViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let entity: Entity
+        let file: FileType
         
         switch indexPath.section {
         case TableSection.folders.rawValue:
             cell = dequeCell(.Folder)
-            entity = folder!.folders![indexPath.row]
+            file = folder.folders![indexPath.row]
         case TableSection.images.rawValue:
             cell = dequeCell(.File)
-            entity = folder!.files![indexPath.row]
+            file = folder.files![indexPath.row]
         default:
             fatalError("Unknown section")
         }
 
-        cell.textLabel?.text = entity.name
+        cell.textLabel?.text = file.name
         
         return cell
     }
@@ -117,9 +124,9 @@ class FolderViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case TableSection.folders.rawValue:
-            return "Folders (\(folder!.foldersCount))"
+            return "Folders (\(folder.foldersCount))"
         case TableSection.images.rawValue:
-            return "Files (\(folder!.filesCount))"
+            return "Files (\(folder.filesCount))"
         default:
             fatalError("Unknown section")
         }
@@ -129,62 +136,21 @@ class FolderViewController: UITableViewController {
 
 
 // MARK: IBActions
-extension FolderViewController {
+extension FilesViewController {
     
     @IBAction func selectTapped(sender: AnyObject) {
         
     }
 }
 
-// MARK: Dropbox
-
-extension FolderViewController {
-    
-    func loadFoldersAtPath(path: String) {
-        self.isLoading = false
-        self.tableView.reloadData()
-        return
-        
-        
-        guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorizeFromController(self)
-            return
-        }
-        
-        isLoading = true
-        
-//        let result = client.files.listFolder(path: path)
-//        result.response { (folderResult, error) in
-//            
-//            if let result = folderResult {
-//                self.folders = result.entries.filter { $0 is Files.FolderMetadata } as? [Files.FolderMetadata]
-//                self.images = result.entries.filter { $0 is Files.FileMetadata } as? [Files.FileMetadata]
-//                self.isLoading = false
-//                self.tableView.reloadData()
-//            }
-//            else {
-//                print(error!)
-//            }
-//        }
-    }
-    
-    func showActivityIndicator() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-    }
-    
-    func hideActivityIndicator() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-    }
-}
-
-extension FolderViewController: TableViewCellIdentifierType {
+extension FilesViewController: TableViewCellIdentifierType {
     enum TableViewCellIdentifier: String {
         case Folder
         case File
     }
 }
 
-extension FolderViewController: SegueHandlerType {
+extension FilesViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case ShowFolder
     }
@@ -193,9 +159,9 @@ extension FolderViewController: SegueHandlerType {
         switch segueIdentifierForSegue(segue) {
         case .ShowFolder:
             
-            guard let folder = self.selectedFolder else { fatalError("Should have a path to segue to") }
+            guard let folder = self.selectedFolder else { fatalError("Should have a folder to segue to") }
             
-            let foldersViewController = segue.destinationViewController as! FolderViewController
+            let foldersViewController = segue.destinationViewController as! FilesViewController
             foldersViewController.folder = folder
             foldersViewController.title = folder.name
         }
