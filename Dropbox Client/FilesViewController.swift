@@ -38,6 +38,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         didSet {
             selectButton.title = isSelectingFiles ? "Cancel" : "Select"
             navigationItem.setHidesBackButton(isSelectingFiles, animated: true)
+            navigationController?.setToolbarHidden(!isSelectingFiles, animated: true)
             
             // While loading we don't have any sections, so we cannot delete or insert
             guard !isLoading else { return }

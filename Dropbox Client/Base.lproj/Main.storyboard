@@ -63,6 +63,13 @@
                             <outlet property="delegate" destination="YsA-A4-EMZ" id="VNR-ce-KOP"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="Deselect All" id="EtC-nO-VuJ"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jGM-vx-opU"/>
+                        <barButtonItem title="Select All" id="USU-Px-igr"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="y1P-84-3dj"/>
+                        <barButtonItem title="Download" style="done" id="t3G-3I-Gg1"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1">
                         <barButtonItem key="rightBarButtonItem" title="Select..." id="ZzY-87-lHU">
                             <connections>
@@ -70,6 +77,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="selectButton" destination="ZzY-87-lHU" id="W7E-BV-PVI"/>
                     </connections>
