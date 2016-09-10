@@ -28,34 +28,34 @@ extension DropboxController where Self: UIViewController {
             return
         }
         
-        let result = client.files.listFolder(path: folder.path)
-        result.response { (listFolderResult, listFolderError) in
+        client.files.listFolder(path: folder.path).response { (listFolderResult, listFolderError) in
             
-            if let result = listFolderResult {
-                let mountedEntries = result.entries.filter { $0.pathLower != nil }
-                let mountedFoldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
-                let mountedFilesMetadata = mountedEntries.filter { $0 is Files.FileMetadata }
-                
-                let folders = mountedFoldersMetadata.map({ (metadata) -> Folder in
-                    return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, files: nil)
-                })
-                
-                let files = mountedFilesMetadata.map({ (metadata) -> File in
-                    return File(name: metadata.name, path: metadata.pathLower!)
-                })
-                
-                let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
-                
-                completion(Result.Success(newFolder))
-                
+            guard let result = listFolderResult else {
+                if let APIError = listFolderError {
+                    completion(Result.Failure(DropboxControllerError.APIError(APIError: APIError)))
+                }
+                else {
+                    completion(Result.Failure(DropboxControllerError.unknown))
+                }
+                return
             }
-            else if let APIError = listFolderError {
-                completion(Result.Failure(DropboxControllerError.APIError(APIError: APIError)))
+            
+            let mountedEntries = result.entries.filter { $0.pathLower != nil }
+            let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
+            let filesMetadata = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
+            
+            let folders = foldersMetadata.map { (metadata) -> Folder in
+                return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, files: nil)
             }
-            else {
-                completion(Result.Failure(DropboxControllerError.unknown))
+            
+            let files = filesMetadata.map { (metadata) -> File in
+                return File(name: metadata.name, path: metadata.pathLower!)
             }
+            
+            let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
+            
+            completion(Result.Success(newFolder))
         }
     }
-
+    
 }
