@@ -23,13 +23,12 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     
     private var isLoading = true {
         didSet {
+            selectButton.enabled = !isLoading
             if isLoading {
                 self.showActivityIndicator()
-                selectButton.enabled = false
             }
             else {
                 self.hideActivityIndicator()
-                selectButton.enabled = true
             }
         }
     }
@@ -53,6 +52,22 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         }
     }
     
+    private var isDownloading = false {
+        didSet {
+            selectButton.enabled = !isDownloading
+            deselectAllButton.enabled = !isDownloading
+            selectAllButton.enabled = !isDownloading
+            if isDownloading {
+                self.showActivityIndicator()
+                downloadButton.title = "Stop"
+            }
+            else {
+                self.hideActivityIndicator()
+                downloadButton.title = "Download"
+            }
+        }
+    }
+    
     enum TableSection: Int {
         case folders
         case files
@@ -72,6 +87,9 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     // MARK: Outlets
     
     @IBOutlet weak var selectButton: UIBarButtonItem!
+    @IBOutlet weak var deselectAllButton: UIBarButtonItem!
+    @IBOutlet weak var selectAllButton: UIBarButtonItem!
+    @IBOutlet weak var downloadButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
@@ -177,6 +195,13 @@ extension FilesViewController {
     
     @IBAction func selectTapped(sender: AnyObject) {
         isSelectingFiles = !isSelectingFiles
+    }
+    @IBAction func deselectAllTapped(sender: AnyObject) {
+    }
+    @IBAction func selectAllTapped(sender: AnyObject) {
+    }
+    @IBAction func downloadTapped(sender: AnyObject) {
+        isDownloading = !isDownloading
     }
 }
 

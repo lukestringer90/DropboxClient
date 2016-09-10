@@ -64,11 +64,23 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem title="Deselect All" id="EtC-nO-VuJ"/>
+                        <barButtonItem title="Deselect All" id="EtC-nO-VuJ">
+                            <connections>
+                                <action selector="deselectAllTapped:" destination="YsA-A4-EMZ" id="CC6-N6-O1f"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="jGM-vx-opU"/>
-                        <barButtonItem title="Select All" id="USU-Px-igr"/>
+                        <barButtonItem title="Select All" id="USU-Px-igr">
+                            <connections>
+                                <action selector="selectAllTapped:" destination="YsA-A4-EMZ" id="Q5g-l5-MeZ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="y1P-84-3dj"/>
-                        <barButtonItem title="Download" style="done" id="t3G-3I-Gg1"/>
+                        <barButtonItem title="Download" style="done" id="t3G-3I-Gg1">
+                            <connections>
+                                <action selector="downloadTapped:" destination="YsA-A4-EMZ" id="rrX-x6-ey9"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Dropbox" id="2nL-vg-us1">
                         <barButtonItem key="rightBarButtonItem" title="Select..." id="ZzY-87-lHU">
@@ -79,6 +91,9 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="deselectAllButton" destination="EtC-nO-VuJ" id="5TC-mA-Jul"/>
+                        <outlet property="downloadButton" destination="t3G-3I-Gg1" id="7gV-XU-twe"/>
+                        <outlet property="selectAllButton" destination="USU-Px-igr" id="Xl0-tA-Wnj"/>
                         <outlet property="selectButton" destination="ZzY-87-lHU" id="W7E-BV-PVI"/>
                     </connections>
                 </tableViewController>
