@@ -12,7 +12,7 @@ private enum State {
     case loading
     case viewing
     case selecting
-    case downloading
+    case saving
 }
 
 private enum TableSection: Int {
@@ -34,50 +34,52 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     
     // MARK: Private Properites
     
-    private let foldersIndexSetWhenViewing = NSIndexSet(index: TableSection.folders.rawValue)
+    private let firstSectionIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
     
     private var state = State.loading {
         didSet {
             switch state {
                 
             case .loading:
-                selectButton.enabled = false
                 showActivityIndicator()
+                selectButton.enabled = false
                 
             case .viewing:
+                hideActivityIndicator()
                 selectButton.enabled = true
                 selectButton.title = "Select"
                 navigationItem.setHidesBackButton(false, animated: true)
-                navigationController?.setToolbarHidden(true, animated: true)
-                hideActivityIndicator()
                 
                 if oldValue == .selecting {
-                    tableView.insertSections(foldersIndexSetWhenViewing, withRowAnimation: .Top)
+                    tableView.insertSections(firstSectionIndexSet, withRowAnimation: .Top)
                 }
                 
+                navigationController?.setToolbarHidden(true, animated: true)
+                
             case .selecting:
+                self.hideActivityIndicator()
                 selectButton.title = "Cancel"
                 navigationItem.setHidesBackButton(true, animated: true)
                 navigationController?.setToolbarHidden(false, animated: true)
-                self.hideActivityIndicator()
                 
-                if oldValue == .downloading {
+                if oldValue == .saving {
                     downloadButton.title = "Download"
                     selectButton.enabled = true
                     deselectAllButton.enabled = true
                     selectAllButton.enabled = true
-                    self.hideActivityIndicator()
+                    tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
                 }
                 else if oldValue == .viewing {
-                    tableView.deleteSections(foldersIndexSetWhenViewing, withRowAnimation: .Top)
+                    tableView.deleteSections(firstSectionIndexSet, withRowAnimation: .Top)
                 }
                 
-            case .downloading:
+            case .saving:
+                self.showActivityIndicator()
                 selectButton.enabled = false
                 deselectAllButton.enabled = false
                 selectAllButton.enabled = false
                 downloadButton.title = "Stop"
-                self.showActivityIndicator()
+                tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
             }
         }
     }
@@ -140,7 +142,7 @@ extension FolderViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if state == .selecting {
+        if state == .selecting || state == .saving {
             return folder.mediaCount
         }
         
@@ -157,9 +159,11 @@ extension FolderViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        print("section: \(indexPath.section), row: \(indexPath.row)")
+        
         let cell: UITableViewCell
         
-        if state == .selecting {
+        if state == .selecting || state == .saving {
             cell = configuredCellForMediaFile(atIndexPath: indexPath)
         }
         else {
@@ -177,7 +181,7 @@ extension FolderViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if state == .selecting {
+        if state == .selecting || state == .saving {
             return "Media (\(folder.mediaCount))"
         }
         
@@ -218,7 +222,17 @@ extension FolderViewController {
     
     func configuredCellForMediaFile(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let mediaFile = folder.media![indexPath.row]
-        let cell = mediaFile.thumbnail == nil ? dequeMediaCell(.MediaLoading) : dequeMediaCell(.MediaLoaded)
+        let cell: MediaCell = {
+            if mediaFile.thumbnail == nil {
+                return dequeMediaCell(.MediaLoading)
+            }
+            switch state {
+            case .saving:
+                return dequeMediaCell(.MediaSaving)
+            default:
+                return dequeMediaCell(.MediaLoaded)
+            }
+        }()
         
         cell.filenameLabel.text = mediaFile.name
         cell.accessoryType = selectedMedia.contains(mediaFile) ? .Checkmark : .None
@@ -258,7 +272,6 @@ extension FolderViewController {
     @IBAction func selectTapped(sender: AnyObject) {
         switch state {
         case .selecting:
-            // TODO: This crashes if viewing a media file at the bottom and no folders are visible
             state = .viewing
             deselectAllTapped(sender)
         case .viewing:
@@ -281,7 +294,7 @@ extension FolderViewController {
     }
     
     @IBAction func downloadTapped(sender: AnyObject) {
-        state = state == .downloading ? .selecting : .downloading
+        state = state == .saving ? .selecting : .saving
     }
 }
 
