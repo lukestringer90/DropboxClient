@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Folder" textLabel="rN6-7i-vGu" imageView="Wfs-c9-dst" style="IBUITableViewCellStyleDefault" id="M8f-Ua-kqI">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="folder" textLabel="rN6-7i-vGu" imageView="Wfs-c9-dst" style="IBUITableViewCellStyleDefault" id="M8f-Ua-kqI">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8f-Ua-kqI" id="wqK-5Z-dGJ">
@@ -40,7 +40,7 @@
                                     <segue destination="YsA-A4-EMZ" kind="show" identifier="ShowFolder" id="Hlz-dP-BTE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoading" rowHeight="70" id="ITB-jX-ddp" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaLoading" rowHeight="70" id="ITB-jX-ddp" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="136" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ITB-jX-ddp" id="yjs-ca-96Z">
@@ -95,7 +95,7 @@
                                     <outlet property="filenameLabel" destination="1Dx-O8-OJ5" id="kKE-Aq-MbG"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoaded" rowHeight="70" id="LH3-bt-gXb" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaLoaded" rowHeight="70" id="LH3-bt-gXb" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="206" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LH3-bt-gXb" id="rRo-tQ-2Da">
@@ -141,7 +141,7 @@
                                     <outlet property="thumnailView" destination="EYy-jx-EIU" id="zVh-rM-ld3"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="276" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PIk-K6-WP0" id="L5S-G8-FM4">

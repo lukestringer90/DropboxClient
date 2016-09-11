@@ -222,13 +222,13 @@ extension FolderViewController {
         let mediaFile = folder.media![indexPath.row]
         let cell: MediaCell = {
             if mediaFile.thumbnail == nil {
-                return dequeMediaCell(.MediaLoading)
+                return dequeMediaCell(.mediaLoading)
             }
             switch state {
             case .saving:
-                return dequeMediaCell(.MediaSaving)
+                return dequeMediaCell(.mediaSaving)
             default:
-                return dequeMediaCell(.MediaLoaded)
+                return dequeMediaCell(.mediaLoaded)
             }
         }()
         
@@ -256,7 +256,7 @@ extension FolderViewController {
     }
     
     func configuredCellForFolder(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = (dequeCell(.Folder))
+        let cell = (dequeCell(.folder))
         let subFolder = folder.folders![indexPath.row]
         cell.textLabel?.text = subFolder.name
         return cell
@@ -301,10 +301,10 @@ extension FolderViewController {
 
 extension FolderViewController: TableViewCellIdentifierType {
     enum TableViewCellIdentifier: String {
-        case Folder
-        case MediaLoading
-        case MediaLoaded
-        case MediaSaving
+        case folder
+        case mediaLoading
+        case mediaLoaded
+        case mediaSaving
     }
     
     func dequeMediaCell(identifier: TableViewCellIdentifier) -> MediaCell {
