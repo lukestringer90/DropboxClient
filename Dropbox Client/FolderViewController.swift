@@ -134,7 +134,7 @@ extension FolderViewController {
         switch state {
         case .loading:
             return 0
-        case .selecting:
+        case .selecting, .saving:
             return 1
         default:
             return TableSection.count.rawValue
@@ -212,7 +212,7 @@ extension FolderViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if state == .selecting || TableSection.media.rawValue == indexPath.section {
+        if state == .selecting || state == .saving || TableSection.media.rawValue == indexPath.section {
             return 70
         }
         return 44
