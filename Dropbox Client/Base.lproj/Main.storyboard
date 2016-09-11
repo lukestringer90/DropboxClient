@@ -63,6 +63,11 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="UZY-rK-Vs6"/>
+                                                </mask>
+                                            </variation>
                                         </label>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Klc-Es-Nqh">
                                             <rect key="frame" x="25" y="25" width="20" height="20"/>
@@ -82,6 +87,7 @@
                                         <constraint firstItem="1Dx-O8-OJ5" firstAttribute="top" secondItem="1ra-8d-x0e" secondAttribute="top" constant="4" id="VVN-aw-BNz"/>
                                         <constraint firstItem="ohl-b2-V4m" firstAttribute="leading" secondItem="1Dx-O8-OJ5" secondAttribute="leading" id="d7m-ev-JaX"/>
                                         <constraint firstItem="1ra-8d-x0e" firstAttribute="centerY" secondItem="yjs-ca-96Z" secondAttribute="centerY" id="heb-A1-vb9"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="1Dx-O8-OJ5" secondAttribute="trailing" constant="55" id="kXK-X9-hi5"/>
                                         <constraint firstItem="ohl-b2-V4m" firstAttribute="top" secondItem="1Dx-O8-OJ5" secondAttribute="bottom" constant="4" id="vbj-qu-m5K"/>
                                     </constraints>
                                     <variation key="default">
@@ -110,6 +116,11 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="6Cf-Ut-jmP"/>
+                                                </mask>
+                                            </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eog-8J-ZaN">
                                             <rect key="frame" x="71" y="36.5" width="466" height="21"/>
@@ -133,6 +144,7 @@
                                         <constraint firstItem="eog-8J-ZaN" firstAttribute="leading" secondItem="SHe-Zu-m7i" secondAttribute="leading" id="KWq-0b-H7i"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="EYy-jx-EIU" secondAttribute="leading" id="dG9-h3-ZHM"/>
                                         <constraint firstItem="SHe-Zu-m7i" firstAttribute="top" secondItem="EYy-jx-EIU" secondAttribute="top" constant="4" id="gxe-Rl-SH3"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="SHe-Zu-m7i" secondAttribute="trailing" constant="55" id="rad-JF-AK2"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -156,6 +168,11 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="8xP-Eo-RpS"/>
+                                                </mask>
+                                            </variation>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kqD-eI-vTZ">
                                             <rect key="frame" x="8" y="7" width="55" height="55"/>
@@ -169,7 +186,8 @@
                                         </progressView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="RgK-Gd-pU6" firstAttribute="leading" secondItem="EgA-jk-mtZ" secondAttribute="trailing" constant="-466" id="3Sk-9a-9HW"/>
+                                        <constraint firstItem="RgK-Gd-pU6" firstAttribute="leading" secondItem="EgA-jk-mtZ" secondAttribute="leading" id="3Sk-9a-9HW"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="EgA-jk-mtZ" secondAttribute="trailing" constant="55" id="3UX-Zl-Eto"/>
                                         <constraint firstItem="RgK-Gd-pU6" firstAttribute="width" secondItem="EgA-jk-mtZ" secondAttribute="width" id="Gq9-7a-sGV"/>
                                         <constraint firstItem="RgK-Gd-pU6" firstAttribute="top" secondItem="EgA-jk-mtZ" secondAttribute="bottom" constant="15" id="M0J-Rg-Vc9"/>
                                         <constraint firstItem="EgA-jk-mtZ" firstAttribute="leading" secondItem="kqD-eI-vTZ" secondAttribute="trailing" constant="8" id="Utc-Rv-8Kg"/>
