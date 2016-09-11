@@ -29,7 +29,8 @@ extension LoadFolderContents where Self: UIViewController {
             return
         }
         
-        client.files.listFolder(path: folder.path).response { (listFolderResult, listFolderError) in
+        let result = client.files.listFolder(path: folder.path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false)
+        result.response { (listFolderResult, listFolderError) in
             
             guard let result = listFolderResult else {
                 if let APIError = listFolderError {
@@ -43,17 +44,18 @@ extension LoadFolderContents where Self: UIViewController {
             
             let mountedEntries = result.entries.filter { $0.pathLower != nil }
             let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
-            let filesMetadata = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
+            let filesMetaData = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
+            let mediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }
             
             let folders = foldersMetadata.map { (metadata) -> Folder in
                 return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, files: nil)
             }
             
-            let files = filesMetadata.map { (metadata) -> File in
+            let media = mediaMetaData.map { (metadata) -> File in
                 return File(name: metadata.name, path: metadata.pathLower!)
             }
             
-            let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
+            let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: media)
             
             completion(.Success(newFolder))
         }
