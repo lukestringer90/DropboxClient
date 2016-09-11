@@ -40,15 +40,15 @@
                                     <segue destination="YsA-A4-EMZ" kind="show" identifier="ShowFolder" id="Hlz-dP-BTE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="File" textLabel="9AL-Ax-b5O" style="IBUITableViewCellStyleDefault" id="gOe-vX-5De">
-                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="File" textLabel="9AL-Ax-b5O" rowHeight="70" style="IBUITableViewCellStyleDefault" id="gOe-vX-5De">
+                                <rect key="frame" x="0.0" y="136" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gOe-vX-5De" id="BAZ-ws-daT">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9AL-Ax-b5O">
-                                            <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="570" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -56,6 +56,150 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoading" rowHeight="70" id="ITB-jX-ddp" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="206" width="600" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ITB-jX-ddp" id="yjs-ca-96Z">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ra-8d-x0e">
+                                            <rect key="frame" x="8" y="8" width="55" height="55"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="55" id="9FW-xi-NUZ"/>
+                                                <constraint firstAttribute="width" secondItem="1ra-8d-x0e" secondAttribute="height" multiplier="1:1" id="9hi-tu-DB5"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Dx-O8-OJ5">
+                                            <rect key="frame" x="71" y="12" width="466" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="466" id="UZY-rK-Vs6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Klc-Es-Nqh">
+                                            <rect key="frame" x="25" y="25" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ohl-b2-V4m">
+                                            <rect key="frame" x="71" y="37" width="466" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="1Dx-O8-OJ5" firstAttribute="leading" secondItem="1ra-8d-x0e" secondAttribute="trailing" constant="8" id="0Zt-e3-Sov"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="1ra-8d-x0e" secondAttribute="leading" id="5sv-wL-IXy"/>
+                                        <constraint firstItem="1Dx-O8-OJ5" firstAttribute="leading" secondItem="1ra-8d-x0e" secondAttribute="trailing" constant="8" id="7Ho-U3-il9"/>
+                                        <constraint firstItem="ohl-b2-V4m" firstAttribute="width" secondItem="1Dx-O8-OJ5" secondAttribute="width" id="MCV-Et-Cju"/>
+                                        <constraint firstItem="1Dx-O8-OJ5" firstAttribute="top" secondItem="1ra-8d-x0e" secondAttribute="top" constant="4" id="VVN-aw-BNz"/>
+                                        <constraint firstItem="ohl-b2-V4m" firstAttribute="leading" secondItem="1Dx-O8-OJ5" secondAttribute="leading" id="d7m-ev-JaX"/>
+                                        <constraint firstItem="1ra-8d-x0e" firstAttribute="centerY" secondItem="yjs-ca-96Z" secondAttribute="centerY" id="heb-A1-vb9"/>
+                                        <constraint firstItem="ohl-b2-V4m" firstAttribute="top" secondItem="1Dx-O8-OJ5" secondAttribute="bottom" constant="4" id="vbj-qu-m5K"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="7Ho-U3-il9"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="ohl-b2-V4m" id="8Gr-LA-a9n"/>
+                                    <outlet property="filenameLabel" destination="1Dx-O8-OJ5" id="kKE-Aq-MbG"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoaded" rowHeight="70" id="LH3-bt-gXb" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="276" width="600" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LH3-bt-gXb" id="rRo-tQ-2Da">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHe-Zu-m7i">
+                                            <rect key="frame" x="71" y="11" width="466" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="466" id="6Cf-Ut-jmP"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eog-8J-ZaN">
+                                            <rect key="frame" x="71" y="36.5" width="466" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EYy-jx-EIU">
+                                            <rect key="frame" x="8" y="7" width="55" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="55" id="ATF-mu-45r"/>
+                                                <constraint firstAttribute="width" secondItem="EYy-jx-EIU" secondAttribute="height" id="VDk-Iz-Daa"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="SHe-Zu-m7i" firstAttribute="leading" secondItem="EYy-jx-EIU" secondAttribute="trailing" constant="8" id="4io-kp-BL6"/>
+                                        <constraint firstItem="eog-8J-ZaN" firstAttribute="width" secondItem="SHe-Zu-m7i" secondAttribute="width" id="4y5-8W-VOU"/>
+                                        <constraint firstItem="eog-8J-ZaN" firstAttribute="top" secondItem="SHe-Zu-m7i" secondAttribute="bottom" constant="4" id="7Ly-pu-Chu"/>
+                                        <constraint firstItem="EYy-jx-EIU" firstAttribute="centerY" secondItem="rRo-tQ-2Da" secondAttribute="centerY" id="BUc-gw-aZq"/>
+                                        <constraint firstItem="eog-8J-ZaN" firstAttribute="leading" secondItem="SHe-Zu-m7i" secondAttribute="leading" id="KWq-0b-H7i"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="EYy-jx-EIU" secondAttribute="leading" id="dG9-h3-ZHM"/>
+                                        <constraint firstItem="SHe-Zu-m7i" firstAttribute="top" secondItem="EYy-jx-EIU" secondAttribute="top" constant="4" id="gxe-Rl-SH3"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="eog-8J-ZaN" id="fFg-0s-td1"/>
+                                    <outlet property="filenameLabel" destination="SHe-Zu-m7i" id="d6W-EU-slm"/>
+                                    <outlet property="thumnailView" destination="EYy-jx-EIU" id="zVh-rM-ld3"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="346" width="600" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PIk-K6-WP0" id="L5S-G8-FM4">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgA-jk-mtZ">
+                                            <rect key="frame" x="71" y="11" width="466" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="466" id="8xP-Eo-RpS"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kqD-eI-vTZ">
+                                            <rect key="frame" x="8" y="7" width="55" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="55" id="Cjv-Gu-9cR"/>
+                                                <constraint firstAttribute="width" secondItem="kqD-eI-vTZ" secondAttribute="height" id="afF-fw-iqo"/>
+                                            </constraints>
+                                        </imageView>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RgK-Gd-pU6">
+                                            <rect key="frame" x="71" y="47" width="466" height="2"/>
+                                        </progressView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="RgK-Gd-pU6" firstAttribute="leading" secondItem="EgA-jk-mtZ" secondAttribute="trailing" constant="-466" id="3Sk-9a-9HW"/>
+                                        <constraint firstItem="RgK-Gd-pU6" firstAttribute="width" secondItem="EgA-jk-mtZ" secondAttribute="width" id="Gq9-7a-sGV"/>
+                                        <constraint firstItem="RgK-Gd-pU6" firstAttribute="top" secondItem="EgA-jk-mtZ" secondAttribute="bottom" constant="15" id="M0J-Rg-Vc9"/>
+                                        <constraint firstItem="EgA-jk-mtZ" firstAttribute="leading" secondItem="kqD-eI-vTZ" secondAttribute="trailing" constant="8" id="Utc-Rv-8Kg"/>
+                                        <constraint firstItem="kqD-eI-vTZ" firstAttribute="centerY" secondItem="L5S-G8-FM4" secondAttribute="centerY" id="VZs-zL-75p"/>
+                                        <constraint firstItem="EgA-jk-mtZ" firstAttribute="top" secondItem="kqD-eI-vTZ" secondAttribute="top" constant="4" id="bWv-qW-wMB"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="kqD-eI-vTZ" secondAttribute="leading" id="snt-mO-ei2"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="filenameLabel" destination="EgA-jk-mtZ" id="b2h-4V-Ux5"/>
+                                    <outlet property="progressView" destination="RgK-Gd-pU6" id="mbB-W8-WOe"/>
+                                    <outlet property="thumnailView" destination="kqD-eI-vTZ" id="UIK-Aw-RPP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

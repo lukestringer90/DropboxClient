@@ -158,23 +158,20 @@ extension FilesViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell
-        let fileType: FileType
         
         if state == .selecting {
-            (cell, fileType) = cellAndFile(forIndexPath: indexPath)
+            cell = configuredCellForFile(atIndexPath: indexPath)
         }
         else {
             switch indexPath.section {
             case TableSection.folders.rawValue:
-                (cell, fileType) = cellAndFolder(forIndexPath: indexPath)
+                cell = configuredCellForFolder(atIndexPath: indexPath)
             case TableSection.files.rawValue:
-                (cell, fileType) = cellAndFile(forIndexPath: indexPath)
+                cell = configuredCellForFile(atIndexPath: indexPath)
             default:
                 fatalError("Unknown section")
             }
         }
-        
-        cell.textLabel?.text = fileType.name
         
         return cell
     }
@@ -197,8 +194,7 @@ extension FilesViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard state == .selecting else { return }
         
-        let (_, fileType) = cellAndFile(forIndexPath: indexPath)
-        let file = fileType as! File
+        let file = folder.files![indexPath.row]
         
         if selectedFiles.contains(file) {
             let fileIndex = selectedFiles.indexOf(file)!
@@ -211,15 +207,28 @@ extension FilesViewController {
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
-    func cellAndFile(forIndexPath indexPath: NSIndexPath) -> (cell: UITableViewCell, file: FileType) {
-        let (cell, file) = (dequeCell(.File), folder.files![indexPath.row])
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if state == .selecting || TableSection.files.rawValue == indexPath.section {
+            return 70
+        }
+        return 44
+    }
+    
+    // MARK: Helpers
+    
+    func configuredCellForFile(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let file = folder.files![indexPath.row]
+        let cell = file.thumbnail == nil ? dequeMediaCell(.MediaLoading) : dequeMediaCell(.MediaLoaded)
+        
+        cell.filenameLabel.text = file.name
         cell.accessoryType = selectedFiles.contains(file) ? .Checkmark : .None
+        cell.thumnailView?.image = nil
         
         if let thumbnail = file.thumbnail {
-            cell.imageView?.image = thumbnail
+            cell.thumnailView?.image = thumbnail
         }
         else {
-            saveThumbnail(for: file, completion: { (thumbnailURL) in 
+            saveThumbnail(for: file, completion: { (thumbnailURL) in
                 dispatch_async(dispatch_get_main_queue(), {
                     if thumbnailURL != nil {
                         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -227,11 +236,14 @@ extension FilesViewController {
                 })
             })
         }
-        return (cell, file)
+        return cell
     }
     
-    func cellAndFolder(forIndexPath indexPath: NSIndexPath) -> (cell: UITableViewCell, folder: FileType) {
-        return (dequeCell(.Folder), folder.folders![indexPath.row])
+    func configuredCellForFolder(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = (dequeCell(.Folder))
+        let subFolder = folder.folders![indexPath.row]
+        cell.textLabel?.text = subFolder.name
+        return cell
     }
     
 }
@@ -265,6 +277,16 @@ extension FilesViewController: TableViewCellIdentifierType {
     enum TableViewCellIdentifier: String {
         case Folder
         case File
+        case MediaLoading
+        case MediaLoaded
+        case MediaSaving
+    }
+    
+    func dequeMediaCell(identifier: TableViewCellIdentifier) -> MediaCell {
+        guard let mediaCell = dequeCell(identifier) as? MediaCell else {
+            fatalError("Dequed cell is not a MediaCell")
+        }
+        return mediaCell
     }
 }
 
