@@ -17,7 +17,7 @@ struct Folder: FileType {
     let name: String
     let path: String
     let folders: [Folder]?
-    let files: [File]?
+    let media: [MediaFile]?
     
     var foldersCount: Int {
         get {
@@ -26,9 +26,9 @@ struct Folder: FileType {
         }
     }
     
-    var filesCount: Int {
+    var mediaCount: Int {
         get {
-            guard let files = self.files else { return 0 }
+            guard let files = self.media else { return 0 }
             return files.count
         }
     }
@@ -39,10 +39,9 @@ func ==(lhs: Folder, rhs: Folder) -> Bool {
     return lhs.name == rhs.name && lhs.path == rhs.path
 }
 
-struct File: FileType {
+struct MediaFile: FileType {
     let name: String
     let path: String
-    
     
     var thumbnail: UIImage? {
         // Remove thumbnail after a period of time
@@ -61,7 +60,7 @@ struct File: FileType {
     }
 }
 
-extension File: Equatable {}
-func ==(lhs: File, rhs: File) -> Bool {
+extension MediaFile: Equatable {}
+func ==(lhs: MediaFile, rhs: MediaFile) -> Bool {
     return lhs.name == rhs.name && lhs.path == rhs.path
 }

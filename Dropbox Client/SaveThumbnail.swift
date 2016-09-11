@@ -12,19 +12,19 @@ import Result
 typealias ThumbnailCompletion = (NSURL?) -> ()
 
 protocol SaveThumbnail {
-    func saveThumbnail(for file: File, completion: ThumbnailCompletion)
+    func saveThumbnail(for mediaFile: MediaFile, completion: ThumbnailCompletion)
 }
 
 extension SaveThumbnail where Self: UIViewController {
-    func saveThumbnail(for file: File, completion: ThumbnailCompletion) {
+    func saveThumbnail(for mediaFile: MediaFile, completion: ThumbnailCompletion) {
         
         guard let client = Dropbox.authorizedClient else {
             Dropbox.authorizeFromController(self)
             return
         }
         
-        let request = client.files.getThumbnail(path: file.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
-            return file.thumbnailURL
+        let request = client.files.getThumbnail(path: mediaFile.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
+            return mediaFile.thumbnailURL
         }
         request.response { (result, error) in
             if let (_, url) = result {

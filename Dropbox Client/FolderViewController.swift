@@ -17,16 +17,16 @@ private enum State {
 
 private enum TableSection: Int {
     case folders
-    case files
+    case media
     case count
 }
 
-class FilesViewController: UITableViewController, NetworkActivity, LoadFolderContents, SaveThumbnail {
+class FolderViewController: UITableViewController, NetworkActivity, LoadFolderContents, SaveThumbnail {
     
     // MARK: Public Properties
     
     // Uses the root Dropbox folder by default
-    var folder = Folder(name: "Dropbox", path: "", folders: nil, files: nil) {
+    var folder = Folder(name: "Dropbox", path: "", folders: nil, media: nil) {
         didSet {
             title = folder.name
         }
@@ -92,7 +92,7 @@ class FilesViewController: UITableViewController, NetworkActivity, LoadFolderCon
         return folders[indexPath.row]
     }
     
-    private var selectedFiles = [File]()
+    private var selectedMedia = [MediaFile]()
     
     // MARK: Outlets
     
@@ -126,7 +126,7 @@ class FilesViewController: UITableViewController, NetworkActivity, LoadFolderCon
 
 // MARK: Table View Controller
 
-extension FilesViewController {
+extension FolderViewController {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         switch state {
@@ -141,14 +141,14 @@ extension FilesViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if state == .selecting {
-            return folder.filesCount
+            return folder.mediaCount
         }
         
         switch TableSection(rawValue: section)! {
         case .folders:
             return folder.foldersCount
-        case .files:
-            return folder.filesCount
+        case .media:
+            return folder.mediaCount
         default:
             fatalError("Unknown section")
         }
@@ -160,14 +160,14 @@ extension FilesViewController {
         let cell: UITableViewCell
         
         if state == .selecting {
-            cell = configuredCellForFile(atIndexPath: indexPath)
+            cell = configuredCellForMediaFile(atIndexPath: indexPath)
         }
         else {
             switch indexPath.section {
             case TableSection.folders.rawValue:
                 cell = configuredCellForFolder(atIndexPath: indexPath)
-            case TableSection.files.rawValue:
-                cell = configuredCellForFile(atIndexPath: indexPath)
+            case TableSection.media.rawValue:
+                cell = configuredCellForMediaFile(atIndexPath: indexPath)
             default:
                 fatalError("Unknown section")
             }
@@ -178,14 +178,14 @@ extension FilesViewController {
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if state == .selecting {
-            return "Files (\(folder.filesCount))"
+            return "Media (\(folder.mediaCount))"
         }
         
         switch section {
         case TableSection.folders.rawValue:
             return "Folders (\(folder.foldersCount))"
-        case TableSection.files.rawValue:
-            return "Files (\(folder.filesCount))"
+        case TableSection.media.rawValue:
+            return "Media (\(folder.mediaCount))"
         default:
             fatalError("Unknown section")
         }
@@ -194,21 +194,21 @@ extension FilesViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard state == .selecting else { return }
         
-        let file = folder.files![indexPath.row]
+        let mediaFile = folder.media![indexPath.row]
         
-        if selectedFiles.contains(file) {
-            let fileIndex = selectedFiles.indexOf(file)!
-            selectedFiles.removeAtIndex(fileIndex)
+        if selectedMedia.contains(mediaFile) {
+            let fileIndex = selectedMedia.indexOf(mediaFile)!
+            selectedMedia.removeAtIndex(fileIndex)
         }
         else {
-            selectedFiles.append(file)
+            selectedMedia.append(mediaFile)
         }
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if state == .selecting || TableSection.files.rawValue == indexPath.section {
+        if state == .selecting || TableSection.media.rawValue == indexPath.section {
             return 70
         }
         return 44
@@ -216,19 +216,19 @@ extension FilesViewController {
     
     // MARK: Helpers
     
-    func configuredCellForFile(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let file = folder.files![indexPath.row]
-        let cell = file.thumbnail == nil ? dequeMediaCell(.MediaLoading) : dequeMediaCell(.MediaLoaded)
+    func configuredCellForMediaFile(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let mediaFile = folder.media![indexPath.row]
+        let cell = mediaFile.thumbnail == nil ? dequeMediaCell(.MediaLoading) : dequeMediaCell(.MediaLoaded)
         
-        cell.filenameLabel.text = file.name
-        cell.accessoryType = selectedFiles.contains(file) ? .Checkmark : .None
+        cell.filenameLabel.text = mediaFile.name
+        cell.accessoryType = selectedMedia.contains(mediaFile) ? .Checkmark : .None
         cell.thumnailView?.image = nil
         
-        if let thumbnail = file.thumbnail {
+        if let thumbnail = mediaFile.thumbnail {
             cell.thumnailView?.image = thumbnail
         }
         else {
-            saveThumbnail(for: file, completion: { (thumbnailURL) in
+            saveThumbnail(for: mediaFile, completion: { (thumbnailURL) in
                 dispatch_async(dispatch_get_main_queue(), {
                     if thumbnailURL != nil {
                         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -250,20 +250,20 @@ extension FilesViewController {
 
 // MARK: IBActions
 
-extension FilesViewController {
+extension FolderViewController {
     
     @IBAction func selectTapped(sender: AnyObject) {
         state = state == .selecting ? .viewing : .selecting
     }
     
     @IBAction func deselectAllTapped(sender: AnyObject) {
-        selectedFiles = []
+        selectedMedia = []
         tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
     }
     
     @IBAction func selectAllTapped(sender: AnyObject) {
-        if let allfiles = folder.files {
-            selectedFiles = allfiles
+        if let media = folder.media {
+            selectedMedia = media
         }
         tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
     }
@@ -273,10 +273,9 @@ extension FilesViewController {
     }
 }
 
-extension FilesViewController: TableViewCellIdentifierType {
+extension FolderViewController: TableViewCellIdentifierType {
     enum TableViewCellIdentifier: String {
         case Folder
-        case File
         case MediaLoading
         case MediaLoaded
         case MediaSaving
@@ -290,7 +289,7 @@ extension FilesViewController: TableViewCellIdentifierType {
     }
 }
 
-extension FilesViewController: SegueHandlerType {
+extension FolderViewController: SegueHandlerType {
     enum SegueIdentifier: String {
         case ShowFolder
     }
@@ -301,7 +300,7 @@ extension FilesViewController: SegueHandlerType {
             
             guard let folder = self.selectedFolder else { fatalError("Should have a folder to segue to") }
             
-            let foldersViewController = segue.destinationViewController as! FilesViewController
+            let foldersViewController = segue.destinationViewController as! FolderViewController
             foldersViewController.folder = folder
             foldersViewController.title = folder.name
         }

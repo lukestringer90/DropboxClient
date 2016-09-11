@@ -10,7 +10,7 @@
         <!--Dropbox-->
         <scene sceneID="ePT-8w-tFp">
             <objects>
-                <tableViewController id="YsA-A4-EMZ" customClass="FilesViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YsA-A4-EMZ" customClass="FolderViewController" customModule="Dropbox_Client" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z9q-p9-dI4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,25 +40,8 @@
                                     <segue destination="YsA-A4-EMZ" kind="show" identifier="ShowFolder" id="Hlz-dP-BTE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="File" textLabel="9AL-Ax-b5O" rowHeight="70" style="IBUITableViewCellStyleDefault" id="gOe-vX-5De">
-                                <rect key="frame" x="0.0" y="136" width="600" height="70"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gOe-vX-5De" id="BAZ-ws-daT">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9AL-Ax-b5O">
-                                            <rect key="frame" x="15" y="0.0" width="570" height="69.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoading" rowHeight="70" id="ITB-jX-ddp" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="206" width="600" height="70"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ITB-jX-ddp" id="yjs-ca-96Z">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
@@ -113,7 +96,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaLoaded" rowHeight="70" id="LH3-bt-gXb" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="276" width="600" height="70"/>
+                                <rect key="frame" x="0.0" y="206" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LH3-bt-gXb" id="rRo-tQ-2Da">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
@@ -159,7 +142,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="346" width="600" height="70"/>
+                                <rect key="frame" x="0.0" y="276" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PIk-K6-WP0" id="L5S-G8-FM4">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
