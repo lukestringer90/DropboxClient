@@ -271,8 +271,10 @@ extension FolderViewController {
     @IBAction func selectTapped(sender: AnyObject) {
         switch state {
         case .selecting:
+            if selectedMedia.count > 0 {
+                deselectAllTapped(sender)
+            }
             state = .viewing
-            deselectAllTapped(sender)
         case .viewing:
             state = .selecting
         default:
@@ -282,14 +284,14 @@ extension FolderViewController {
     
     @IBAction func deselectAllTapped(sender: AnyObject) {
         selectedMedia = []
-        tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+        tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
     }
     
     @IBAction func selectAllTapped(sender: AnyObject) {
         if let media = folder.media {
             selectedMedia = media
         }
-        tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+        tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
     }
     
     @IBAction func downloadTapped(sender: AnyObject) {
