@@ -6,7 +6,7 @@
 //  Copyright © 2016 Luke Stringer. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol FileType {
     var name: String { get }
@@ -43,6 +43,22 @@ func ==(lhs: Folder, rhs: Folder) -> Bool {
 struct File: FileType {
     let name: String
     let path: String
+    
+    
+    var thumbnail: UIImage? {
+        guard let imageData = NSData(contentsOfURL: thumbnailURL),
+            let image = UIImage(data: imageData) else {
+            return nil
+        }
+        
+        return image
+    }
+    
+    var thumbnailURL: NSURL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        let documentsURL = NSURL(fileURLWithPath: documentsPath)
+        return NSURL(fileURLWithPath: "\(self.name)", relativeToURL: documentsURL)
+    }
 }
 
 extension File: Equatable {}

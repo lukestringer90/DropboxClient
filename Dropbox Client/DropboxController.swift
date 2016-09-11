@@ -10,18 +10,21 @@ import SwiftyDropbox
 import Result
 
 enum DropboxControllerError: ErrorType {
-    case APIError(APIError: CallError<Files.ListFolderError>)
+    case folderAPI(error: CallError<Files.ListFolderError>)
     case unknown
 }
 
-typealias DropboxCompletion = (Result<Folder, DropboxControllerError>) -> ()
+typealias FolderCompletion = (Result<Folder, DropboxControllerError>) -> ()
+typealias ThumbnailCompletion = (NSURL?) -> ()
 
 protocol DropboxController {
-    func loadContentsOf(folder: Folder, completion: DropboxCompletion)
+    func loadContents(of folder: Folder, completion: FolderCompletion)
+    func saveThumbnail(for file: File, completion: ThumbnailCompletion)
 }
 
 extension DropboxController where Self: UIViewController {
-    func loadContentsOf(folder: Folder, completion: DropboxCompletion) {
+    
+    func loadContents(of folder: Folder, completion: FolderCompletion) {
         
         guard let client = Dropbox.authorizedClient else {
             Dropbox.authorizeFromController(self)
@@ -32,10 +35,10 @@ extension DropboxController where Self: UIViewController {
             
             guard let result = listFolderResult else {
                 if let APIError = listFolderError {
-                    completion(Result.Failure(DropboxControllerError.APIError(APIError: APIError)))
+                    completion(.Failure(.folderAPI(error: APIError)))
                 }
                 else {
-                    completion(Result.Failure(DropboxControllerError.unknown))
+                    completion(.Failure(.unknown))
                 }
                 return
             }
@@ -54,8 +57,30 @@ extension DropboxController where Self: UIViewController {
             
             let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
             
-            completion(Result.Success(newFolder))
+            completion(.Success(newFolder))
         }
     }
+    
+    func saveThumbnail(for file: File, completion: ThumbnailCompletion) {
+        
+        guard let client = Dropbox.authorizedClient else {
+            Dropbox.authorizeFromController(self)
+            return
+        }
+        
+        let request = client.files.getThumbnail(path: file.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
+            return file.thumbnailURL
+        }
+        request.response { (result, error) in
+            if let (_, url) = result {
+                completion(url)
+            }
+            else if let _ = error {
+                completion(nil)
+            }
+        }
+    }
+    
+    
     
 }

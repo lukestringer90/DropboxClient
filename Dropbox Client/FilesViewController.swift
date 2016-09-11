@@ -35,6 +35,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
     // MARK: Private Properites
     
     private let foldersIndexSetWhenViewing = NSIndexSet(index: TableSection.folders.rawValue)
+    
     private var state = State.loading {
         didSet {
             switch state {
@@ -106,7 +107,7 @@ class FilesViewController: UITableViewController, NetworkActivity, DropboxContro
         super.viewWillAppear(animated)
         
         state = .loading
-        loadContentsOf(folder) { result in
+        loadContents(of: folder) { result in
             
             dispatch_async(dispatch_get_main_queue(), {
                 self.state = .viewing
@@ -161,8 +162,6 @@ extension FilesViewController {
         
         if state == .selecting {
             (cell, fileType) = cellAndFile(forIndexPath: indexPath)
-            let file = fileType as! File
-            cell.accessoryType = selectedFiles.contains(file) ? .Checkmark : .None
         }
         else {
             switch indexPath.section {
@@ -197,7 +196,7 @@ extension FilesViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard state == .selecting else { return }
-     
+        
         let (_, fileType) = cellAndFile(forIndexPath: indexPath)
         let file = fileType as! File
         
@@ -213,12 +212,28 @@ extension FilesViewController {
     }
     
     func cellAndFile(forIndexPath indexPath: NSIndexPath) -> (cell: UITableViewCell, file: FileType) {
-        return (dequeCell(.File), folder.files![indexPath.row])
+        let (cell, file) = (dequeCell(.File), folder.files![indexPath.row])
+        cell.accessoryType = selectedFiles.contains(file) ? .Checkmark : .None
+        
+        if let thumbnail = file.thumbnail {
+            cell.imageView?.image = thumbnail
+        }
+        else {
+            saveThumbnail(for: file, completion: { (thumbnailURL) in 
+                dispatch_async(dispatch_get_main_queue(), {
+                    if thumbnailURL != nil {
+                        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
+                })
+            })
+        }
+        return (cell, file)
     }
+    
     func cellAndFolder(forIndexPath indexPath: NSIndexPath) -> (cell: UITableViewCell, folder: FileType) {
         return (dequeCell(.Folder), folder.folders![indexPath.row])
     }
-
+    
 }
 
 // MARK: IBActions
