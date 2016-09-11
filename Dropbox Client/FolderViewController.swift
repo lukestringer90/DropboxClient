@@ -159,8 +159,6 @@ extension FolderViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("section: \(indexPath.section), row: \(indexPath.row)")
-        
         let cell: UITableViewCell
         
         if state == .selecting || state == .saving {
@@ -235,6 +233,7 @@ extension FolderViewController {
         }()
         
         cell.filenameLabel.text = mediaFile.name
+        cell.descriptionLabel?.text = mediaFile.description
         cell.accessoryType = selectedMedia.contains(mediaFile) ? .Checkmark : .None
         cell.thumnailView?.image = nil
         

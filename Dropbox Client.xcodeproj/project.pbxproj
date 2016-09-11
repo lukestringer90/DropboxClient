@@ -20,6 +20,7 @@
 		F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A46F1D8435180034A73A /* NetworkActivity.swift */; };
 		F5C3A4721D84359F0034A73A /* LoadFolderContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */; };
 		F5E79CA91D85B25000CC06FB /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E79CA81D85B25000CC06FB /* MediaCell.swift */; };
+		F5E79CAC1D85EA7E00CC06FB /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E79CAB1D85EA7E00CC06FB /* DateHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		F5C3A46F1D8435180034A73A /* NetworkActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivity.swift; sourceTree = "<group>"; };
 		F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadFolderContents.swift; sourceTree = "<group>"; };
 		F5E79CA81D85B25000CC06FB /* MediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
+		F5E79CAB1D85EA7E00CC06FB /* DateHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 		F55CB0A61D44CDB700F169F4 /* Dropbox Client */ = {
 			isa = PBXGroup;
 			children = (
+				F5E79CAA1D85EA6700CC06FB /* Extension */,
 				F51D7CE11D73440100505F10 /* Protocol */,
 				F51D7CDE1D73431600505F10 /* Controller */,
 				F51D7CDD1D73431000505F10 /* View */,
@@ -147,6 +150,14 @@
 				F57AFF9A1D85865900E43C08 /* SaveThumbnail.swift */,
 			);
 			name = Dropbox;
+			sourceTree = "<group>";
+		};
+		F5E79CAA1D85EA6700CC06FB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F5E79CAB1D85EA7E00CC06FB /* DateHelpers.swift */,
+			);
+			name = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +285,7 @@
 				F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */,
 				F57AFF9B1D85865900E43C08 /* SaveThumbnail.swift in Sources */,
 				F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */,
+				F5E79CAC1D85EA7E00CC06FB /* DateHelpers.swift in Sources */,
 				F5B2E0231D819140008472ED /* FileType.swift in Sources */,
 				F5E79CA91D85B25000CC06FB /* MediaCell.swift in Sources */,
 				F51D7CE01D73434400505F10 /* FolderViewController.swift in Sources */,

@@ -52,7 +52,20 @@ extension LoadFolderContents where Self: UIViewController {
             }
             
             let media = mediaMetaData.map { (metadata) -> MediaFile in
-                return MediaFile(name: metadata.name, path: metadata.pathLower!)
+                let description: String?
+                switch metadata.mediaInfo! {
+                case .Metadata(let mediaInfoMetadata):
+                    guard let date = mediaInfoMetadata.timeTaken else {
+                        description = nil
+                        break
+                    }
+                    description = date.userFriendlyString()
+                case .Pending:
+                    description = nil
+                }
+                return MediaFile(name: metadata.name, path: metadata.pathLower!, description: description)
+                
+                
             }
             
             let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, media: media)

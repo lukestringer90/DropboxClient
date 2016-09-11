@@ -42,6 +42,7 @@ func ==(lhs: Folder, rhs: Folder) -> Bool {
 struct MediaFile: FileType {
     let name: String
     let path: String
+    let description: String?
     
     var thumbnail: UIImage? {
         // Remove thumbnail after a period of time
