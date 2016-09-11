@@ -10,52 +10,77 @@ import SwiftyDropbox
 import Result
 
 enum DropboxControllerError: ErrorType {
-    case APIError(APIError: CallError<Files.ListFolderError>)
+    case folderAPI(error: CallError<Files.ListFolderError>)
     case unknown
 }
 
-typealias DropboxCompletion = (Result<Folder, DropboxControllerError>) -> ()
+typealias FolderCompletion = (Result<Folder, DropboxControllerError>) -> ()
+typealias ThumbnailCompletion = (NSURL?) -> ()
 
 protocol DropboxController {
-    func loadContentsOf(folder: Folder, completion: DropboxCompletion)
+    func loadContents(of folder: Folder, completion: FolderCompletion)
+    func saveThumbnail(for file: File, completion: ThumbnailCompletion)
 }
 
 extension DropboxController where Self: UIViewController {
-    func loadContentsOf(folder: Folder, completion: DropboxCompletion) {
+    
+    func loadContents(of folder: Folder, completion: FolderCompletion) {
         
         guard let client = Dropbox.authorizedClient else {
             Dropbox.authorizeFromController(self)
             return
         }
         
-        let result = client.files.listFolder(path: folder.path)
-        result.response { (listFolderResult, listFolderError) in
+        client.files.listFolder(path: folder.path).response { (listFolderResult, listFolderError) in
             
-            if let result = listFolderResult {
-                let mountedEntries = result.entries.filter { $0.pathLower != nil }
-                let mountedFoldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
-                let mountedFilesMetadata = mountedEntries.filter { $0 is Files.FileMetadata }
-                
-                let folders = mountedFoldersMetadata.map({ (metadata) -> Folder in
-                    return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, files: nil)
-                })
-                
-                let files = mountedFilesMetadata.map({ (metadata) -> File in
-                    return File(name: metadata.name, path: metadata.pathLower!)
-                })
-                
-                let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
-                
-                completion(Result.Success(newFolder))
-                
+            guard let result = listFolderResult else {
+                if let APIError = listFolderError {
+                    completion(.Failure(.folderAPI(error: APIError)))
+                }
+                else {
+                    completion(.Failure(.unknown))
+                }
+                return
             }
-            else if let APIError = listFolderError {
-                completion(Result.Failure(DropboxControllerError.APIError(APIError: APIError)))
+            
+            let mountedEntries = result.entries.filter { $0.pathLower != nil }
+            let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
+            let filesMetadata = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
+            
+            let folders = foldersMetadata.map { (metadata) -> Folder in
+                return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, files: nil)
             }
-            else {
-                completion(Result.Failure(DropboxControllerError.unknown))
+            
+            let files = filesMetadata.map { (metadata) -> File in
+                return File(name: metadata.name, path: metadata.pathLower!)
+            }
+            
+            let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, files: files)
+            
+            completion(.Success(newFolder))
+        }
+    }
+    
+    func saveThumbnail(for file: File, completion: ThumbnailCompletion) {
+        
+        guard let client = Dropbox.authorizedClient else {
+            Dropbox.authorizeFromController(self)
+            return
+        }
+        
+        let request = client.files.getThumbnail(path: file.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
+            return file.thumbnailURL
+        }
+        request.response { (result, error) in
+            if let (_, url) = result {
+                completion(url)
+            }
+            else if let _ = error {
+                completion(nil)
             }
         }
     }
-
+    
+    
+    
 }
