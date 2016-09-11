@@ -45,13 +45,29 @@ extension LoadFolderContents where Self: UIViewController {
             let mountedEntries = result.entries.filter { $0.pathLower != nil }
             let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
             let filesMetaData = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
-            let mediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }
+            let sortedMediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }.sort({ (itemA, itemb) -> Bool in
+                let mediaInfoA = itemA.mediaInfo!
+                let mediaInfoB = itemb.mediaInfo!
+                
+                switch mediaInfoA {
+                case .Metadata(let metadataA):
+                    switch mediaInfoB {
+                    case .Metadata(let metadataB):
+                        guard let dateA = metadataA.timeTaken, let dateB = metadataB.timeTaken else { return false }
+                        return dateA.laterDate(dateB) == dateB
+                    default:
+                        return false
+                    }
+                default:
+                    return false
+                }
+            })
             
             let folders = foldersMetadata.map { (metadata) -> Folder in
                 return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, media: nil)
             }
             
-            let media = mediaMetaData.map { (metadata) -> MediaFile in
+            let media = sortedMediaMetaData.map { (metadata) -> MediaFile in
                 let description: String?
                 switch metadata.mediaInfo! {
                 case .Metadata(let mediaInfoMetadata):
