@@ -234,7 +234,7 @@ extension FolderViewController {
         
         cell.filenameLabel.text = mediaFile.name
         cell.descriptionLabel?.text = mediaFile.description
-        cell.accessoryType = selectedMedia.contains(mediaFile) ? .Checkmark : .None
+        cell.accessoryType = selectedMedia.contains(mediaFile) && state != .saving ? .Checkmark : .None
         cell.thumnailView?.image = nil
         
         if let thumbnail = mediaFile.thumbnail {
