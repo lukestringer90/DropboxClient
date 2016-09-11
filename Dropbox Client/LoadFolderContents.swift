@@ -9,20 +9,18 @@
 import SwiftyDropbox
 import Result
 
-enum DropboxControllerError: ErrorType {
+enum LoadFolderContentsError: ErrorType {
     case folderAPI(error: CallError<Files.ListFolderError>)
     case unknown
 }
 
-typealias FolderCompletion = (Result<Folder, DropboxControllerError>) -> ()
-typealias ThumbnailCompletion = (NSURL?) -> ()
+typealias FolderCompletion = (Result<Folder, LoadFolderContentsError>) -> ()
 
-protocol DropboxController {
+protocol LoadFolderContents {
     func loadContents(of folder: Folder, completion: FolderCompletion)
-    func saveThumbnail(for file: File, completion: ThumbnailCompletion)
 }
 
-extension DropboxController where Self: UIViewController {
+extension LoadFolderContents where Self: UIViewController {
     
     func loadContents(of folder: Folder, completion: FolderCompletion) {
         
@@ -60,27 +58,4 @@ extension DropboxController where Self: UIViewController {
             completion(.Success(newFolder))
         }
     }
-    
-    func saveThumbnail(for file: File, completion: ThumbnailCompletion) {
-        
-        guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorizeFromController(self)
-            return
-        }
-        
-        let request = client.files.getThumbnail(path: file.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
-            return file.thumbnailURL
-        }
-        request.response { (result, error) in
-            if let (_, url) = result {
-                completion(url)
-            }
-            else if let _ = error {
-                completion(nil)
-            }
-        }
-    }
-    
-    
-    
 }

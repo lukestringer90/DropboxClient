@@ -21,7 +21,7 @@ private enum TableSection: Int {
     case count
 }
 
-class FilesViewController: UITableViewController, NetworkActivity, DropboxController {
+class FilesViewController: UITableViewController, NetworkActivity, LoadFolderContents, SaveThumbnail {
     
     // MARK: Public Properties
     

@@ -39,13 +39,13 @@ func ==(lhs: Folder, rhs: Folder) -> Bool {
     return lhs.name == rhs.name && lhs.path == rhs.path
 }
 
-
 struct File: FileType {
     let name: String
     let path: String
     
     
     var thumbnail: UIImage? {
+        // Remove thumbnail after a period of time
         guard let imageData = NSData(contentsOfURL: thumbnailURL),
             let image = UIImage(data: imageData) else {
             return nil

@@ -15,9 +15,10 @@
 		F55CB0AD1D44CDB700F169F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AB1D44CDB700F169F4 /* Main.storyboard */; };
 		F55CB0AF1D44CDB700F169F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */; };
 		F55CB0B21D44CDB700F169F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55CB0B01D44CDB700F169F4 /* LaunchScreen.storyboard */; };
+		F57AFF9B1D85865900E43C08 /* SaveThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57AFF9A1D85865900E43C08 /* SaveThumbnail.swift */; };
 		F5B2E0231D819140008472ED /* FileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B2E0221D819140008472ED /* FileType.swift */; };
 		F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A46F1D8435180034A73A /* NetworkActivity.swift */; };
-		F5C3A4721D84359F0034A73A /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A4711D84359F0034A73A /* DropboxController.swift */; };
+		F5C3A4721D84359F0034A73A /* LoadFolderContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +34,10 @@
 		F55CB0AE1D44CDB700F169F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F55CB0B11D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F55CB0B31D44CDB700F169F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F57AFF9A1D85865900E43C08 /* SaveThumbnail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveThumbnail.swift; sourceTree = "<group>"; };
 		F5B2E0221D819140008472ED /* FileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileType.swift; sourceTree = "<group>"; };
 		F5C3A46F1D8435180034A73A /* NetworkActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivity.swift; sourceTree = "<group>"; };
-		F5C3A4711D84359F0034A73A /* DropboxController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
+		F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadFolderContents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +102,7 @@
 				F51D7CE21D73441300505F10 /* SegueHandlerType.swift */,
 				F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */,
 				F5C3A46F1D8435180034A73A /* NetworkActivity.swift */,
-				F5C3A4711D84359F0034A73A /* DropboxController.swift */,
+				F57AFF991D85864800E43C08 /* Dropbox */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -133,6 +135,15 @@
 				F55CB0B31D44CDB700F169F4 /* Info.plist */,
 			);
 			path = "Dropbox Client";
+			sourceTree = "<group>";
+		};
+		F57AFF991D85864800E43C08 /* Dropbox */ = {
+			isa = PBXGroup;
+			children = (
+				F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */,
+				F57AFF9A1D85865900E43C08 /* SaveThumbnail.swift */,
+			);
+			name = Dropbox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,12 +269,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */,
+				F57AFF9B1D85865900E43C08 /* SaveThumbnail.swift in Sources */,
 				F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */,
 				F5B2E0231D819140008472ED /* FileType.swift in Sources */,
 				F51D7CE01D73434400505F10 /* FilesViewController.swift in Sources */,
 				F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,
-				F5C3A4721D84359F0034A73A /* DropboxController.swift in Sources */,
+				F5C3A4721D84359F0034A73A /* LoadFolderContents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
