@@ -231,7 +231,10 @@ extension FolderViewController {
             saveThumbnail(for: mediaFile, completion: { (thumbnailURL) in
                 dispatch_async(dispatch_get_main_queue(), {
                     if thumbnailURL != nil {
-                        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        if let indexPathToReload = self.tableView.indexPathForCell(cell) {
+                            self.tableView.reloadRowsAtIndexPaths([indexPathToReload], withRowAnimation: .Automatic)
+                        }
+                        
                     }
                 })
             })
@@ -253,7 +256,16 @@ extension FolderViewController {
 extension FolderViewController {
     
     @IBAction func selectTapped(sender: AnyObject) {
-        state = state == .selecting ? .viewing : .selecting
+        switch state {
+        case .selecting:
+            // TODO: This crashes if viewing a media file at the bottom and no folders are visible
+            state = .viewing
+            deselectAllTapped(sender)
+        case .viewing:
+            state = .selecting
+        default:
+            break
+        }
     }
     
     @IBAction func deselectAllTapped(sender: AnyObject) {
