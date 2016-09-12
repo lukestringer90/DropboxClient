@@ -123,7 +123,7 @@
                                             </variation>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eog-8J-ZaN">
-                                            <rect key="frame" x="71" y="36.5" width="466" height="21"/>
+                                            <rect key="frame" x="71" y="36" width="466" height="21"/>
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -153,8 +153,71 @@
                                     <outlet property="thumnailView" destination="EYy-jx-EIU" id="zVh-rM-ld3"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaSaved" rowHeight="70" id="JA0-hD-Hlq" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="276" width="600" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JA0-hD-Hlq" id="fk6-dD-sYE">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filename" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NG2-IT-bpZ">
+                                            <rect key="frame" x="71" y="11" width="466" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="466" id="HtE-Oj-4vI"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="HtE-Oj-4vI"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3m-Im-knj">
+                                            <rect key="frame" x="71" y="36" width="466" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9bQ-Jp-hqN">
+                                            <rect key="frame" x="8" y="7" width="55" height="55"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="55" id="8gN-DN-rcQ"/>
+                                                <constraint firstAttribute="width" secondItem="9bQ-Jp-hqN" secondAttribute="height" id="NgH-oo-EyB"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tick" translatesAutoresizingMaskIntoConstraints="NO" id="icb-da-OIQ">
+                                            <rect key="frame" x="576" y="26.5" width="16" height="15.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="16" id="33d-7n-UvD"/>
+                                                <constraint firstAttribute="width" secondItem="icb-da-OIQ" secondAttribute="height" id="67H-NR-Z2Z"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="icb-da-OIQ" firstAttribute="centerY" secondItem="fk6-dD-sYE" secondAttribute="centerY" id="6D1-14-sOd"/>
+                                        <constraint firstItem="NG2-IT-bpZ" firstAttribute="top" secondItem="9bQ-Jp-hqN" secondAttribute="top" constant="4" id="D0x-Ux-5Rm"/>
+                                        <constraint firstItem="NG2-IT-bpZ" firstAttribute="leading" secondItem="9bQ-Jp-hqN" secondAttribute="trailing" constant="8" id="OSo-DA-RFn"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="NG2-IT-bpZ" secondAttribute="trailing" constant="55" id="QcP-he-c3J"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="9bQ-Jp-hqN" secondAttribute="leading" id="ZAC-u4-EPu"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="icb-da-OIQ" secondAttribute="trailing" id="g3V-bK-mqd"/>
+                                        <constraint firstItem="o3m-Im-knj" firstAttribute="top" secondItem="NG2-IT-bpZ" secondAttribute="bottom" constant="4" id="hP9-oV-Zut"/>
+                                        <constraint firstItem="o3m-Im-knj" firstAttribute="leading" secondItem="NG2-IT-bpZ" secondAttribute="leading" id="ifh-3g-MIa"/>
+                                        <constraint firstItem="o3m-Im-knj" firstAttribute="width" secondItem="NG2-IT-bpZ" secondAttribute="width" id="moQ-Ik-5sl"/>
+                                        <constraint firstItem="9bQ-Jp-hqN" firstAttribute="centerY" secondItem="fk6-dD-sYE" secondAttribute="centerY" id="nhM-lv-iBy"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="o3m-Im-knj" id="vYZ-3s-9uD"/>
+                                    <outlet property="filenameLabel" destination="NG2-IT-bpZ" id="MQQ-x3-mAG"/>
+                                    <outlet property="thumnailView" destination="9bQ-Jp-hqN" id="lD3-Gr-jsg"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="mediaSaving" rowHeight="70" id="PIk-K6-WP0" customClass="MediaCell" customModule="Dropbox_Client" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="346" width="600" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PIk-K6-WP0" id="L5S-G8-FM4">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="69.5"/>
@@ -221,9 +284,9 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="y1P-84-3dj"/>
-                        <barButtonItem title="Download" style="done" id="t3G-3I-Gg1">
+                        <barButtonItem title="Save" style="done" id="t3G-3I-Gg1">
                             <connections>
-                                <action selector="downloadTapped:" destination="YsA-A4-EMZ" id="rrX-x6-ey9"/>
+                                <action selector="saveTapped:" destination="YsA-A4-EMZ" id="hpO-I0-yR1"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -237,7 +300,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="deselectAllButton" destination="EtC-nO-VuJ" id="5TC-mA-Jul"/>
-                        <outlet property="downloadButton" destination="t3G-3I-Gg1" id="7gV-XU-twe"/>
+                        <outlet property="saveButton" destination="t3G-3I-Gg1" id="nez-XB-AO8"/>
                         <outlet property="selectAllButton" destination="USU-Px-igr" id="Xl0-tA-Wnj"/>
                         <outlet property="selectButton" destination="ZzY-87-lHU" id="W7E-BV-PVI"/>
                     </connections>
@@ -351,8 +414,8 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="beq-vX-5OS">
-                                            <rect key="frame" x="8" y="4" width="40" height="40.5"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beq-vX-5OS">
+                                            <rect key="frame" x="8" y="4" width="40" height="41"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="40" id="10d-RH-dwM"/>
                                                 <constraint firstAttribute="width" secondItem="beq-vX-5OS" secondAttribute="height" id="EbP-uR-BcB"/>
@@ -375,7 +438,7 @@
                                             </variation>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AeF-OA-BY7">
-                                            <rect key="frame" x="8" y="4.5" width="40" height="40.5"/>
+                                            <rect key="frame" x="8" y="5" width="40" height="40"/>
                                             <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
@@ -562,6 +625,7 @@
     </scenes>
     <resources>
         <image name="folder" width="18" height="18"/>
+        <image name="tick" width="10" height="10"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="LVb-oV-xS0"/>

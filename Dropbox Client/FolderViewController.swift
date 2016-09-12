@@ -63,7 +63,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 navigationController?.setToolbarHidden(false, animated: true)
                 
                 if oldValue == .saving {
-                    downloadButton.title = "Download"
+                    saveButton.title = "Save"
                     selectButton.enabled = true
                     deselectAllButton.enabled = true
                     selectAllButton.enabled = true
@@ -78,7 +78,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 selectButton.enabled = false
                 deselectAllButton.enabled = false
                 selectAllButton.enabled = false
-                downloadButton.title = "Stop"
+                saveButton.title = "Stop"
                 tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
             }
         }
@@ -101,7 +101,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     @IBOutlet weak var selectButton: UIBarButtonItem!
     @IBOutlet weak var deselectAllButton: UIBarButtonItem!
     @IBOutlet weak var selectAllButton: UIBarButtonItem!
-    @IBOutlet weak var downloadButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     // MARK: UIViewController
     
@@ -294,7 +294,7 @@ extension FolderViewController {
         tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
     }
     
-    @IBAction func downloadTapped(sender: AnyObject) {
+    @IBAction func saveTapped(sender: AnyObject) {
         state = state == .saving ? .selecting : .saving
     }
 }
@@ -305,6 +305,7 @@ extension FolderViewController: TableViewCellIdentifierType {
         case mediaLoading
         case mediaLoaded
         case mediaSaving
+        case mediaSaved
     }
     
     func dequeMediaCell(identifier: TableViewCellIdentifier) -> MediaCell {
