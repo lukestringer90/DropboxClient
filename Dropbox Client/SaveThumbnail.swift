@@ -7,7 +7,6 @@
 //
 
 import SwiftyDropbox
-import Result
 
 typealias ThumbnailCompletion = (NSURL?) -> ()
 

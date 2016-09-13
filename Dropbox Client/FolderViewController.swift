@@ -34,6 +34,9 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     
     // MARK: Private Properites
     
+    var mediaFileProgressMap = [MediaFile:Float]()
+    var savedMediaFiles = Set<MediaFile>()
+    
     private let firstSectionIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
     
     private var state = State.loading {
@@ -74,12 +77,17 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 }
                 
             case .saving:
+                guard selectedMedia.count > 0 else {
+                    state = .selecting
+                    break
+                }
                 self.showActivityIndicator()
                 selectButton.enabled = false
                 deselectAllButton.enabled = false
                 selectAllButton.enabled = false
                 saveButton.title = "Stop"
                 tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
+                saveSelectedMediaFilesAsynchronously()
             }
         }
     }
@@ -224,9 +232,18 @@ extension FolderViewController {
             if mediaFile.thumbnail == nil {
                 return dequeMediaCell(.mediaLoading)
             }
+            else if savedMediaFiles.contains(mediaFile) {
+                return dequeMediaCell(.mediaSaved)
+            }
             switch state {
             case .saving:
-                return dequeMediaCell(.mediaSaving)
+                let savingCell = dequeMediaCell(.mediaSaving)
+                if let progress = mediaFileProgressMap[mediaFile] {
+                    let perctenage = progress * 100
+                    savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
+                    savingCell.progressView?.progress = progress
+                }
+                return savingCell
             default:
                 return dequeMediaCell(.mediaLoaded)
             }
@@ -313,6 +330,49 @@ extension FolderViewController: TableViewCellIdentifierType {
             fatalError("Dequed cell is not a MediaCell")
         }
         return mediaCell
+    }
+}
+
+// MARK: Dropbox
+extension FolderViewController {
+    
+    func saveSelectedMediaFilesAsynchronously() {
+        saveMediaFile(atIndex: 0)
+    }
+    
+    func saveMediaFile(atIndex index: Int) {
+        let mediaFile = selectedMedia[index]
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        
+        save(mediaFile,
+             progress: { (mediaFile, progress) in
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    if let savingCell = self.tableView.cellForRowAtIndexPath(indexPath) as? MediaCell {
+                        let perctenage = progress * 100
+                        savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
+                        savingCell.progressView?.progress = progress
+                    }
+                    
+                })
+            },
+             completion: { result in
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.savedMediaFiles.insert(mediaFile)
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    
+                    let nextIndex = index + 1
+                    if nextIndex < self.selectedMedia.count {
+                        self.saveMediaFile(atIndex: nextIndex)
+                    }
+                    else {
+                        self.state == .selecting
+                    }
+                    
+                })
+        })
     }
 }
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7EA7ECE3185F021F41D0F240 /* Pods_Dropbox_Client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */; };
+		F50A749F1D87487F001DB8A8 /* SaveMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50A749E1D87487F001DB8A8 /* SaveMedia.swift */; };
 		F51D7CE01D73434400505F10 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CDF1D73434400505F10 /* FolderViewController.swift */; };
 		F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE21D73441300505F10 /* SegueHandlerType.swift */; };
 		F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */; };
@@ -27,6 +28,7 @@
 		691FC58686E1649ABBEE968B /* Pods-Dropbox Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.debug.xcconfig"; sourceTree = "<group>"; };
 		E86F471F72A85CC1477F7504 /* Pods_Dropbox_Client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dropbox_Client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A47DDFC8E87F23276F222C /* Pods-Dropbox Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dropbox Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dropbox Client/Pods-Dropbox Client.release.xcconfig"; sourceTree = "<group>"; };
+		F50A749E1D87487F001DB8A8 /* SaveMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveMedia.swift; sourceTree = "<group>"; };
 		F51D7CDF1D73434400505F10 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		F51D7CE21D73441300505F10 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifierType.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			children = (
 				F5C3A4711D84359F0034A73A /* LoadFolderContents.swift */,
 				F57AFF9A1D85865900E43C08 /* SaveThumbnail.swift */,
+				F50A749E1D87487F001DB8A8 /* SaveMedia.swift */,
 			);
 			name = Dropbox;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				F57AFF9B1D85865900E43C08 /* SaveThumbnail.swift in Sources */,
 				F5C3A4701D8435180034A73A /* NetworkActivity.swift in Sources */,
 				F5E79CAC1D85EA7E00CC06FB /* DateHelpers.swift in Sources */,
+				F50A749F1D87487F001DB8A8 /* SaveMedia.swift in Sources */,
 				F5B2E0231D819140008472ED /* FileType.swift in Sources */,
 				F5E79CA91D85B25000CC06FB /* MediaCell.swift in Sources */,
 				F51D7CE01D73434400505F10 /* FolderViewController.swift in Sources */,

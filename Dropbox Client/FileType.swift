@@ -61,6 +61,14 @@ struct MediaFile: FileType {
     }
 }
 
+extension MediaFile: Hashable {
+    var hashValue: Int {
+        get {
+           return path.hashValue
+        }
+    }
+}
+
 extension MediaFile: Equatable {}
 func ==(lhs: MediaFile, rhs: MediaFile) -> Bool {
     return lhs.name == rhs.name && lhs.path == rhs.path
