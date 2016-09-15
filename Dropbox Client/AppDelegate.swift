@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Success! User is logged into Dropbox with token: \(token)")
             case .Error(let error, let description):
                 print("Error \(error): \(description)")
+            case .Cancel:
+                print("Cancelled")
             }
         }
         

@@ -18,7 +18,7 @@ extension SaveThumbnail where Self: UIViewController {
     func saveThumbnail(for mediaFile: MediaFile, completion: ThumbnailCompletion) {
         
         guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorizeFromController(self)
+            Dropbox.authorize(fromController: self)
             return
         }
         

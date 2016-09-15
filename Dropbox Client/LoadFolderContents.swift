@@ -25,7 +25,7 @@ extension LoadFolderContents where Self: UIViewController {
     func loadContents(of folder: Folder, completion: FolderCompletion) {
         
         guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorizeFromController(self)
+            Dropbox.authorize(fromController: self)
             return
         }
         
