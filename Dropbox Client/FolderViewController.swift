@@ -37,24 +37,24 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     var mediaFileProgressMap = [MediaFile:Float]()
     var savedMediaFiles = Set<MediaFile>()
     
-    private let firstSectionIndexSet = NSIndexSet(index: TableSection.folders.rawValue)
+    fileprivate let firstSectionIndexSet = IndexSet(integer: TableSection.folders.rawValue)
     
-    private var state = State.loading {
+    fileprivate var state = State.loading {
         didSet {
             switch state {
                 
             case .loading:
                 showActivityIndicator()
-                selectButton.enabled = false
+                selectButton.isEnabled = false
                 
             case .viewing:
                 hideActivityIndicator()
-                selectButton.enabled = true
+                selectButton.isEnabled = true
                 selectButton.title = "Select"
                 navigationItem.setHidesBackButton(false, animated: true)
                 
                 if oldValue == .selecting {
-                    tableView.insertSections(firstSectionIndexSet, withRowAnimation: .Top)
+                    tableView.insertSections(firstSectionIndexSet, with: .top)
                 }
                 
                 navigationController?.setToolbarHidden(true, animated: true)
@@ -67,13 +67,13 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 
                 if oldValue == .saving {
                     saveButton.title = "Save"
-                    selectButton.enabled = true
-                    deselectAllButton.enabled = true
-                    selectAllButton.enabled = true
-                    tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
+                    selectButton.isEnabled = true
+                    deselectAllButton.isEnabled = true
+                    selectAllButton.isEnabled = true
+                    tableView.reloadSections(firstSectionIndexSet, with: .automatic)
                 }
                 else if oldValue == .viewing {
-                    tableView.deleteSections(firstSectionIndexSet, withRowAnimation: .Top)
+                    tableView.deleteSections(firstSectionIndexSet, with: .top)
                 }
                 
             case .saving:
@@ -82,27 +82,27 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                     break
                 }
                 self.showActivityIndicator()
-                selectButton.enabled = false
-                deselectAllButton.enabled = false
-                selectAllButton.enabled = false
+                selectButton.isEnabled = false
+                deselectAllButton.isEnabled = false
+                selectAllButton.isEnabled = false
                 saveButton.title = "Stop"
-                tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
+                tableView.reloadSections(firstSectionIndexSet, with: .automatic)
                 saveSelectedMediaFilesAsynchronously()
             }
         }
     }
     
-    private var selectedFolder: Folder? {
+    fileprivate var selectedFolder: Folder? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
         
         guard let folders = folder.folders else {
             fatalError("Could not get selected folder")
         }
         
-        return folders[indexPath.row]
+        return folders[(indexPath as NSIndexPath).row]
     }
     
-    private var selectedMedia = [MediaFile]()
+    fileprivate var selectedMedia = [MediaFile]()
     
     // MARK: Outlets
     
@@ -113,20 +113,20 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     
     // MARK: UIViewController
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         state = .loading
         loadContents(of: folder) { result in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 self.state = .viewing
                 
                 switch result {
-                case .Success(let newFolder):
+                case .success(let newFolder):
                     self.folder = newFolder
                     self.tableView!.reloadData()
-                case .Failure(let error):
+                case .failure(let error):
                     print(error)
                 }
             })
@@ -138,7 +138,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
 
 extension FolderViewController {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         switch state {
         case .loading:
             return 0
@@ -149,7 +149,7 @@ extension FolderViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if state == .selecting || state == .saving {
             return folder.mediaCount
         }
@@ -166,14 +166,14 @@ extension FolderViewController {
         return 0
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         
         if state == .selecting || state == .saving {
             cell = configuredCellForMediaFile(atIndexPath: indexPath)
         }
         else {
-            switch indexPath.section {
+            switch (indexPath as NSIndexPath).section {
             case TableSection.folders.rawValue:
                 cell = configuredCellForFolder(atIndexPath: indexPath)
             case TableSection.media.rawValue:
@@ -186,7 +186,7 @@ extension FolderViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if state == .selecting || state == .saving {
             return "Media (\(folder.mediaCount))"
         }
@@ -201,24 +201,24 @@ extension FolderViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard state == .selecting else { return }
         
-        let mediaFile = folder.media![indexPath.row]
+        let mediaFile = folder.media![(indexPath as NSIndexPath).row]
         
         if selectedMedia.contains(mediaFile) {
-            let fileIndex = selectedMedia.indexOf(mediaFile)!
-            selectedMedia.removeAtIndex(fileIndex)
+            let fileIndex = selectedMedia.index(of: mediaFile)!
+            selectedMedia.remove(at: fileIndex)
         }
         else {
             selectedMedia.append(mediaFile)
         }
         
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if state == .selecting || state == .saving || TableSection.media.rawValue == indexPath.section {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if state == .selecting || state == .saving || TableSection.media.rawValue == (indexPath as NSIndexPath).section {
             return 70
         }
         return 44
@@ -226,8 +226,8 @@ extension FolderViewController {
     
     // MARK: Helpers
     
-    func configuredCellForMediaFile(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let mediaFile = folder.media![indexPath.row]
+    func configuredCellForMediaFile(atIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let mediaFile = folder.media![(indexPath as NSIndexPath).row]
         let cell: MediaCell = {
             if mediaFile.thumbnail == nil {
                 return dequeMediaCell(.mediaLoading)
@@ -251,7 +251,7 @@ extension FolderViewController {
         
         cell.filenameLabel.text = mediaFile.name
         cell.descriptionLabel?.text = mediaFile.description
-        cell.accessoryType = selectedMedia.contains(mediaFile) && state != .saving ? .Checkmark : .None
+        cell.accessoryType = selectedMedia.contains(mediaFile) && state != .saving ? .checkmark : .none
         cell.thumnailView?.image = nil
         
         if let thumbnail = mediaFile.thumbnail {
@@ -259,10 +259,10 @@ extension FolderViewController {
         }
         else {
             saveThumbnail(for: mediaFile, completion: { (thumbnailURL) in
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     if thumbnailURL != nil {
-                        if let indexPathToReload = self.tableView.indexPathForCell(cell) {
-                            self.tableView.reloadRowsAtIndexPaths([indexPathToReload], withRowAnimation: .Automatic)
+                        if let indexPathToReload = self.tableView.indexPath(for: cell) {
+                            self.tableView.reloadRows(at: [indexPathToReload], with: .automatic)
                         }
                         
                     }
@@ -272,9 +272,9 @@ extension FolderViewController {
         return cell
     }
     
-    func configuredCellForFolder(atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func configuredCellForFolder(atIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = (dequeCell(.folder))
-        let subFolder = folder.folders![indexPath.row]
+        let subFolder = folder.folders![(indexPath as NSIndexPath).row]
         cell.textLabel?.text = subFolder.name
         return cell
     }
@@ -285,7 +285,7 @@ extension FolderViewController {
 
 extension FolderViewController {
     
-    @IBAction func selectTapped(sender: AnyObject) {
+    @IBAction func selectTapped(_ sender: AnyObject) {
         switch state {
         case .selecting:
             if selectedMedia.count > 0 {
@@ -299,19 +299,19 @@ extension FolderViewController {
         }
     }
     
-    @IBAction func deselectAllTapped(sender: AnyObject) {
+    @IBAction func deselectAllTapped(_ sender: AnyObject) {
         selectedMedia = []
-        tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
+        tableView.reloadSections(firstSectionIndexSet, with: .automatic)
     }
     
-    @IBAction func selectAllTapped(sender: AnyObject) {
+    @IBAction func selectAllTapped(_ sender: AnyObject) {
         if let media = folder.media {
             selectedMedia = media
         }
-        tableView.reloadSections(firstSectionIndexSet, withRowAnimation: .Automatic)
+        tableView.reloadSections(firstSectionIndexSet, with: .automatic)
     }
     
-    @IBAction func saveTapped(sender: AnyObject) {
+    @IBAction func saveTapped(_ sender: AnyObject) {
         state = state == .saving ? .selecting : .saving
     }
 }
@@ -325,7 +325,7 @@ extension FolderViewController: TableViewCellIdentifierType {
         case mediaSaved
     }
     
-    func dequeMediaCell(identifier: TableViewCellIdentifier) -> MediaCell {
+    func dequeMediaCell(_ identifier: TableViewCellIdentifier) -> MediaCell {
         guard let mediaCell = dequeCell(identifier) as? MediaCell else {
             fatalError("Dequed cell is not a MediaCell")
         }
@@ -342,14 +342,14 @@ extension FolderViewController {
     
     func saveMediaFile(atIndex index: Int) {
         let mediaFile = selectedMedia[index]
-        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        let indexPath = IndexPath(item: index, section: 0)
         
         save(mediaFile,
              progress: { (mediaFile, progress) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    if let savingCell = self.tableView.cellForRowAtIndexPath(indexPath) as? MediaCell {
+                    if let savingCell = self.tableView.cellForRow(at: indexPath) as? MediaCell {
                         let perctenage = progress * 100
                         savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
                         savingCell.progressView?.progress = progress
@@ -359,16 +359,16 @@ extension FolderViewController {
             },
              completion: { result in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.savedMediaFiles.insert(mediaFile)
-                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
                     
                     let nextIndex = index + 1
                     if nextIndex < self.selectedMedia.count {
                         self.saveMediaFile(atIndex: nextIndex)
                     }
                     else {
-                        self.state == .selecting
+                        self.state = .selecting
                     }
                     
                 })
@@ -381,13 +381,13 @@ extension FolderViewController: SegueHandlerType {
         case ShowFolder
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifierForSegue(segue) {
         case .ShowFolder:
             
             guard let folder = self.selectedFolder else { fatalError("Should have a folder to segue to") }
             
-            let foldersViewController = segue.destinationViewController as! FolderViewController
+            let foldersViewController = segue.destination as! FolderViewController
             foldersViewController.folder = folder
             foldersViewController.title = folder.name
         }

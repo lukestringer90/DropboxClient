@@ -9,9 +9,9 @@
 import UIKit
 import SwiftyDropbox
 
-extension Dropbox {
+extension DropboxClientsManager {
     static func authorize(fromController controller: UIViewController) {
-        Dropbox.authorizeFromController(UIApplication.sharedApplication(), controller: controller, openURL: {(url: NSURL) -> Void in
-            UIApplication.sharedApplication().openURL(url)})
+        DropboxClientsManager.authorizeFromController(UIApplication.shared, controller: controller, openURL: {(url: URL) -> Void in
+            UIApplication.shared.openURL(url)}, browserAuth: false)
     }
 }

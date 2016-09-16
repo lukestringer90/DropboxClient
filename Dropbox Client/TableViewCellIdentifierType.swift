@@ -15,23 +15,23 @@ protocol TableViewCellIdentifierType {
 
 extension TableViewCellIdentifierType where Self: UITableViewController, TableViewCellIdentifier.RawValue == String {
     
-    func dequeCell(identifier: TableViewCellIdentifier) -> UITableViewCell {
+    func dequeCell(_ identifier: TableViewCellIdentifier) -> UITableViewCell {
         guard let tv = self.tableView else {
             fatalError("No table view")
         }
         
-        guard let cell = tv.dequeueReusableCellWithIdentifier(identifier.rawValue) else {
+        guard let cell = tv.dequeueReusableCell(withIdentifier: identifier.rawValue) else {
             fatalError("No cell to deque for with ID: \(identifier.rawValue)")
         }
         
         return cell
     }
     
-    func dequeCell(identifier: TableViewCellIdentifier, indexPath: NSIndexPath) -> UITableViewCell {
+    func dequeCell(_ identifier: TableViewCellIdentifier, indexPath: IndexPath) -> UITableViewCell {
         guard let tv = self.tableView else {
             fatalError("No table view")
         }
         
-        return tv.dequeueReusableCellWithIdentifier(identifier.rawValue, forIndexPath: indexPath)
+        return tv.dequeueReusableCell(withIdentifier: identifier.rawValue, for: indexPath)
     }
 }

@@ -15,10 +15,10 @@ protocol NetworkActivity {
 
 extension NetworkActivity {
     func showActivityIndicator() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     func hideActivityIndicator() {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }

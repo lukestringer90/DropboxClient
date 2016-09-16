@@ -8,24 +8,24 @@
 
 import SwiftyDropbox
 
-typealias ThumbnailCompletion = (NSURL?) -> ()
+typealias ThumbnailCompletion = (URL?) -> ()
 
 protocol SaveThumbnail {
-    func saveThumbnail(for mediaFile: MediaFile, completion: ThumbnailCompletion)
+    func saveThumbnail(for mediaFile: MediaFile, completion: @escaping ThumbnailCompletion)
 }
 
 extension SaveThumbnail where Self: UIViewController {
-    func saveThumbnail(for mediaFile: MediaFile, completion: ThumbnailCompletion) {
+    func saveThumbnail(for mediaFile: MediaFile, completion: @escaping ThumbnailCompletion) {
         
-        guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorize(fromController: self)
+        guard let client = DropboxClientsManager.authorizedClient else {
+            DropboxClientsManager.authorize(fromController: self)
             return
         }
         
-        let request = client.files.getThumbnail(path: mediaFile.path, format: .Png, size: .W64h64, overwrite: true) { (url, response) -> NSURL in
+        let request = client.files.getThumbnail(path: mediaFile.path, format: .png, size: .w64h64, overwrite: true) { (url, response) -> URL in
             return mediaFile.thumbnailURL
         }
-        request.response { (result, error) in
+        _ = request.response { (result, error) in
             if let (_, url) = result {
                 completion(url)
             }

@@ -9,7 +9,7 @@
 import SwiftyDropbox
 import Result
 
-enum LoadFolderContentsError: ErrorType {
+enum LoadFolderContentsError: Error {
     case folderAPI(error: CallError<Files.ListFolderError>)
     case unknown
 }
@@ -17,27 +17,27 @@ enum LoadFolderContentsError: ErrorType {
 typealias FolderCompletion = (Result<Folder, LoadFolderContentsError>) -> ()
 
 protocol LoadFolderContents {
-    func loadContents(of folder: Folder, completion: FolderCompletion)
+    func loadContents(of folder: Folder, completion: @escaping FolderCompletion)
 }
 
 extension LoadFolderContents where Self: UIViewController {
     
-    func loadContents(of folder: Folder, completion: FolderCompletion) {
+    func loadContents(of folder: Folder, completion: @escaping FolderCompletion) {
         
-        guard let client = Dropbox.authorizedClient else {
-            Dropbox.authorize(fromController: self)
+        guard let client = DropboxClientsManager.authorizedClient else {
+            DropboxClientsManager.authorize(fromController: self)
             return
         }
         
-        let result = client.files.listFolder(path: folder.path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: false)
-        result.response { (listFolderResult, listFolderError) in
+        let result = client.files.listFolder(path: folder.path, recursive: false, includeMediaInfo: true, includeDeleted: false, includeHasExplicitSharedMembers: true)
+        _ = result.response { (listFolderResult, listFolderError) in
             
             guard let result = listFolderResult else {
                 if let APIError = listFolderError {
-                    completion(.Failure(.folderAPI(error: APIError)))
+                    completion(.failure(.folderAPI(error: APIError)))
                 }
                 else {
-                    completion(.Failure(.unknown))
+                    completion(.failure(.unknown))
                 }
                 return
             }
@@ -45,16 +45,16 @@ extension LoadFolderContents where Self: UIViewController {
             let mountedEntries = result.entries.filter { $0.pathLower != nil }
             let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
             let filesMetaData = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
-            let sortedMediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }.sort({ (itemA, itemb) -> Bool in
+            let sortedMediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }.sorted(by: { (itemA, itemb) -> Bool in
                 let mediaInfoA = itemA.mediaInfo!
                 let mediaInfoB = itemb.mediaInfo!
                 
                 switch mediaInfoA {
-                case .Metadata(let metadataA):
+                case .metadata(let metadataA):
                     switch mediaInfoB {
-                    case .Metadata(let metadataB):
+                    case .metadata(let metadataB):
                         guard let dateA = metadataA.timeTaken, let dateB = metadataB.timeTaken else { return false }
-                        return dateA.laterDate(dateB) == dateB
+                        return dateA.compare(dateB) == .orderedAscending
                     default:
                         return false
                     }
@@ -70,13 +70,13 @@ extension LoadFolderContents where Self: UIViewController {
             let media = sortedMediaMetaData.map { (metadata) -> MediaFile in
                 let description: String?
                 switch metadata.mediaInfo! {
-                case .Metadata(let mediaInfoMetadata):
+                case .metadata(let mediaInfoMetadata):
                     guard let date = mediaInfoMetadata.timeTaken else {
                         description = nil
                         break
                     }
                     description = date.userFriendlyString()
-                case .Pending:
+                case .pending:
                     description = nil
                 }
                 return MediaFile(name: metadata.name, path: metadata.pathLower!, description: description)
@@ -86,7 +86,7 @@ extension LoadFolderContents where Self: UIViewController {
             
             let newFolder = Folder(name: folder.name, path: folder.path, folders: folders, media: media)
             
-            completion(.Success(newFolder))
+            completion(.success(newFolder))
         }
     }
 }
