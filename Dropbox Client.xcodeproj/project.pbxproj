@@ -33,6 +33,7 @@
 		F51D7CDF1D73434400505F10 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		F51D7CE21D73441300505F10 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifierType.swift; sourceTree = "<group>"; };
+		F551E6BF1D8CB0780003E175 /* Dropbox Client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dropbox Client.entitlements"; sourceTree = "<group>"; };
 		F55CB0A41D44CDB700F169F4 /* Dropbox Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F55CB0A71D44CDB700F169F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F55CB0AC1D44CDB700F169F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		F55CB0A61D44CDB700F169F4 /* Dropbox Client */ = {
 			isa = PBXGroup;
 			children = (
+				F551E6BF1D8CB0780003E175 /* Dropbox Client.entitlements */,
 				F5E79CAA1D85EA6700CC06FB /* Extension */,
 				F51D7CE11D73440100505F10 /* Protocol */,
 				F51D7CDE1D73431600505F10 /* Controller */,
@@ -205,7 +207,7 @@
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.Keychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -422,6 +424,7 @@
 			baseConfigurationReference = 691FC58686E1649ABBEE968B /* Pods-Dropbox Client.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Dropbox Client/Dropbox Client.entitlements";
 				DEVELOPMENT_TEAM = VPQ4FHFFW8;
 				INFOPLIST_FILE = "Dropbox Client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -436,6 +439,7 @@
 			baseConfigurationReference = F4A47DDFC8E87F23276F222C /* Pods-Dropbox Client.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Dropbox Client/Dropbox Client.entitlements";
 				DEVELOPMENT_TEAM = VPQ4FHFFW8;
 				INFOPLIST_FILE = "Dropbox Client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
