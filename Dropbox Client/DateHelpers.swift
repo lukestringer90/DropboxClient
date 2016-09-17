@@ -8,26 +8,26 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
     func userFriendlyString() -> String? {
-        return NSDateFormatter.webAPIDateFormatter.stringFromDate(self)
+        return DateFormatter.webAPIDateFormatter.string(from: self)
     }
 }
 
-extension NSDateFormatter {
+extension DateFormatter {
     
-    private struct StaticVariables {
+    fileprivate struct StaticVariables {
         
-        static let userFriendlyFormatter: NSDateFormatter = {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.timeStyle = .MediumStyle
-            dateFormatter.dateStyle = .MediumStyle
+        static let userFriendlyFormatter: DateFormatter = {
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = .medium
+            dateFormatter.dateStyle = .medium
             return dateFormatter
         }()
         
     }
     
-    static var webAPIDateFormatter : NSDateFormatter {
+    static var webAPIDateFormatter : DateFormatter {
         return StaticVariables.userFriendlyFormatter
     }
     

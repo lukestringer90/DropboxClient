@@ -46,7 +46,7 @@ struct MediaFile: FileType {
     
     var thumbnail: UIImage? {
         // Remove thumbnail after a period of time
-        guard let imageData = NSData(contentsOfURL: thumbnailURL),
+        guard let imageData = try? Data(contentsOf: thumbnailURL),
             let image = UIImage(data: imageData) else {
             return nil
         }
@@ -54,10 +54,10 @@ struct MediaFile: FileType {
         return image
     }
     
-    var thumbnailURL: NSURL {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        let documentsURL = NSURL(fileURLWithPath: documentsPath)
-        return NSURL(fileURLWithPath: "\(self.name)", relativeToURL: documentsURL)
+    var thumbnailURL: URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let documentsURL = URL(fileURLWithPath: documentsPath)
+        return URL(fileURLWithPath: "\(self.name)", relativeTo: documentsURL)
     }
 }
 

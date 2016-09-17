@@ -15,23 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let DropboxAPIKey = "49gn7vdkgajzjgs"
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        Dropbox.setupWithAppKey(DropboxAPIKey)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        DropboxClientsManager.setupWithAppKey(DropboxAPIKey)
                 
         return true
     }
 
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        if let authResult = Dropbox.handleRedirectURL(url) {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let authResult = DropboxClientsManager.handleRedirectURL(url) {
             switch authResult {
-            case .Success(let token):
-                print("Success! User is logged into Dropbox with token: \(token)")
-            case .Error(let error, let description):
-                print("Error \(error): \(description)")
+            case .success:
+                print("Success! User is logged into Dropbox.")
+            case .cancel:
+                print("Authorization flow was manually canceled by user!")
+            case .error(_, let description):
+                print("Error: \(description)")
             }
         }
-        
-        return false
+        return true
     }
 
 
