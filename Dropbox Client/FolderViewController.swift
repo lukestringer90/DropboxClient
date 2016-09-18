@@ -36,6 +36,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     
     var mediaFileProgressMap = [MediaFile:Float]()
     var savedMediaFiles = Set<MediaFile>()
+    var mediaFileBeingSaved: MediaFile? = nil
     
     fileprivate let firstSectionIndexSet = IndexSet(integer: TableSection.folders.rawValue)
     
@@ -205,6 +206,7 @@ extension FolderViewController {
         guard state == .selecting else { return }
         
         let mediaFile = folder.media![(indexPath as NSIndexPath).row]
+        guard !savedMediaFiles.contains(mediaFile) else { return }
         
         if selectedMedia.contains(mediaFile) {
             let fileIndex = selectedMedia.index(of: mediaFile)!
@@ -237,13 +239,20 @@ extension FolderViewController {
             }
             switch state {
             case .saving:
-                let savingCell = dequeMediaCell(.mediaSaving)
-                if let progress = mediaFileProgressMap[mediaFile] {
-                    let perctenage = progress * 100
-                    savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
-                    savingCell.progressView?.progress = progress
+                
+                if let mediaFileBeingSaved = mediaFileBeingSaved, mediaFileBeingSaved == mediaFile {
+                    
+                    let savingCell = dequeMediaCell(.mediaSaving)
+                    if let progress = mediaFileProgressMap[mediaFileBeingSaved] {
+                        let perctenage = progress * 100
+                        savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
+                        savingCell.progressView?.progress = progress
+                    }
+                    return savingCell
                 }
-                return savingCell
+                else {
+                    return dequeMediaCell(.mediaWaitingToSave)
+                }
             default:
                 return dequeMediaCell(.mediaLoaded)
             }
@@ -323,6 +332,7 @@ extension FolderViewController: TableViewCellIdentifierType {
         case mediaLoaded
         case mediaSaving
         case mediaSaved
+        case mediaWaitingToSave
     }
     
     func dequeMediaCell(_ identifier: TableViewCellIdentifier) -> MediaCell {
@@ -341,10 +351,11 @@ extension FolderViewController {
     }
     
     func saveMediaFile(atIndex index: Int) {
-        let mediaFile = selectedMedia[index]
+        mediaFileBeingSaved = selectedMedia[index]
+        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         let indexPath = IndexPath(item: index, section: 0)
         
-        save(mediaFile,
+        save(mediaFileBeingSaved!,
              progress: { (mediaFile, progress) in
                 
                 DispatchQueue.main.async(execute: {
@@ -360,7 +371,7 @@ extension FolderViewController {
              completion: { result in
                 
                 DispatchQueue.main.async(execute: {
-                    self.savedMediaFiles.insert(mediaFile)
+                    self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
                     self.tableView.reloadRows(at: [indexPath], with: .automatic)
                     
                     let nextIndex = index + 1
@@ -368,6 +379,7 @@ extension FolderViewController {
                         self.saveMediaFile(atIndex: nextIndex)
                     }
                     else {
+                        self.mediaFileBeingSaved = nil
                         self.state = .selecting
                     }
                     
