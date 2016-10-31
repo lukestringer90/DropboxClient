@@ -8,7 +8,7 @@
 
 import SwiftyDropbox
 import Result
-import SwiftyTimer
+import Photos
 
 enum SaveMediaError: Error {
     case dropbox
@@ -26,27 +26,94 @@ protocol SaveMedia {
 extension SaveThumbnail where Self: UIViewController {
     
     func save(_ mediaFile: MediaFile, progress: SaveMediaProgress?, completion: @escaping SaveMediaCompletion) {
-    
-        ProgressManager.sharedInstance.mediaFileProgressMap[mediaFile] = 0.0
         
-        Timer.every(0.1) { (timer: Timer) in
-            let currentProgress = ProgressManager.sharedInstance.mediaFileProgressMap[mediaFile]!
-            let newProgress = currentProgress + 0.05
-            
-            ProgressManager.sharedInstance.mediaFileProgressMap[mediaFile] = newProgress
-            
-            if let saveProgress = progress {
-                saveProgress(mediaFile, newProgress)
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                guard PHPhotoLibrary.authorizationStatus() == .authorized else {
+                    completion(.failure(.photos))
+                    return
+                }
+                self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
+            })
+        }
+        else {
+            self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
+        }
+    }
+    
+    func save(_ mediaFile: MediaFile, toAuthorizedLibrary library: PHPhotoLibrary,  progress: SaveMediaProgress?, completion: @escaping SaveMediaCompletion) {
+        
+        guard let client = DropboxClientsManager.authorizedClient else {
+            DropboxClientsManager.authorize(fromController: self)
+            completion(.failure(.dropbox))
+            return
+        }
+        
+        print("Downloading: \(mediaFile.name)")
+        
+        let request = client.files.download(path: mediaFile.path, rev: nil, overwrite: true) { _, _ in
+            return mediaFile.temporaryDownloadURL
+        }
+        
+        _ = request.progress { (progressValue) in
+            if let progressCallback = progress {
+                progressCallback(mediaFile, Float(progressValue.fractionCompleted))
             }
-            if (newProgress >= 1) {
+        }
+        
+        _ = request.response { (response, error) in
+            
+            guard error == nil else {
+                print("Failed: \(error)")
+                completion(.failure(.dropbox))
+                return
+            }
+            
+            if let metadata = response?.0, let mediaType = metadata.mediaType() {
+                
+                try! library.performChangesAndWait {
+                    switch mediaType {
+                    case .image:
+                        print("Saving image")
+                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: mediaFile.temporaryDownloadURL)
+                    case .video:
+                        print("Saving video")
+                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
+                    }
+                }
+                mediaFile.clearDownloadData()
                 completion(.success(mediaFile))
-                timer.invalidate()
+            }
+            else {
+                completion(.failure(.unknown))
             }
         }
     }
+    
 }
 
-class ProgressManager {
-    var mediaFileProgressMap = [MediaFile:Float]()
-    static let sharedInstance = ProgressManager()
+extension Files.Metadata {
+    
+    enum MediaType {
+        case image, video
+    }
+    
+    func mediaType() -> MediaType? {
+        let imageSuffixes = ["jpg", "jpeg", "png", "gif", "exif", "tiff", "bmp"]
+        let videoSuffixes = ["webm", "mkv", "flv", "avi", "mov", "qt", "mp4", "m4v"]
+        
+        for imageSuffix in imageSuffixes {
+            if self.name.lowercased().hasSuffix(imageSuffix) {
+                return .image
+            }
+        }
+        
+        for videoSuffix in videoSuffixes {
+            if self.name.lowercased().hasSuffix(videoSuffix) {
+                return .video
+            }
+        }
+        
+        return nil
+    }
 }

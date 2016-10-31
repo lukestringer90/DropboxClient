@@ -57,7 +57,17 @@ struct MediaFile: FileType {
     var thumbnailURL: URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let documentsURL = URL(fileURLWithPath: documentsPath)
+        return URL(fileURLWithPath: "\(self.name)-thumb", relativeTo: documentsURL)
+    }
+    
+    var temporaryDownloadURL: URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let documentsURL = URL(fileURLWithPath: documentsPath)
         return URL(fileURLWithPath: "\(self.name)", relativeTo: documentsURL)
+    }
+    
+    func clearDownloadData() {
+        try? FileManager.default.removeItem(at: temporaryDownloadURL)
     }
 }
 
