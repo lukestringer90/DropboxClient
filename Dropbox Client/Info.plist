@@ -38,6 +38,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Media Library Access Needed</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library Access Needed</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
