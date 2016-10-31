@@ -111,8 +111,11 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     @IBOutlet weak var deselectAllButton: UIBarButtonItem!
     @IBOutlet weak var selectAllButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
-    // MARK: UIViewController
+}
+
+// MARK: View Controller
+
+extension FolderViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -133,6 +136,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
             })
         }
     }
+    
 }
 
 // MARK: Table View Controller
@@ -168,23 +172,19 @@ extension FolderViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        
         if state == .selecting || state == .saving {
-            cell = configuredCellForMediaFile(atIndexPath: indexPath)
+            return configuredCellForMediaFile(atIndexPath: indexPath)
         }
         else {
             switch (indexPath as NSIndexPath).section {
             case TableSection.folders.rawValue:
-                cell = configuredCellForFolder(atIndexPath: indexPath)
+                return configuredCellForFolder(atIndexPath: indexPath)
             case TableSection.media.rawValue:
-                cell = configuredCellForMediaFile(atIndexPath: indexPath)
+                return configuredCellForMediaFile(atIndexPath: indexPath)
             default:
                 fatalError("Unknown section")
             }
         }
-        
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -229,40 +229,36 @@ extension FolderViewController {
     // MARK: Helpers
     
     func configuredCellForMediaFile(atIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let mediaFile = folder.media![(indexPath as NSIndexPath).row]
-        let cell: MediaCell = {
-            if mediaFile.thumbnail == nil {
-                return dequeMediaCell(.mediaLoading)
-            }
-            else if savedMediaFiles.contains(mediaFile) {
-                return dequeMediaCell(.mediaSaved)
-            }
-            switch state {
-            case .saving:
-                
-                if let mediaFileBeingSaved = mediaFileBeingSaved, mediaFileBeingSaved == mediaFile {
-                    
-                    let savingCell = dequeMediaCell(.mediaSaving)
-                    if let progress = mediaFileProgressMap[mediaFileBeingSaved] {
-                        let perctenage = progress * 100
-                        savingCell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
-                        savingCell.progressView?.progress = progress
-                    }
-                    return savingCell
-                }
-                else {
-                    return dequeMediaCell(.mediaWaitingToSave)
-                }
-            default:
-                return dequeMediaCell(.mediaLoaded)
-            }
-        }()
         
+        // Deqgue media cell
+        let mediaFile = folder.media![(indexPath as NSIndexPath).row]
+        let cell = dequeCell(forMediaFile: mediaFile)
+        
+        // Text attributes
         cell.filenameLabel.text = mediaFile.name
         cell.descriptionLabel?.text = mediaFile.description
-        cell.accessoryType = selectedMedia.contains(mediaFile) && state != .saving ? .checkmark : .none
-        cell.thumnailView?.image = nil
         
+        // Selected state
+        if (selectedMedia.contains(mediaFile) && state != .saving) {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = .none
+        }
+        
+        // Save progress
+        if state == .saving {
+            if let mediaFileBeingSaved = mediaFileBeingSaved,
+                mediaFileBeingSaved == mediaFile,
+                let progress = mediaFileProgressMap[mediaFileBeingSaved] {
+                let perctenage = progress * 100
+                cell.percentageLabel?.text = String(format: "%.0f%%", perctenage)
+                cell.progressView?.progress = progress
+            }
+        }
+        
+        // Tumbnail loading
+        cell.thumnailView?.image = nil
         if let thumbnail = mediaFile.thumbnail {
             cell.thumnailView?.image = thumbnail
         }
@@ -281,9 +277,40 @@ extension FolderViewController {
         return cell
     }
     
+    func dequeCell(forMediaFile mediaFile: MediaFile) -> MediaCell {
+        
+        func dequeMediaCell(_ identifier: TableViewCellIdentifier) -> MediaCell {
+            guard let mediaCell = dequeCell(identifier) as? MediaCell else {
+                fatalError("Dequed cell is not a MediaCell")
+            }
+            return mediaCell
+        }
+        
+        if mediaFile.thumbnail == nil {
+            return dequeMediaCell(.mediaLoading)
+        }
+        else if savedMediaFiles.contains(mediaFile) {
+            return dequeMediaCell(.mediaSaved)
+        }
+        
+        switch state {
+        case .saving:
+            if let mediaFileBeingSaved = mediaFileBeingSaved, mediaFileBeingSaved == mediaFile {
+                return dequeMediaCell(.mediaSaving)
+            }
+            else {
+                return dequeMediaCell(.mediaWaitingToSave)
+            }
+            
+        default:
+            return dequeMediaCell(.mediaLoaded)
+        }
+        
+    }
+    
     func configuredCellForFolder(atIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = (dequeCell(.folder))
-        let subFolder = folder.folders![(indexPath as NSIndexPath).row]
+        let subFolder = folder.folders![indexPath.row]
         cell.textLabel?.text = subFolder.name
         return cell
     }
@@ -333,13 +360,6 @@ extension FolderViewController: TableViewCellIdentifierType {
         case mediaSaving
         case mediaSaved
         case mediaWaitingToSave
-    }
-    
-    func dequeMediaCell(_ identifier: TableViewCellIdentifier) -> MediaCell {
-        guard let mediaCell = dequeCell(identifier) as? MediaCell else {
-            fatalError("Dequed cell is not a MediaCell")
-        }
-        return mediaCell
     }
 }
 
