@@ -391,7 +391,19 @@ extension FolderViewController {
              completion: { result in
                 
                 DispatchQueue.main.async(execute: {
-                    self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
+                    
+                    switch result{
+                    case .success(_):
+                        self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
+                    case .failure(let error):
+                        if let name = self.mediaFileBeingSaved?.name {
+                            print("\(name) errored: \(error)")
+                        }
+                        else {
+                            print("errored: \(error)")
+                        }
+                    }
+                    
                     self.tableView.reloadRows(at: [indexPath], with: .automatic)
                     
                     let nextIndex = index + 1
@@ -402,7 +414,6 @@ extension FolderViewController {
                         self.mediaFileBeingSaved = nil
                         self.state = .selecting
                     }
-                    
                 })
         })
     }
