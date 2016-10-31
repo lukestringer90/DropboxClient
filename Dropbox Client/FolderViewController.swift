@@ -34,9 +34,10 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     
     // MARK: Private Properites
     
-    var mediaFileProgressMap = [MediaFile:Float]()
-    var savedMediaFiles = Set<MediaFile>()
-    var mediaFileBeingSaved: MediaFile? = nil
+    fileprivate var mediaFileProgressMap = [MediaFile:Float]()
+    fileprivate var savedMediaFiles = Set<MediaFile>()
+    fileprivate var mediaFileBeingSaved: MediaFile? = nil
+    fileprivate var showingPhotoLibraryAccessUnauthorizedAlert = false
     
     fileprivate let firstSectionIndexSet = IndexSet(integer: TableSection.folders.rawValue)
     
@@ -363,7 +364,7 @@ extension FolderViewController: TableViewCellIdentifierType {
     }
 }
 
-// MARK: Dropbox
+// MARK: Saving Media
 extension FolderViewController {
     
     func saveSelectedMediaFilesAsynchronously() {
@@ -396,11 +397,9 @@ extension FolderViewController {
                     case .success(_):
                         self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
                     case .failure(let error):
-                        if let name = self.mediaFileBeingSaved?.name {
-                            print("\(name) errored: \(error)")
-                        }
-                        else {
-                            print("errored: \(error)")
+                        print("\(self.mediaFileBeingSaved?.name) errored: \(error)")
+                        if error == .photos {
+                            self.handlePhotoLibraryAccessUnauthorized()
                         }
                     }
                     
@@ -416,6 +415,17 @@ extension FolderViewController {
                     }
                 })
         })
+    }
+    
+    func handlePhotoLibraryAccessUnauthorized() {
+        if !showingPhotoLibraryAccessUnauthorizedAlert {
+            showingPhotoLibraryAccessUnauthorizedAlert = true
+            let alert = UIAlertController(title: "Photo Library Access Unauthorized", message: "Access to your Photo Library has not been authorized.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: { (_) in
+                self.showingPhotoLibraryAccessUnauthorizedAlert = false
+            }))
+            present(alert, animated: true)
+        }
     }
 }
 
