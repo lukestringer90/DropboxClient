@@ -239,7 +239,7 @@ extension FolderViewController {
         cell.descriptionLabel?.text = mediaFile.description
         
         // Selected state
-        if (selectedMedia.contains(mediaFile) && state != .saving) {
+        if (!savedMediaFiles.contains(mediaFile) && selectedMedia.contains(mediaFile) && state != .saving) {
             cell.accessoryType = .checkmark
         }
         else {
