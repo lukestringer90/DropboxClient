@@ -35,10 +35,8 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     // MARK: Private Properites
     
     fileprivate var mediaFileProgressMap = [MediaFile:Float]()
-    fileprivate var savedMediaFiles = Set<MediaFile>()
     fileprivate var mediaFileBeingSaved: MediaFile? = nil
     fileprivate var showingPhotoLibraryAccessUnauthorizedAlert = false
-    
     fileprivate let firstSectionIndexSet = IndexSet(integer: TableSection.folders.rawValue)
     
     fileprivate var state = State.loading {
@@ -70,8 +68,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 if oldValue == .saving {
                     saveButton.title = "Save"
                     selectButton.isEnabled = true
-                    deselectAllButton.isEnabled = true
-                    selectAllButton.isEnabled = true
+                    batchButton.isEnabled = true
                     tableView.reloadSections(firstSectionIndexSet, with: .automatic)
                 }
                 else if oldValue == .viewing {
@@ -85,8 +82,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
                 }
                 self.showActivityIndicator()
                 selectButton.isEnabled = false
-                deselectAllButton.isEnabled = false
-                selectAllButton.isEnabled = false
+                batchButton.isEnabled = false
                 saveButton.title = "Stop"
                 tableView.reloadSections(firstSectionIndexSet, with: .automatic)
                 saveSelectedMediaFilesAsynchronously()
@@ -109,8 +105,7 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     // MARK: Outlets
     
     @IBOutlet weak var selectButton: UIBarButtonItem!
-    @IBOutlet weak var deselectAllButton: UIBarButtonItem!
-    @IBOutlet weak var selectAllButton: UIBarButtonItem!
+    @IBOutlet weak var batchButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
 }
 
@@ -174,14 +169,14 @@ extension FolderViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if state == .selecting || state == .saving {
-            return configuredCellForMediaFile(atIndexPath: indexPath)
+            return configuredMediaCell(atIndexPath: indexPath)
         }
         else {
             switch (indexPath as NSIndexPath).section {
             case TableSection.folders.rawValue:
-                return configuredCellForFolder(atIndexPath: indexPath)
+                return configuedFolderCell(atIndexPath: indexPath)
             case TableSection.media.rawValue:
-                return configuredCellForMediaFile(atIndexPath: indexPath)
+                return configuredMediaCell(atIndexPath: indexPath)
             default:
                 fatalError("Unknown section")
             }
@@ -207,7 +202,6 @@ extension FolderViewController {
         guard state == .selecting else { return }
         
         let mediaFile = folder.media![(indexPath as NSIndexPath).row]
-        guard !savedMediaFiles.contains(mediaFile) else { return }
         
         if selectedMedia.contains(mediaFile) {
             let fileIndex = selectedMedia.index(of: mediaFile)!
@@ -229,7 +223,7 @@ extension FolderViewController {
     
     // MARK: Helpers
     
-    func configuredCellForMediaFile(atIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func configuredMediaCell(atIndexPath indexPath: IndexPath) -> MediaCell {
         
         // Deqgue media cell
         let mediaFile = folder.media![(indexPath as NSIndexPath).row]
@@ -240,7 +234,7 @@ extension FolderViewController {
         cell.descriptionLabel?.text = mediaFile.description
         
         // Selected state
-        if (!savedMediaFiles.contains(mediaFile) && selectedMedia.contains(mediaFile) && state != .saving) {
+        if (selectedMedia.contains(mediaFile) && state != .saving) {
             cell.accessoryType = .checkmark
         }
         else {
@@ -290,26 +284,32 @@ extension FolderViewController {
         if mediaFile.thumbnail == nil {
             return dequeMediaCell(.mediaLoading)
         }
-        else if savedMediaFiles.contains(mediaFile) {
+        else if mediaFile.isSaved() {
             return dequeMediaCell(.mediaSaved)
         }
         
         switch state {
         case .saving:
-            if let mediaFileBeingSaved = mediaFileBeingSaved, mediaFileBeingSaved == mediaFile {
-                return dequeMediaCell(.mediaSaving)
+            if selectedMedia.contains(mediaFile) {
+                if let mediaFileBeingSaved = mediaFileBeingSaved, mediaFileBeingSaved == mediaFile {
+                    return dequeMediaCell(.mediaSaving)
+                }
+                else  {
+                    return dequeMediaCell(.mediaWaitingToSave)
+                }
             }
             else {
-                return dequeMediaCell(.mediaWaitingToSave)
+                let cell = dequeMediaCell(.mediaLoaded)
+                cell.selectionStyle = .none
+                return cell
             }
             
         default:
             return dequeMediaCell(.mediaLoaded)
         }
-        
     }
     
-    func configuredCellForFolder(atIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func configuedFolderCell(atIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = (dequeCell(.folder))
         let subFolder = folder.folders![indexPath.row]
         cell.textLabel?.text = subFolder.name
@@ -322,7 +322,7 @@ extension FolderViewController {
 
 extension FolderViewController {
     
-    @IBAction func selectTapped(_ sender: AnyObject) {
+    func selectTapped(_ sender: AnyObject) {
         switch state {
         case .selecting:
             if selectedMedia.count > 0 {
@@ -336,16 +336,32 @@ extension FolderViewController {
         }
     }
     
-    @IBAction func deselectAllTapped(_ sender: AnyObject) {
+    func deselectAllTapped(_ sender: AnyObject) {
         selectedMedia = []
         tableView.reloadSections(firstSectionIndexSet, with: .automatic)
     }
     
-    @IBAction func selectAllTapped(_ sender: AnyObject) {
+    func allTapped(_ sender: AnyObject) {
         if let media = folder.media {
             selectedMedia = media
         }
         tableView.reloadSections(firstSectionIndexSet, with: .automatic)
+    }
+    
+    func unsavedTapped(_ sender: AnyObject) {
+        if let media = folder.media {
+            selectedMedia = media.filter { !$0.isSaved() }
+        }
+        tableView.reloadSections(firstSectionIndexSet, with: .automatic)
+    }
+    
+    @IBAction func batchTapped(_ sender: AnyObject) {
+        let alert = UIAlertController(title: "Perform Batch Action.", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Select All", style: .default, handler: allTapped))
+        alert.addAction(UIAlertAction(title: "Select Un-saved", style: .default, handler: unsavedTapped))
+        alert.addAction(UIAlertAction(title: "Deselect All", style: .default, handler: deselectAllTapped))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func saveTapped(_ sender: AnyObject) {
@@ -371,10 +387,13 @@ extension FolderViewController {
         saveMediaFile(atIndex: 0)
     }
     
-    func saveMediaFile(atIndex index: Int) {
-        mediaFileBeingSaved = selectedMedia[index]
-        tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-        let indexPath = IndexPath(item: index, section: 0)
+    func saveMediaFile(atIndex indexInSelected: Int) {
+        mediaFileBeingSaved = selectedMedia[indexInSelected]
+        
+        let indexInAllMedia = folder.media!.index(of: mediaFileBeingSaved!)!
+        let indexPath = IndexPath(row: indexInAllMedia, section: 0)
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         
         save(mediaFileBeingSaved!,
              progress: { (mediaFile, progress) in
@@ -394,22 +413,23 @@ extension FolderViewController {
                 DispatchQueue.main.async(execute: {
                     
                     switch result{
-                    case .success(_):
-                        self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
                     case .failure(let error):
                         print("\(self.mediaFileBeingSaved?.name) errored: \(error)")
-                        if error == .photos {
+                        if error == .photosUnauthorized {
                             self.handlePhotoLibraryAccessUnauthorized()
                         }
+                    default:
+                        break
                     }
                     
                     self.tableView.reloadRows(at: [indexPath], with: .automatic)
                     
-                    let nextIndex = index + 1
+                    let nextIndex = indexInSelected + 1
                     if nextIndex < self.selectedMedia.count {
                         self.saveMediaFile(atIndex: nextIndex)
                     }
                     else {
+                        self.deselectAllTapped(self)
                         self.mediaFileBeingSaved = nil
                         self.state = .selecting
                     }

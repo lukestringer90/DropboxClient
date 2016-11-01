@@ -42,32 +42,14 @@ extension LoadFolderContents where Self: UIViewController {
                 return
             }
             
-            let mountedEntries = result.entries.filter { $0.pathLower != nil }
-            let foldersMetadata = mountedEntries.filter { $0 is Files.FolderMetadata }
-            let filesMetaData = mountedEntries.filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
-            let sortedMediaMetaData = filesMetaData.filter { $0.mediaInfo != nil }.sorted(by: { (itemA, itemb) -> Bool in
-                let mediaInfoA = itemA.mediaInfo!
-                let mediaInfoB = itemb.mediaInfo!
-                
-                switch mediaInfoA {
-                case .metadata(let metadataA):
-                    switch mediaInfoB {
-                    case .metadata(let metadataB):
-                        guard let dateA = metadataA.timeTaken, let dateB = metadataB.timeTaken else { return false }
-                        return dateA.compare(dateB) == .orderedAscending
-                    default:
-                        return false
-                    }
-                default:
-                    return false
-                }
-            })
-            
+            let foldersMetadata = result.entries.folders()
             let folders = foldersMetadata.map { (metadata) -> Folder in
                 return Folder(name: metadata.name, path: metadata.pathLower!, folders: nil, media: nil)
             }
             
-            let media = sortedMediaMetaData.map { (metadata) -> MediaFile in
+            
+            let filesMetaData = result.entries.files().sorted()
+            let media = filesMetaData.map { (metadata) -> MediaFile in
                 let description: String?
                 switch metadata.mediaInfo! {
                 case .metadata(let mediaInfoMetadata):
@@ -79,8 +61,8 @@ extension LoadFolderContents where Self: UIViewController {
                 case .pending:
                     description = nil
                 }
-                return MediaFile(name: metadata.name, path: metadata.pathLower!, description: description)
                 
+                return MediaFile(id: metadata.id, name: metadata.name, path: metadata.pathLower!, description: description)
                 
             }
             

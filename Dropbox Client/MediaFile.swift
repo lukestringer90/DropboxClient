@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Photos
 
 struct MediaFile: FileType {
+    let id: String
     let name: String
     let path: String
     let description: String?
@@ -28,19 +30,53 @@ extension MediaFile {
     var thumbnailURL: URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let documentsURL = URL(fileURLWithPath: documentsPath)
-        return URL(fileURLWithPath: "\(self.name)-thumb", relativeTo: documentsURL)
+        return URL(fileURLWithPath: "\(self.id)-\(self.name)-thumb", relativeTo: documentsURL)
     }
     
     var temporaryDownloadURL: URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let documentsURL = URL(fileURLWithPath: documentsPath)
-        return URL(fileURLWithPath: "\(self.name)", relativeTo: documentsURL)
+        return URL(fileURLWithPath: "\(self.id)-\(self.name)", relativeTo: documentsURL)
     }
     
     func clearDownloadData() {
         try? FileManager.default.removeItem(at: temporaryDownloadURL)
     }
 }
+
+fileprivate let SavedMediaFilesKey = "SavedMediaFilesKey"
+fileprivate var SavedMediaFiles = [String]()
+
+extension MediaFile {
+    private func savedMediaFileIDs() -> [String]? {
+        return UserDefaults.standard.array(forKey: SavedMediaFilesKey) as? [String]
+    }
+    
+    func markAsSaved() {
+        var new = [id]
+        if let current = savedMediaFileIDs() {
+           new.append(contentsOf: current)
+        }
+        
+        UserDefaults.standard.set(new, forKey: SavedMediaFilesKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    func isSaved() -> Bool {
+        guard let saved = savedMediaFileIDs() else {
+            return false
+        }
+        
+        return saved.contains(id)
+    }
+    
+    static func unmarkAllSaved() {
+        UserDefaults.standard.set([], forKey: SavedMediaFilesKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+}
+
 
 extension MediaFile: Hashable {
     var hashValue: Int {
