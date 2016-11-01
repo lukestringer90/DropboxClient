@@ -35,10 +35,8 @@ class FolderViewController: UITableViewController, NetworkActivity, LoadFolderCo
     // MARK: Private Properites
     
     fileprivate var mediaFileProgressMap = [MediaFile:Float]()
-    fileprivate var savedMediaFiles = Set<MediaFile>()
     fileprivate var mediaFileBeingSaved: MediaFile? = nil
     fileprivate var showingPhotoLibraryAccessUnauthorizedAlert = false
-    
     fileprivate let firstSectionIndexSet = IndexSet(integer: TableSection.folders.rawValue)
     
     fileprivate var state = State.loading {
@@ -207,7 +205,7 @@ extension FolderViewController {
         guard state == .selecting else { return }
         
         let mediaFile = folder.media![(indexPath as NSIndexPath).row]
-        guard !savedMediaFiles.contains(mediaFile) else { return }
+        guard !mediaFile.isSaved() else { return }
         
         if selectedMedia.contains(mediaFile) {
             let fileIndex = selectedMedia.index(of: mediaFile)!
@@ -240,7 +238,7 @@ extension FolderViewController {
         cell.descriptionLabel?.text = mediaFile.description
         
         // Selected state
-        if (!savedMediaFiles.contains(mediaFile) && selectedMedia.contains(mediaFile) && state != .saving) {
+        if (!mediaFile.isSaved() && selectedMedia.contains(mediaFile) && state != .saving) {
             cell.accessoryType = .checkmark
         }
         else {
@@ -290,7 +288,7 @@ extension FolderViewController {
         if mediaFile.thumbnail == nil {
             return dequeMediaCell(.mediaLoading)
         }
-        else if savedMediaFiles.contains(mediaFile) {
+        else if mediaFile.isSaved() {
             return dequeMediaCell(.mediaSaved)
         }
         
@@ -394,13 +392,13 @@ extension FolderViewController {
                 DispatchQueue.main.async(execute: {
                     
                     switch result{
-                    case .success(_):
-                        self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
                     case .failure(let error):
                         print("\(self.mediaFileBeingSaved?.name) errored: \(error)")
                         if error == .photosUnauthorized {
                             self.handlePhotoLibraryAccessUnauthorized()
                         }
+                    default:
+                        break
                     }
                     
                     self.tableView.reloadRows(at: [indexPath], with: .automatic)

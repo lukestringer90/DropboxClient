@@ -89,6 +89,7 @@ extension SaveThumbnail where Self: UIViewController {
                             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
                         }
                     }
+                    mediaFile.markAsSaved()
                     completion(.success(mediaFile))
                 }
                 catch {

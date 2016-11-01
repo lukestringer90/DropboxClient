@@ -44,6 +44,40 @@ extension MediaFile {
     }
 }
 
+fileprivate let SavedMediaFilesKey = "SavedMediaFilesKey"
+fileprivate var SavedMediaFiles = [String]()
+
+extension MediaFile {
+    private func savedMediaFileIDs() -> [String]? {
+        return UserDefaults.standard.array(forKey: SavedMediaFilesKey) as? [String]
+    }
+    
+    func markAsSaved() {
+        var new = [id]
+        if let current = savedMediaFileIDs() {
+           new.append(contentsOf: current)
+        }
+        
+        UserDefaults.standard.set(new, forKey: SavedMediaFilesKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+    func isSaved() -> Bool {
+        guard let saved = savedMediaFileIDs() else {
+            return false
+        }
+        
+        return saved.contains(id)
+    }
+    
+    static func unmarkAllSaved() {
+        UserDefaults.standard.set([], forKey: SavedMediaFilesKey)
+        UserDefaults.standard.synchronize()
+    }
+    
+}
+
+
 extension MediaFile: Hashable {
     var hashValue: Int {
         get {
