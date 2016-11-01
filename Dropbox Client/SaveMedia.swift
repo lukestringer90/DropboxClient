@@ -28,17 +28,23 @@ extension SaveThumbnail where Self: UIViewController {
     
     func save(_ mediaFile: MediaFile, progress: SaveMediaProgress?, completion: @escaping SaveMediaCompletion) {
         
+        let asyncSave = {
+            DispatchQueue.main.async {
+                self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
+            }
+        }
+        
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
                 guard status == .authorized else {
                     completion(.failure(.photosUnauthorized))
                     return
                 }
-                self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
+                asyncSave()
             })
         }
         else {
-            self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
+            asyncSave()
         }
     }
     
@@ -49,6 +55,7 @@ extension SaveThumbnail where Self: UIViewController {
             completion(.failure(.dropbox))
             return
         }
+        
         
         let request = client.files.download(path: mediaFile.path, rev: nil, overwrite: true) { _, _ in
             return mediaFile.temporaryDownloadURL
@@ -81,10 +88,11 @@ extension SaveThumbnail where Self: UIViewController {
                         case .video:
                             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
                         }
-                        completion(.success(mediaFile))
                     }
+                    completion(.success(mediaFile))
                 }
                 catch {
+                    print(error)
                     completion(.failure(.photosSave))
                 }
             }
