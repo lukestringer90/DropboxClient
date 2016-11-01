@@ -12,7 +12,8 @@ import Photos
 
 enum SaveMediaError: Error {
     case dropbox
-    case photos
+    case photosUnauthorized
+    case photosSave
     case unknown
 }
 
@@ -29,8 +30,8 @@ extension SaveThumbnail where Self: UIViewController {
         
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
-                guard PHPhotoLibrary.authorizationStatus() == .authorized else {
-                    completion(.failure(.photos))
+                guard status == .authorized else {
+                    completion(.failure(.photosUnauthorized))
                     return
                 }
                 self.save(mediaFile, toAuthorizedLibrary: PHPhotoLibrary.shared(), progress: progress, completion: completion)
@@ -68,16 +69,24 @@ extension SaveThumbnail where Self: UIViewController {
             
             if let metadata = response?.0, let mediaType = metadata.mediaType() {
                 
-                try! library.performChangesAndWait {
-                    switch mediaType {
-                    case .image:
-                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: mediaFile.temporaryDownloadURL)
-                    case .video:
-                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
+                defer {
+                    mediaFile.clearDownloadData()
+                }
+                
+                do {
+                    try library.performChangesAndWait {
+                        switch mediaType {
+                        case .image:
+                            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: mediaFile.temporaryDownloadURL)
+                        case .video:
+                            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
+                        }
+                        completion(.success(mediaFile))
                     }
                 }
-                mediaFile.clearDownloadData()
-                completion(.success(mediaFile))
+                catch {
+                    completion(.failure(.photosSave))
+                }
             }
             else {
                 completion(.failure(.unknown))

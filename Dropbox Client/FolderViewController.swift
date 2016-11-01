@@ -398,7 +398,7 @@ extension FolderViewController {
                         self.savedMediaFiles.insert(self.mediaFileBeingSaved!)
                     case .failure(let error):
                         print("\(self.mediaFileBeingSaved?.name) errored: \(error)")
-                        if error == .photos {
+                        if error == .photosUnauthorized {
                             self.handlePhotoLibraryAccessUnauthorized()
                         }
                     }
