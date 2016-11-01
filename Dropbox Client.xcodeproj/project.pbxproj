@@ -11,6 +11,7 @@
 		F50A749F1D87487F001DB8A8 /* SaveMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50A749E1D87487F001DB8A8 /* SaveMedia.swift */; };
 		F51BFA3D1DC804FE00790AED /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BFA3C1DC804FE00790AED /* Folder.swift */; };
 		F51BFA3F1DC8052C00790AED /* MediaFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BFA3E1DC8052C00790AED /* MediaFile.swift */; };
+		F51BFA411DC8A72B00790AED /* FilesMetadataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BFA401DC8A72B00790AED /* FilesMetadataHelpers.swift */; };
 		F51D7CE01D73434400505F10 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CDF1D73434400505F10 /* FolderViewController.swift */; };
 		F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE21D73441300505F10 /* SegueHandlerType.swift */; };
 		F51D7CE51D73443200505F10 /* TableViewCellIdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */; };
@@ -34,6 +35,7 @@
 		F50A749E1D87487F001DB8A8 /* SaveMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveMedia.swift; sourceTree = "<group>"; };
 		F51BFA3C1DC804FE00790AED /* Folder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		F51BFA3E1DC8052C00790AED /* MediaFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
+		F51BFA401DC8A72B00790AED /* FilesMetadataHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesMetadataHelpers.swift; sourceTree = "<group>"; };
 		F51D7CDF1D73434400505F10 /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		F51D7CE21D73441300505F10 /* SegueHandlerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueHandlerType.swift; sourceTree = "<group>"; };
 		F51D7CE41D73443200505F10 /* TableViewCellIdentifierType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellIdentifierType.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				F5E79CAB1D85EA7E00CC06FB /* DateHelpers.swift */,
 				F59A43B11D8B20FA002B4A2C /* DropboxClientsManagerHelpers.swift */,
+				F51BFA401DC8A72B00790AED /* FilesMetadataHelpers.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				F5B2E0231D819140008472ED /* FileType.swift in Sources */,
 				F5E79CA91D85B25000CC06FB /* MediaCell.swift in Sources */,
 				F51D7CE01D73434400505F10 /* FolderViewController.swift in Sources */,
+				F51BFA411DC8A72B00790AED /* FilesMetadataHelpers.swift in Sources */,
 				F59A43B21D8B20FA002B4A2C /* DropboxClientsManagerHelpers.swift in Sources */,
 				F51D7CE31D73441300505F10 /* SegueHandlerType.swift in Sources */,
 				F55CB0A81D44CDB700F169F4 /* AppDelegate.swift in Sources */,

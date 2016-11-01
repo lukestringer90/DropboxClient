@@ -91,29 +91,3 @@ extension SaveThumbnail where Self: UIViewController {
     }
     
 }
-
-extension Files.Metadata {
-    
-    enum MediaType {
-        case image, video
-    }
-    
-    func mediaType() -> MediaType? {
-        let imageSuffixes = ["jpg", "jpeg", "png", "gif", "exif", "tiff", "bmp"]
-        let videoSuffixes = ["webm", "mkv", "flv", "avi", "mov", "qt", "mp4", "m4v"]
-        
-        for imageSuffix in imageSuffixes {
-            if self.name.lowercased().hasSuffix(imageSuffix) {
-                return .image
-            }
-        }
-        
-        for videoSuffix in videoSuffixes {
-            if self.name.lowercased().hasSuffix(videoSuffix) {
-                return .video
-            }
-        }
-        
-        return nil
-    }
-}
