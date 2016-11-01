@@ -49,8 +49,6 @@ extension SaveThumbnail where Self: UIViewController {
             return
         }
         
-        print("Downloading: \(mediaFile.name)")
-        
         let request = client.files.download(path: mediaFile.path, rev: nil, overwrite: true) { _, _ in
             return mediaFile.temporaryDownloadURL
         }
@@ -64,7 +62,6 @@ extension SaveThumbnail where Self: UIViewController {
         _ = request.response { (response, error) in
             
             guard error == nil else {
-                print("Failed: \(error)")
                 completion(.failure(.dropbox))
                 return
             }
@@ -74,10 +71,8 @@ extension SaveThumbnail where Self: UIViewController {
                 try! library.performChangesAndWait {
                     switch mediaType {
                     case .image:
-                        print("Saving image")
                         PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: mediaFile.temporaryDownloadURL)
                     case .video:
-                        print("Saving video")
                         PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: mediaFile.temporaryDownloadURL)
                     }
                 }
