@@ -61,8 +61,8 @@ extension LoadFolderContents where Self: UIViewController {
                 case .pending:
                     description = nil
                 }
-                return MediaFile(name: metadata.name, path: metadata.pathLower!, description: description)
                 
+                return MediaFile(id: metadata.id, name: metadata.name, path: metadata.pathLower!, description: description)
                 
             }
             

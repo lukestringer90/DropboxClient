@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Photos
 
 struct MediaFile: FileType {
+    let id: String
     let name: String
     let path: String
     let description: String?
