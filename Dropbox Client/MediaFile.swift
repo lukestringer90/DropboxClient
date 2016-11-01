@@ -30,13 +30,13 @@ extension MediaFile {
     var thumbnailURL: URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let documentsURL = URL(fileURLWithPath: documentsPath)
-        return URL(fileURLWithPath: "\(self.name)-thumb", relativeTo: documentsURL)
+        return URL(fileURLWithPath: "\(self.id)-\(self.name)-thumb", relativeTo: documentsURL)
     }
     
     var temporaryDownloadURL: URL {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let documentsURL = URL(fileURLWithPath: documentsPath)
-        return URL(fileURLWithPath: "\(self.name)", relativeTo: documentsURL)
+        return URL(fileURLWithPath: "\(self.id)-\(self.name)", relativeTo: documentsURL)
     }
     
     func clearDownloadData() {
