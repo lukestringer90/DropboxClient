@@ -18,7 +18,7 @@ extension Array where Element:Files.Metadata {
     }
     
     func files() -> [Files.FileMetadata] {
-        return self.mounted().filter { $0 is Files.FileMetadata } as! [Files.FileMetadata]
+        return self.mounted().filter { $0 is Files.FileMetadata && $0.mediaType() != nil } as! [Files.FileMetadata]
     }
 }
 
